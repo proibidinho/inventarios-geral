@@ -442,6 +442,7 @@ class FilterModule(object):
     def filters(self):
         return {
             'update_asset_azure': update_asset,
+            'update_asset_cmdb': update_asset,
             'transform_azure_host': transform_azure_host,
             'batch_transform_azure_hosts': batch_transform_hosts,
             'extract_os_from_azure': extract_os_from_azure,

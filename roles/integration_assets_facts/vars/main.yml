@@ -1,0 +1,22 @@
+# =============================================================================
+# VARIAVEIS PRINCIPAIS - INTEGRACAO FACTS -> CMDB
+# =============================================================================
+---
+# Jira Assets
+workspace: "76827f8b-4d96-46a6-abf2-f592d6b4b2d9"
+jira_url: "https://api.atlassian.com/jsm/insight/workspace/{{ workspace }}/v1"
+jira_user: "{{ lookup('env', 'JIRA_USER') }}"
+jira_password: "{{ lookup('env', 'JIRA_PASSWORD') }}"
+
+# Object Type IDs
+object_type_id_servidor: 121
+object_type_id_interface_rede: 230
+
+# Attribute IDs para criacao de objetos de NIC
+nic_name_attribute_id: "1890"
+
+# Proxy Lapa (manter igual ao role Azure)
+proxy_env:
+  http_proxy: "http://10.54.24.184:3128"
+  https_proxy: "http://10.54.24.184:3128"
+  no_proxy: ""

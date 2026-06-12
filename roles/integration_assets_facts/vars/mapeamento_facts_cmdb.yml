@@ -1,0 +1,247 @@
+# =============================================================================
+# MAPEAMENTO: Ansible Facts -> Jira Assets (CMDB - objectType 121 Servidor)
+# =============================================================================
+# Este arquivo controla TODA a traducao "valor coletado nos facts -> ID no CMDB".
+# Para adicionar um novo modelo / SO / opcao, basta acrescentar a entrada aqui;
+# nao eh preciso editar o filter Python.
+#
+# Status (validado em 2026-01 contra dump saida_cmdb.json):
+#   Campos ATIVOS (preenchem ao importar):
+#     Name, FQDN, Sistema Operacional, Memoria RAM, CPU Count,
+#     Capacidade do Disco, Tipo de Infraestrutura, Status, Status Discovery,
+#     Datacenter (fixo via extra-var ou comentado), Last User,
+#     SOX, IPE, Disaster Recovery
+#   Campos PULADOS (mais de 500 opcoes - nao mapearemos manualmente):
+#     CPU (3527, 500+ opts), File Systems (3371, 500+), Storage Devices (3395, 500+),
+#     Versao SO (3471, 495 opts - varias duplicatas)
+#   Campos DEPENDEM de input externo (deixam vazio se ausente):
+#     Owner, Sistema, Ambiente, VCenter, Cluster, Categoria do Servidor
+# =============================================================================
+---
+workspace: "76827f8b-4d96-46a6-abf2-f592d6b4b2d9"
+objectTypeId: 121
+objectSchemaId: 16
+
+object_attribute_map:
+
+# -----------------------------------------------------------------------------
+# IDENTIFICACAO
+# -----------------------------------------------------------------------------
+- id: 1104
+  name_assets: "Name"
+  chave_cloud: "name_cloud"
+  tipo: text
+  obrigatorio: true
+
+- id: 3343
+  name_assets: "FQDN"
+  chave_cloud: "fqdn_cloud"
+  tipo: text
+
+# -----------------------------------------------------------------------------
+# SISTEMA OPERACIONAL (Reference - ref:150 - 11 opcoes)
+# -----------------------------------------------------------------------------
+- id: 3358
+  name_assets: "Sistema Operacional"
+  chave_cloud: "sistema_operacional_cloud"
+  tipo: objeto
+  referencia_object_type_id: 150
+  valor_fallback: "Linux"
+  valores:
+  - value: "Linux"
+    referencedType: 171174
+  - value: "Windows"
+    referencedType: 170882
+  - value: "Unix"
+    referencedType: 174028
+  - value: "SOLARIS"
+    referencedType: 174025
+  - value: "SUNOS"
+    referencedType: 174026
+  - value: "HPUX"
+    referencedType: 174027
+  - value: "MacOS"
+    referencedType: 872222
+  - value: "ESXi"
+    referencedType: 1460417
+
+# -----------------------------------------------------------------------------
+# HARDWARE
+# -----------------------------------------------------------------------------
+- id: 6840
+  name_assets: "Memória RAM"
+  chave_cloud: "memoria_ram_cloud"
+  tipo: integer
+
+- id: 3359
+  name_assets: "CPU Count"
+  chave_cloud: "cpu_count_cloud"
+  tipo: text
+
+- id: 3613
+  name_assets: "Capacidade do Disco"
+  chave_cloud: "capacidade_disco_cloud"
+  tipo: text
+
+# -----------------------------------------------------------------------------
+# REDE
+# -----------------------------------------------------------------------------
+- id: 3528
+  name_assets: "Interface de Rede"
+  chave_cloud: "interface_rede_cloud"
+  tipo: objeto_lista
+  referencia_object_type_id: 230
+  criar_se_nao_existir: true
+  obrigatorio: false
+
+# -----------------------------------------------------------------------------
+# TIPO DE INFRAESTRUTURA (Reference - ref:119 - 6 opcoes)
+# -----------------------------------------------------------------------------
+- id: 9948
+  name_assets: "Tipo de Infraestrutura"
+  chave_cloud: "tipo_infraestrutura_cloud"
+  tipo: objeto
+  referencia_object_type_id: 119
+  valor_fallback: "MAQUINA VIRTUAL"
+  valores:
+  - value: "MAQUINA VIRTUAL"
+    referencedType: 257344
+  - value: "SERVIDOR FISICO"
+    referencedType: 223967
+  - value: "CLOUD PUBLICA"
+    referencedType: 223965
+  - value: "CLOUD PRIVADA"
+    referencedType: 169567
+  - value: "MAINFRAME"
+    referencedType: 223966
+  - value: "RANCHER"
+    referencedType: 2316248
+
+# -----------------------------------------------------------------------------
+# STATUS
+# -----------------------------------------------------------------------------
+- id: 2957
+  name_assets: "Status"
+  chave_cloud: "status_cloud"
+  tipo: status
+  valores:
+  - value: "Em uso"
+    displayValue: "Em uso"
+    searchValue: "Em uso"
+    referencedType: 18
+
+- id: 3053
+  name_assets: "Status Discovery"
+  chave_cloud: "status_discovery_cloud"
+  tipo: status
+  valor_fixo: "Running"
+  valores:
+  - value: "Running"
+    displayValue: "Running"
+    searchValue: "Running"
+    referencedType: 24
+
+# -----------------------------------------------------------------------------
+# OPERACIONAL
+# -----------------------------------------------------------------------------
+- id: 3357
+  name_assets: "Last User"
+  chave_cloud: "last_user_cloud"
+  tipo: text
+  valor_fixo: "Ansible"
+
+- id: 9647
+  name_assets: "SOX"
+  chave_cloud: "sox_cloud"
+  tipo: boolean
+  valor_fixo: false
+
+- id: 9648
+  name_assets: "IPE"
+  chave_cloud: "ipe_cloud"
+  tipo: boolean
+  valor_fixo: false
+
+- id: 10677
+  name_assets: "Disaster Recovery"
+  chave_cloud: "disaster_recovery_cloud"
+  tipo: boolean
+  valor_fallback: false
+
+# -----------------------------------------------------------------------------
+# DATACENTER (Reference - ref:152 - 14 opcoes - vir via extra-var "datacenter_target")
+# Se "datacenter_target" nao for passado, o campo fica vazio no CMDB.
+# Se passado (ex.: -e "datacenter_target=Lapa"), o filter mapeia para o ID.
+# -----------------------------------------------------------------------------
+- id: 3296
+  name_assets: "Datacenter"
+  chave_cloud: "datacenter_cloud"
+  tipo: objeto
+  referencia_object_type_id: 152
+  valores:
+  - value: "Lapa"
+    referencedType: 168954
+  - value: "Mackenzie"
+    referencedType: 168963
+  - value: "Ingleses"
+    referencedType: 168955
+  - value: "Campinas"
+    referencedType: 168964
+  - value: "Belém"
+    referencedType: 219565
+  - value: "Palhoça"
+    referencedType: 1470677
+  - value: "Rio de Janeiro"
+    referencedType: 219568
+  - value: "Rio Grande do Sul"
+    referencedType: 219569
+  - value: "Nextel"
+    referencedType: 219566
+  - value: "Azure"
+    referencedType: 2277528
+  - value: "AWS"
+    referencedType: 872214
+  - value: "Google Cloud"
+    referencedType: 872213
+  - value: "Oracle Cloud"
+    referencedType: 219567
+  - value: "Sala Técnica 9º Andar - Mackenzie"
+    referencedType: 549865
+
+# -----------------------------------------------------------------------------
+# GRUPO SOLUCIONADOR - INFRA (Windows->Windows, demais->Infracloud)
+# Filter Python ja popula "grupo_solucionador_infra_cloud". Falta apenas os
+# referencedType (campo 7274 veio sem opcoes no dump). Descomentar quando o
+# time CMDB fornecer os IDs.
+# -----------------------------------------------------------------------------
+# - id: 7274
+#   name_assets: "Grupo Solucionador - Infra"
+#   chave_cloud: "grupo_solucionador_infra_cloud"
+#   tipo: objeto
+#   valor_fallback: "Infracloud"
+#   valores:
+#   - value: "Windows"
+#     referencedType: 0   # TODO: confirmar ID
+#   - value: "Infracloud"
+#     referencedType: 0   # TODO: confirmar ID
+
+# -----------------------------------------------------------------------------
+# CAMPOS COM 500+ OPCOES (deixados de fora - dump truncado, manutencao inviavel)
+# Se quiser preencher, popular as opcoes manualmente ou via consulta AQL no
+# momento do sync.
+#
+#   - CPU                (3527, ref:232) - modelo do processador
+#   - Storage Devices    (3395, ref:148)
+#   - File Systems       (3371, ref:240)
+#   - Versão SO          (3471, ref:343) - varios duplicados por host
+# -----------------------------------------------------------------------------
+
+# -----------------------------------------------------------------------------
+# CAMPOS QUE DEPENDEM DE INPUT EXTERNO (deixar vazio quando nao informado)
+#   - Owner (3381)            - vir via extra-var "owner_cloud"
+#   - Sistema (9219)          - vir via extra-var "sistema_cloud"
+#   - Ambiente (1922)         - vir via extra-var "ambiente_cloud"
+#   - VCenter (8742)          - vir via extra-var "vcenter_cloud"
+#   - Cluster (3526)          - vir via extra-var
+#   - Categoria do Servidor   - vir via extra-var
+# -----------------------------------------------------------------------------

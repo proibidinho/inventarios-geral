@@ -1,0 +1,164 @@
+# =============================================================================
+# PLAYBOOK - Sync 1 servidor LINUX (VMware) -> CMDB via Ansible Facts
+# Padrao: Fase 1 = CyberArk + SSH probe, Fase 2 = facts, Fase 3 = role CMDB
+# (Espelhado ao playbook Windows, trocando WinRM por SSH.)
+# =============================================================================
+#
+# Extra-vars esperados (Job Template AAP):
+#   - name              : hostname puro OU "hostname|10.0.0.1,10.0.0.2"
+#   - datacenter_target : (opcional) nome do DC fisico no CMDB (ex.: "Lapa")
+#
+# Pre-requisitos:
+#   - JIRA_USER e JIRA_PASSWORD como variaveis de ambiente
+#   - Collection cyberark.pas
+#   - TODO: confirmar com o time o nome do Safe/UserName CyberArk para Linux
+#
+# =============================================================================
+
+- name: "Fase 1 - Descoberta e Validacao de Acesso (Linux)"
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  tasks:
+
+    - name: Mostrar valor bruto recebido
+      ansible.builtin.debug:
+        msg: "Valor original de name: {{ name | default('nao recebido') }}"
+
+    - name: Extrair hostname puro
+      ansible.builtin.set_fact:
+        hostname_extraido: "{{ name.split('|')[0] | trim }}"
+
+    - name: Extrair IPs validos da string name
+      ansible.builtin.set_fact:
+        ips_list: "{{ name | regex_findall('\\b\\d{1,3}(?:\\.\\d{1,3}){3}\\b') }}"
+      when: name is defined
+
+    - name: Garantir lista de tentativas (Nome -> IPs se existirem)
+      ansible.builtin.set_fact:
+        lista_tentativas: "{{ [hostname_extraido] + (ips_list | default([])) }}"
+
+    - name: Mostrar lista final de tentativas
+      ansible.builtin.debug:
+        var: lista_tentativas
+
+    - name: Buscar credencial no CyberArk
+      cyberark.pas.cyberark_credential:
+        api_base_url: "https://10.88.132.184/"
+        app_id: "APP_Ansible"
+        path: "AIMWebService/api/Accounts"
+        # TODO: confirmar UserName correto para Linux com o time CyberArk
+        query: "Safe=APP_Ansible;UserName=OPS_CRK_API_AAPLNX"
+        validate_certs: false
+        reason: "Sync CMDB - coleta de facts (Linux)"
+        connection_timeout: 60
+      register: cyberark_secret
+      environment:
+        http_proxy: ""
+        https_proxy: ""
+        no_proxy: "10.88.132.184"
+
+    - name: Inicializar lista de resultados
+      ansible.builtin.set_fact:
+        auth_results: []
+
+    - name: Testar autenticacao SSH (Nome -> IPs)
+      ansible.builtin.ping:
+      vars:
+        ansible_host: "{{ item }}"
+        ansible_user: "{{ cyberark_secret.result.UserName }}"
+        ansible_password: "{{ cyberark_secret.result.Content }}"
+        ansible_connection: ssh
+        ansible_port: 22
+        ansible_ssh_common_args: "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=10"
+      loop: "{{ lista_tentativas }}"
+      register: ssh_auth_test
+      ignore_errors: true
+      ignore_unreachable: true
+      failed_when: false
+      no_log: true
+
+    - name: Consolidar resultados das tentativas (tratando unreachable)
+      ansible.builtin.set_fact:
+        auth_results: "{{ auth_results + [ resultado_formatado ] }}"
+      vars:
+        resultado_formatado:
+          host: "{{ item.item }}"
+          success: "{{ not (item.failed | default(false)) and not (item.unreachable | default(false)) }}"
+          failed: "{{ item.failed | default(false) }}"
+          unreachable: "{{ item.unreachable | default(false) }}"
+      loop: "{{ ssh_auth_test.results }}"
+      no_log: true
+
+    - name: Definir host valido
+      ansible.builtin.set_fact:
+        target_host: >-
+          {{
+            auth_results
+            | selectattr('success', 'equalto', true)
+            | map(attribute='host')
+            | list
+            | first | default('')
+          }}
+
+    - name: Definir status final de acesso
+      ansible.builtin.set_fact:
+        access_status: "{{ 'SUCESSO' if target_host != '' else 'FALHA' }}"
+
+    - name: Mostrar resultado da validacao
+      ansible.builtin.debug:
+        msg: "Resultado acesso: {{ access_status }} | Host valido: {{ target_host }}"
+
+    - name: Interromper execucao se falhou acesso
+      ansible.builtin.fail:
+        msg: "Nenhum host autenticou via SSH."
+      when: target_host == ''
+
+    - name: Adicionar host valido ao grupo Linux
+      ansible.builtin.add_host:
+        name: "{{ target_host }}"
+        groups: Linux
+        ansible_host: "{{ target_host }}"
+        ansible_user: "{{ cyberark_secret.result.UserName }}"
+        ansible_password: "{{ cyberark_secret.result.Content }}"
+        ansible_connection: ssh
+        ansible_port: 22
+        ansible_ssh_common_args: "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+
+
+# =============================================================================
+# FASE 2 - Coletar facts do servidor alvo
+# =============================================================================
+- name: "Fase 2 - Coletar facts do servidor Linux"
+  hosts: Linux
+  gather_facts: true
+  any_errors_fatal: true
+
+  tasks:
+    - name: Confirmar coleta
+      ansible.builtin.debug:
+        msg: "Facts coletados: SO={{ ansible_os_family | default('?') }} | Host={{ ansible_hostname | default(inventory_hostname) }}"
+
+
+# =============================================================================
+# FASE 3 - Transformar e enviar ao CMDB
+# =============================================================================
+- name: "Fase 3 - Enviar dados ao CMDB"
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars:
+    target_host: "{{ hostvars['localhost']['target_host'] }}"
+
+  pre_tasks:
+    - name: Verificar credenciais Jira
+      ansible.builtin.assert:
+        that:
+          - lookup('env', 'JIRA_USER') | length > 0
+          - lookup('env', 'JIRA_PASSWORD') | length > 0
+        fail_msg: "Defina JIRA_USER e JIRA_PASSWORD como variaveis de ambiente"
+
+  roles:
+    - role: integration_assets_facts

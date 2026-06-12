@@ -1,0 +1,118 @@
+# =============================================================================
+# Task Principal: Sincronizacao Facts (host alvo) -> CMDB
+# =============================================================================
+# Pre-requisitos antes de chamar esta role:
+#   - facts ja coletados via gather_facts no host alvo
+#   - "target_host" definido (nome do host como esta no inventario)
+#   - host_facts ja registrado em hostvars[target_host]['ansible_facts']
+# =============================================================================
+---
+- name: Incluir variaveis de mapeamento
+  ansible.builtin.include_vars:
+    file: "{{ role_path }}/vars/mapeamento_facts_cmdb.yml"
+
+# -----------------------------------------------------------------------------
+# FASE 1: Transformar facts -> cloud_data
+# -----------------------------------------------------------------------------
+- name: Extrair ansible_facts do host alvo
+  ansible.builtin.set_fact:
+    host_facts_raw: "{{ hostvars[target_host]['ansible_facts'] | default(hostvars[target_host]) }}"
+
+- name: Transformar facts em cloud_data
+  ansible.builtin.set_fact:
+    current_cloud_data: "{{ host_facts_raw | transform_facts_host(target_host, datacenter_target | default(None)) }}"
+
+- name: DEBUG - cloud_data gerado
+  ansible.builtin.debug:
+    var: current_cloud_data
+
+# -----------------------------------------------------------------------------
+# FASE 2: Verificar se servidor ja existe no CMDB
+# -----------------------------------------------------------------------------
+- name: Buscar servidor no CMDB
+  ansible.builtin.uri:
+    url: "{{ jira_url }}/object/aql?startAt=0&maxResults=5"
+    method: POST
+    headers:
+      Accept: "application/json"
+      Content-Type: "application/json"
+    body_format: json
+    force_basic_auth: true
+    user: "{{ jira_user }}"
+    password: "{{ jira_password }}"
+    body:
+      qlQuery: 'objectTypeId = {{ object_type_id_servidor }} AND Name = "{{ current_cloud_data.name_cloud }}"'
+    status_code: [200]
+  register: cmdb_search
+  environment: "{{ proxy_env | default({}) }}"
+
+- name: Definir se servidor existe
+  ansible.builtin.set_fact:
+    servidor_existe: "{{ (cmdb_search.json['values'] | default([])) | length > 0 }}"
+    servidor_id_existente: "{{ (cmdb_search.json['values'] | default([{}]))[0].id | default(None) }}"
+
+# -----------------------------------------------------------------------------
+# FASE 3: Criar (se nao existe) - mantemos a politica do role Azure de NAO
+# atualizar servidores que ja existem (preserva dados manuais). Se voce quiser
+# permitir update, basta trocar a task abaixo por um PUT no /object/{id}.
+# -----------------------------------------------------------------------------
+- name: Pular servidor ja existente
+  ansible.builtin.debug:
+    msg: "Servidor '{{ current_cloud_data.name_cloud }}' ja existe no CMDB (id={{ servidor_id_existente }}). Pulando (politica skip)."
+  when: servidor_existe | bool
+
+- name: Criar servidor no CMDB
+  when: not (servidor_existe | bool)
+  block:
+    - name: Inicializar lista de IDs de interface de rede
+      ansible.builtin.set_fact:
+        interface_rede_ids: []
+
+    # Reutiliza a task de NIC do role Azure (mesma estrutura)
+    - name: Verificar/Criar Interface de Rede (se necessario)
+      ansible.builtin.include_tasks: "{{ playbook_dir }}/../roles/integration_assets_azure/tasks/manage_network_interface.yml"
+      loop: "{{ current_cloud_data.interface_rede_cloud | default([]) }}"
+      loop_control:
+        loop_var: ip_info
+      when: current_cloud_data.interface_rede_cloud | default([]) | length > 0
+
+    - name: Gerar payload base
+      ansible.builtin.set_fact:
+        data_create: "{{ current_cloud_data | update_asset_cmdb(object_attribute_map) }}"
+
+    - name: Adicionar Interface de Rede ao payload
+      ansible.builtin.set_fact:
+        data_create: >-
+          {{ data_create | combine({
+               'attributes': data_create.attributes + [{
+                 'objectTypeAttributeId': '3528',
+                 'objectAttributeValues': interface_rede_ids | map('regex_replace', '^(.*)$', '{"value": "\1"}') | map('from_json') | list
+               }]
+             })
+          }}
+      when: interface_rede_ids | length > 0
+
+    - name: DEBUG - Payload final
+      ansible.builtin.debug:
+        msg: "{{ data_create | to_json }}"
+
+    - name: Criar objeto no Assets
+      ansible.builtin.uri:
+        url: "{{ jira_url }}/object/create"
+        method: POST
+        force_basic_auth: true
+        headers:
+          Content-Type: "application/json"
+          Accept: "application/json"
+        user: "{{ jira_user }}"
+        password: "{{ jira_password }}"
+        body: "{{ data_create | to_json }}"
+        body_format: json
+        return_content: true
+        status_code: [200, 201]
+      register: resultado_create
+      environment: "{{ proxy_env | default({}) }}"
+
+    - name: Sucesso
+      ansible.builtin.debug:
+        msg: "Servidor '{{ current_cloud_data.name_cloud }}' criado com sucesso. ID: {{ resultado_create.json.id | default('N/A') }}"
