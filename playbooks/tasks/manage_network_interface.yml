@@ -1,0 +1,70 @@
+# =============================================================================
+# Task: Gerenciar Interface de Rede (criar se nao existir)
+# Cada IP do servidor vira um objeto do tipo "Interface de Rede" (id 230) no CMDB.
+# Espera:
+#   - ip_info.ip  : string com o IP
+#   - jira_url, jira_user, jira_password, nic_name_attribute_id, proxy_env
+# Acumula em "interface_rede_ids" (lista) o ID do objeto criado/existente.
+# =============================================================================
+---
+- name: Buscar Interface de Rede existente
+  ansible.builtin.uri:
+    url: "{{ jira_url }}/object/aql?startAt=0&maxResults=1"
+    method: POST
+    headers:
+      Accept: "application/json"
+      Content-Type: "application/json"
+    body_format: json
+    force_basic_auth: true
+    user: "{{ jira_user }}"
+    password: "{{ jira_password }}"
+    body:
+      qlQuery: 'objectTypeId = 230 AND Name = "{{ ip_info.ip }}"'
+    status_code: [200]
+  register: nic_search_result
+  environment: "{{ proxy_env | default({}) }}"
+
+- name: Verificar se Interface de Rede existe
+  ansible.builtin.set_fact:
+    nic_exists: "{{ nic_search_result.json.total | int > 0 }}"
+
+- name: Extrair ID da Interface de Rede (se existir)
+  ansible.builtin.set_fact:
+    nic_id: "{{ nic_search_result.json['values'][0]['id'] }}"
+  when: nic_exists
+
+- name: Criar Interface de Rede se nao existir
+  ansible.builtin.uri:
+    url: "{{ jira_url }}/object/create"
+    method: POST
+    force_basic_auth: true
+    headers:
+      Content-Type: "application/json"
+      Accept: "application/json"
+    user: "{{ jira_user }}"
+    password: "{{ jira_password }}"
+    body:
+      objectTypeId: 230
+      attributes:
+        - objectTypeAttributeId: "{{ nic_name_attribute_id | default('1890') }}"
+          objectAttributeValues:
+            - value: "{{ ip_info.ip }}"
+    body_format: json
+    return_content: true
+    status_code: [200, 201]
+  register: nic_create_result
+  environment: "{{ proxy_env | default({}) }}"
+  when: not nic_exists
+
+- name: Atualizar ID da Interface de Rede recem-criada
+  ansible.builtin.set_fact:
+    nic_id: "{{ nic_create_result.json.id }}"
+  when: not nic_exists
+
+- name: Acumular ID na lista
+  ansible.builtin.set_fact:
+    interface_rede_ids: "{{ interface_rede_ids | default([]) + [nic_id] }}"
+
+- name: Debug - Interface de Rede
+  ansible.builtin.debug:
+    msg: "NIC '{{ ip_info.ip }}': {{ 'Existente' if nic_exists else 'Criada' }} (ID: {{ nic_id }})"
