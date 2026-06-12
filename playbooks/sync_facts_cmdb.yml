@@ -1,52 +1,145 @@
 # =============================================================================
-# ENTRY POINT - Sync CMDB a partir de Ansible Facts
+# ENTRY POINT - Sync CMDB a partir de Ansible Facts (servidores novos)
 # =============================================================================
-# Importa o playbook correto (Linux ou Windows) conforme operation_system_name.
-# Use ESTE arquivo no Job Template "cmdb-sync" do AAP.
+# Chame este playbook UMA VEZ no Job Template "cmdb-sync" do AAP. Ele:
+#   1) Valida entradas (vms_provisionadas, operation_system_name, datacenter_name).
+#   2) (Windows) busca credencial no CyberArk.
+#   3) Constroi inventario dinamico via role 'inventory' (IP como host).
+#   4) Coleta ansible_facts dos hosts alvo.
+#   5) Para cada VM, monta o payload e cria o objeto Servidor no CMDB
+#      (role cmdb_sync).
+#
+# Linux  -> SSH como 'linux_user_default' via chave de confianca (sem CyberArk).
+# Windows-> WinRM/NTLM com credencial vinda do CyberArk.
 #
 # Variaveis (vem do survey do Workflow Job Template):
-#   - name                    : hostname OU "hostname|10.0.0.1,10.0.0.2"
-#   - operation_system_name   : Oracle_Linux_8 | Oracle_Linux_9 | RHEL_9 |
-#                               Windows_Server_2022 | Windows_Server_2025
+#   - vms_provisionadas       : lista de {hostname, ip}
+#   - operation_system_name   : Oracle_Linux_8|9, RHEL_8|9, Windows_Server_2022|2025
 #   - datacenter_name         : Campinas | Lapa | Mackenzie
-#   - amount_vms              : (informativo) total de VMs do fluxo
 #
-# No Job Template:
-#   - Instance Group  -> Prompt on Launch (definir por DC no workflow)
-#   - Credentials     -> Prompt on Launch (definir por DC no workflow)
-#   - Survey          -> conforme variaveis acima
+# Pre-requisitos:
+#   - JIRA_USER e JIRA_PASSWORD como variaveis de ambiente
+#   - Collections: ansible.windows, cyberark.pas
+#   - No Job Template do AAP: Instance Group + Credentials em Prompt on Launch
 # =============================================================================
----
-- name: "Validar entradas do survey"
+
+- name: "Fase 1 - Validar entradas + CyberArk + Inventario dinamico"
   hosts: localhost
   gather_facts: false
   vars:
-    sos_linux:   ["Oracle_Linux_8", "Oracle_Linux_9", "RHEL_9"]
+    sos_linux:   ["RHEL_8", "RHEL_9", "Oracle_Linux_8", "Oracle_Linux_9"]
     sos_windows: ["Windows_Server_2022", "Windows_Server_2025"]
   tasks:
-    - name: Validar variaveis obrigatorias
+
+    - name: "Validar vms_provisionadas / operation_system_name / datacenter_name"
       ansible.builtin.assert:
         that:
-          - name is defined and (name | length > 0)
+          - vms_provisionadas is defined and (vms_provisionadas | length > 0)
           - operation_system_name is defined and operation_system_name in (sos_linux + sos_windows)
           - datacenter_name is defined and datacenter_name in ['Campinas','Lapa','Mackenzie']
-        fail_msg: "Variaveis ausentes ou invalidas. Verifique o survey do workflow."
+        fail_msg: "Variaveis ausentes ou invalidas. Verifique o survey/workflow."
 
-    - name: Resumo
+    - name: "Validar credenciais Jira"
+      ansible.builtin.assert:
+        that:
+          - lookup('env', 'JIRA_USER') | length > 0
+          - lookup('env', 'JIRA_PASSWORD') | length > 0
+        fail_msg: "Defina JIRA_USER e JIRA_PASSWORD como variaveis de ambiente."
+
+    - name: "Definir familia do SO"
+      ansible.builtin.set_fact:
+        familia_so: "{{ 'linux' if operation_system_name in sos_linux else 'windows' }}"
+
+    - name: "Resumo da execucao"
       ansible.builtin.debug:
         msg:
-          - "========================================================"
-          - "Host ............: {{ name }}"
-          - "SO ..............: {{ operation_system_name }}"
+          - "================================================================"
           - "Datacenter ......: {{ datacenter_name }}"
-          - "Total VMs no fluxo: {{ amount_vms | default('(nao informado)') }}"
-          - "========================================================"
+          - "SO ..............: {{ operation_system_name }} ({{ familia_so }})"
+          - "VMs alvo ........: {{ vms_provisionadas | map(attribute='hostname') | list }}"
+          - "================================================================"
 
-# -----------------------------------------------------------------------------
-# Roteamento por familia de SO
-# -----------------------------------------------------------------------------
-- import_playbook: sync_facts_cmdb_lnx.yml
-  when: operation_system_name in ["Oracle_Linux_8", "Oracle_Linux_9", "RHEL_9"]
+    # ---------------- credencial APENAS Windows (Linux usa chave SSH) -----
+    - name: "CyberArk Windows"
+      cyberark.pas.cyberark_credential:
+        api_base_url: "https://10.88.132.184/"
+        app_id: "APP_Ansible"
+        path: "AIMWebService/api/Accounts"
+        query: "Safe=APP_Ansible;UserName=OPS_CRK_API_AAPWIN"
+        validate_certs: false
+        reason: "Sync CMDB - {{ datacenter_name }}"
+        connection_timeout: 60
+        fail_request_on_password_change: true
+      register: cyberark_win
+      ignore_errors: true
+      no_log: true
+      when:
+        - familia_so == 'windows'
+        - use_cyberark | bool
+      environment: { http_proxy: "", https_proxy: "", no_proxy: "10.88.132.184" }
 
-- import_playbook: sync_facts_cmdb_win.yml
-  when: operation_system_name in ["Windows_Server_2022", "Windows_Server_2025"]
+    - name: "Definir credencial efetiva (Windows)"
+      ansible.builtin.set_fact:
+        host_ansible_user: >-
+          {{ (cyberark_win.result.UserName ~ '@' ~ dominio_ad)
+             if (cyberark_win is defined and cyberark_win is succeeded
+                 and (cyberark_win.result | default({})).UserName is defined)
+             else windows_user_default }}
+        host_ansible_password: >-
+          {{ cyberark_win.result.Content
+             if (cyberark_win is defined and cyberark_win is succeeded
+                 and (cyberark_win.result | default({})).Content is defined)
+             else (windows_user_password | default(omit)) }}
+      no_log: true
+      when: familia_so == 'windows'
+
+    # ---------------- inventario dinamico ---------------------------------
+    - name: "Construir inventario LINUX (grupo aai)"
+      ansible.builtin.import_role:
+        name: inventory
+      vars:
+        target_group: aai
+        target_os:    linux
+      when: familia_so == 'linux'
+
+    - name: "Construir inventario WINDOWS (grupo windows_alvo)"
+      ansible.builtin.import_role:
+        name: inventory
+      vars:
+        target_group: windows_alvo
+        target_os:    windows
+      when: familia_so == 'windows'
+
+
+# =============================================================================
+# Fase 2 - Coletar ansible_facts dos hosts alvo
+# (apenas um dos plays vai ter hosts; o outro eh skipped automaticamente)
+# =============================================================================
+- name: "Fase 2 - Coletar facts (Linux)"
+  hosts: aai
+  gather_facts: true
+  any_errors_fatal: false
+
+- name: "Fase 2 - Coletar facts (Windows)"
+  hosts: windows_alvo
+  gather_facts: true
+  any_errors_fatal: false
+
+
+# =============================================================================
+# Fase 3 - Enviar cada VM ao CMDB
+# =============================================================================
+- name: "Fase 3 - Criar servidores no CMDB"
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  tasks:
+    - name: "Sincronizar cada VM com o CMDB"
+      ansible.builtin.include_role:
+        name: cmdb_sync
+      vars:
+        target_host: "{{ item.ip }}"
+      loop: "{{ vms_provisionadas }}"
+      loop_control:
+        label: "{{ item.hostname }} ({{ item.ip }})"

@@ -22,6 +22,13 @@ proxy_env:
   https_proxy: "http://10.54.24.184:3128"
   no_proxy: ""
 
+# Defaults de autenticacao (sobrescreva por host/group/extra-vars se precisar)
+linux_user_default: "root"
+dominio_ad: "CORP.CLAROBR"
+use_cyberark: true
+windows_user_default: ""
+windows_user_password: ""
+
 # -----------------------------------------------------------------------------
 # Mapeamentos value -> referencedType
 # -----------------------------------------------------------------------------
@@ -42,6 +49,7 @@ cmdb:
   versao_so_ids:
     Oracle_Linux_8:      2413426   # "Oracle Linux Server 8.10"
     Oracle_Linux_9:      3062950   # "Oracle Linux Server 9.6"
+    RHEL_8:              3062966   # "Red Hat Enterprise Linux 8.10 (Ootpa)"
     RHEL_9:              1919152   # "Red Hat Enterprise Linux 9.6 (Plow)"
     Windows_Server_2022: 340320    # "Microsoft Windows Server 2022 Standard"
     Windows_Server_2025: 2414380   # "Windows Server 2025 Standard"
@@ -50,6 +58,7 @@ cmdb:
   so_categoria:
     Oracle_Linux_8:      Linux
     Oracle_Linux_9:      Linux
+    RHEL_8:              Linux
     RHEL_9:              Linux
     Windows_Server_2022: Windows
     Windows_Server_2025: Windows

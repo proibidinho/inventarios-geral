@@ -1,0 +1,44 @@
+# =============================================================================
+# ROLE: inventory
+# =============================================================================
+# Constroi o grupo dinamico a partir do artefato 'vms_provisionadas'.
+#   vms_provisionadas:
+#     - { hostname: CBC2AM71072, ip: 10.54.81.228 }
+#     - { hostname: CBC2AM89230, ip: 10.54.81.225 }
+#
+# Variaveis aceitas:
+#   - target_group : 'aai' ou 'windows_alvo'
+#   - target_os    : 'linux' ou 'windows'
+#
+# Linux:   conexao SSH como 'linux_user_default' (root) usando a chave de
+#          confianca pre-instalada no template. NAO usa senha / CyberArk.
+# Windows: WinRM 5985 + NTLM com credencial vinda do CyberArk
+#          (set_fact 'host_ansible_user'/'host_ansible_password' no playbook).
+#
+# Usamos o IP como inventory_hostname (DNS pode nao ter propagado) e
+# guardamos o hostname em 'vm_hostname' (rotulo).
+# =============================================================================
+---
+- name: "INVENTARIO | Adicionar VMs ao grupo {{ target_group }} ({{ target_os }})"
+  ansible.builtin.add_host:
+    name:        "{{ item.ip }}"
+    groups:      "{{ target_group }}"
+    vm_hostname: "{{ item.hostname }}"
+    vm_ip:       "{{ item.ip }}"
+    # ---- LINUX (SSH + chave) ----
+    ansible_connection: "{{ 'ssh' if target_os == 'linux' else 'winrm' }}"
+    ansible_user: >-
+      {{ linux_user_default if target_os == 'linux' else host_ansible_user }}
+    ansible_password: >-
+      {{ omit if target_os == 'linux' else host_ansible_password }}
+    ansible_become: "{{ false if target_os == 'linux' else omit }}"
+    # ---- WINDOWS (WinRM/NTLM) ----
+    ansible_port:                          "{{ 5985    if target_os == 'windows' else omit }}"
+    ansible_winrm_transport:               "{{ 'ntlm'  if target_os == 'windows' else omit }}"
+    ansible_winrm_server_cert_validation:  "{{ 'ignore' if target_os == 'windows' else omit }}"
+    ansible_winrm_message_encryption:      "{{ 'auto' if target_os == 'windows' else omit }}"
+    ansible_winrm_operation_timeout_sec:   "{{ 60     if target_os == 'windows' else omit }}"
+    ansible_winrm_read_timeout_sec:        "{{ 120    if target_os == 'windows' else omit }}"
+  loop: "{{ vms_provisionadas }}"
+  loop_control:
+    label: "{{ item.hostname }} ({{ item.ip }})"
