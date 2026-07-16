@@ -1,0 +1,98 @@
+Exemplo de vm que é de Windows
+
+            "objectId": "196734"
+        },
+        {
+            "workspaceId": "76827f8b-4d96-46a6-abf2-f592d6b4b2d9",
+            "globalId": "76827f8b-4d96-46a6-abf2-f592d6b4b2d9:7274",
+            "id": "7274",
+            "objectTypeAttribute": {
+                "workspaceId": "76827f8b-4d96-46a6-abf2-f592d6b4b2d9",
+                "globalId": "76827f8b-4d96-46a6-abf2-f592d6b4b2d9:7274",
+                "id": "7274",
+                "description": "Equipe que suporta o sistema operacional",
+                "editable": true,
+                "hidden": false,
+                "includeChildObjectTypes": false,
+                "indexed": true,
+                "label": false,
+                "maximumCardinality": 1,
+                "minimumCardinality": 0,
+                "name": "Grupo Solucionador - Infra",
+                "options": "",
+                "pendingCreation": false,
+                "position": 24,
+                "qlQuery": "",
+                "regexValidation": "",
+                "removable": true,
+                "sortable": true,
+                "suffix": "",
+                "summable": false,
+                "system": false,
+                "type": 4,
+                "uniqueAttribute": false,
+                "lockedConfiguration": false
+            },
+            "objectTypeAttributeId": "7274",
+            "objectAttributeValues": [
+                {
+                    "displayValue": "CLBR-TI-INFRA-SUPORTE-WINDOWS",
+                    "searchValue": "CLBR-TI-INFRA-SUPORTE-WINDOWS",
+                    "referencedType": false,
+                    "group": {
+                        "avatarUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAMFBMVEX///9wcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHAnFTKsAAAAD3RSTlMAESIzRFVmd4iZqrvM3e5GKvWZAAAAG3RFWHRqaXJhLXN5c3RlbS1pbWFnZS10eXBlAGljb266KjlFAAAAiUlEQVR42mNgYGBg3P9bgIGJgcmJy4FlAQMLQ7aDLgODAwMTU0pIA1CagYlt/f9zDAwHGJj+CTCIH/iTwMDyy0NqDUiOhYX7zfR/Hyc2MEn6/vJgFChlYMq5wDiBgYFTgMmTgV0AaHgCkxzQTCBIYBbfsSoDyOBhZGDIB6ph+MHEwLAGJLWLAQYAKX0dsAFHfu4AAAAASUVORK5CYII=",
+                        "name": "CLBR-TI-INFRA-SUPORTE-WINDOWS"
+                    }
+                }
+            ],
+
+
+"objectId": "197177"
+        },
+        {
+            "workspaceId": "76827f8b-4d96-46a6-abf2-f592d6b4b2d9",
+            "globalId": "76827f8b-4d96-46a6-abf2-f592d6b4b2d9:7274",
+            "id": "7274",
+            "objectTypeAttribute": {
+                "workspaceId": "76827f8b-4d96-46a6-abf2-f592d6b4b2d9",
+                "globalId": "76827f8b-4d96-46a6-abf2-f592d6b4b2d9:7274",
+                "id": "7274",
+                "description": "Equipe que suporta o sistema operacional",
+                "editable": true,
+                "hidden": false,
+                "includeChildObjectTypes": false,
+                "indexed": true,
+                "label": false,
+                "maximumCardinality": 1,
+                "minimumCardinality": 0,
+                "name": "Grupo Solucionador - Infra",
+                "options": "",
+                "pendingCreation": false,
+                "position": 24,
+                "qlQuery": "",
+                "regexValidation": "",
+                "removable": true,
+                "sortable": true,
+                "suffix": "",
+                "summable": false,
+                "system": false,
+                "type": 4,
+                "uniqueAttribute": false,
+                "lockedConfiguration": false
+            },
+            "objectTypeAttributeId": "7274",
+            "objectAttributeValues": [
+                {
+                    "displayValue": "CLBR-TI-INFRA-SUPORTE-UNIX",
+                    "searchValue": "CLBR-TI-INFRA-SUPORTE-UNIX",
+                    "referencedType": false,
+                    "group": {
+                        "avatarUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAMFBMVEX///9wcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHAnFTKsAAAAD3RSTlMAESIzRFVmd4iZqrvM3e5GKvWZAAAAG3RFWHRqaXJhLXN5c3RlbS1pbWFnZS10eXBlAGljb266KjlFAAAAiUlEQVR42mNgYGBg3P9bgIGJgcmJy4FlAQMLQ7aDLgODAwMTU0pIA1CagYlt/f9zDAwHGJj+CTCIH/iTwMDyy0NqDUiOhYX7zfR/Hyc2MEn6/vJgFChlYMq5wDiBgYFTgMmTgV0AaHgCkxzQTCBIYBbfsSoDyOBhZGDIB6ph+MHEwLAGJLWLAQYAKX0dsAFHfu4AAAAASUVORK5CYII=",
+                        "name": "CLBR-TI-INFRA-SUPORTE-UNIX"
+                    }
+                }
+            ],
+
+
+
+
