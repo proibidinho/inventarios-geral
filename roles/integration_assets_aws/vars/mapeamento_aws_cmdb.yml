@@ -1,0 +1,213 @@
+# =============================================================================
+# MAPEAMENTO: AWS → Jira Assets (CMDB)
+# =============================================================================
+# Baseado no objeto real ID: 2413665
+# =============================================================================
+
+workspace: "76827f8b-4d96-46a6-abf2-f592d6b4b2d9"
+objectTypeId: 121
+objectSchemaId: 16
+
+object_attribute_map:
+
+# CONTA CLOUD (Account ID da AWS)
+- id: 10548
+  name_assets: "Conta Cloud"
+  chave_cloud: "conta_cloud_cloud"
+  tipo: text
+
+# NAME (hostname)
+- id: 1104
+  name_assets: "Name"
+  chave_cloud: "name_cloud"
+  tipo: text
+  obrigatorio: true
+
+# CPU COUNT
+- id: 3359
+  name_assets: "CPU Count"
+  chave_cloud: "cpu_count_cloud"
+  tipo: text
+
+# MODELO DO SERVIDOR (instance_type / virtual_machine_size)
+# Atributo Reference -> aponta para objetos do objectTypeId 406 (Modelo de Servidor) no CMDB
+# Se o vm_size NAO estiver mapeado abaixo (ou vier vazio), usa o fallback "Generic"
+# Para adicionar um novo modelo: basta acrescentar uma entrada em "valores" com o
+# "value" (vm_size da AWS) e o "referencedType" (ID do objeto no CMDB - ver 406.txt)
+- id: 15656
+  name_assets: "Modelo do Servidor"
+  chave_cloud: "modelo_servidor_cloud"
+  tipo: objeto
+  referencia_object_type_id: 406
+  valores:
+  - value: "m5.large"
+    referencedType: 3223746
+  - value: "m5.xlarge"
+    referencedType: 3223747
+  - value: "m5.2xlarge"
+    referencedType: 3223742
+  - value: "m5.8xlarge"
+    referencedType: 3223744
+  - value: "m5ad.xlarge"
+    referencedType: 3223748
+  - value: "m6i.large"
+    referencedType: 3223763
+  - value: "m6i.xlarge"
+    referencedType: 3223765
+  - value: "m6i.4xlarge"
+    referencedType: 3223761
+  - value: "m6i.24xlarge"
+    referencedType: 3223757
+  - value: "m6a.2xlarge"
+    referencedType: 3223751
+  - value: "m6a.4xlarge"
+    referencedType: 3223752
+  - value: "m7i.large"
+    referencedType: 3223780
+  - value: "m7i.xlarge"
+    referencedType: 3223782
+  - value: "m7i.8xlarge"
+    referencedType: 3223778
+  - value: "m7i-flex.2xlarge"
+    referencedType: 3223772
+  - value: "c5.xlarge"
+    referencedType: 3223810
+  - value: "c6i.xlarge"
+    referencedType: 3223830
+  - value: "c6i.2xlarge"
+    referencedType: 3223827
+  - value: "c6i.4xlarge"
+    referencedType: 3223828
+  - value: "c6a.xlarge"
+    referencedType: 3223823
+  - value: "c6a.2xlarge"
+    referencedType: 3223819
+  - value: "c6a.4xlarge"
+    referencedType: 3223821
+  - value: "r5.xlarge"
+    referencedType: 3223891
+  - value: "r5a.2xlarge"
+    referencedType: 3223893
+  - value: "r6i.2xlarge"
+    referencedType: 3223908
+  - value: "t3.xlarge"
+    referencedType: 3224014
+  - value: "t3.2xlarge"
+    referencedType: 3224029
+  - value: "t3a.medium"
+    referencedType: 3224022
+  - value: "t3a.xlarge"
+    referencedType: 3224030
+  - value: "i4i.large"
+    referencedType: 3224053
+  - value: "Generic"
+    referencedType: 3223981
+  - value: "m5ad.xlarge"
+    referencedType: 3223749
+
+# SISTEMA OPERACIONAL
+- id: 3358
+  name_assets: "Sistema Operacional"
+  chave_cloud: "sistema_operacional_cloud"
+  tipo: objeto
+  valores:
+  - value: Linux
+    referencedType: 171174
+  - value: Windows
+    referencedType: 170882
+
+# INTERFACE DE REDE (tratada separadamente)
+- id: 3528
+  name_assets: "Interface de Rede"
+  chave_cloud: "interface_rede_cloud"
+  tipo: objeto_lista
+  referencia_object_type_id: 230
+  criar_se_nao_existir: true
+
+# STATUS
+- id: 2957
+  name_assets: "Status"
+  chave_cloud: "status_cloud"
+  tipo: status
+  valores:
+  - value: "Em uso"
+    referencedType: 18
+  - value: "Desativado"
+    referencedType: 19
+
+# TIPO DE INFRAESTRUTURA
+# - id: 9948
+#   name_assets: "Tipo de Infraestrutura"
+#   chave_cloud: "tipo_infraestrutura_cloud"
+#   tipo: objeto
+#   valores:
+#   - value: "CLOUD PUBLICA"
+#     referencedType: 223965
+
+# TIPO DE INFRAESTRUTURA - CLOUD PUBLICA (fixo)
+- id: 9948
+  name_assets: "Tipo de Infraestrutura"
+  chave_cloud: "tipo_infraestrutura_cloud"
+  tipo: objeto
+  referencia_object_type_id: 119
+  criar_se_nao_existir: false
+  valores:
+  - value: "CLOUD PUBLICA"
+    displayValue: "CLOUD PUBLICA"
+    searchValue: "CLOUD PUBLICA"
+    referencedType: 223965
+
+# DATACENTER (AWS)
+- id: 3296
+  name_assets: "Datacenter"
+  chave_cloud: "datacenter_cloud"
+  tipo: objeto
+  valores:
+  - value: "AWS"
+    referencedType: 872214
+
+# # TIPO DE SERVIDOR (select)
+# - id: 1897
+#   name_assets: "Tipo de Servidor"
+#   chave_cloud: "tipo_servidor_cloud"
+#   tipo: select
+#   valores:
+#   #- value: "Cloud Publica"
+#   - value: "CLOUD PUBLICA"
+
+# AMBIENTE
+- id: 1922
+  name_assets: "Ambiente"
+  chave_cloud: "ambiente_cloud"
+  tipo: objeto
+  valores:
+  - value: "Produção"
+    referencedType: 166234
+  - value: "Desenvolvimento"
+    referencedType: 166232
+
+# FQDN (private_dns_name)
+- id: 3343
+  name_assets: "FQDN"
+  chave_cloud: "fqdn_cloud"
+  tipo: text
+
+# SISTEMA (Reference ref:113 - vem da tag ef_cmdb do EC2, ex.: "GDA-2730753")
+# Jira Assets aceita objectKey direto no value, entao usamos "tipo: text".
+# Se a tag nao existir, o campo fica vazio (comportamento correto).
+- id: 9219
+  name_assets: "Sistema"
+  chave_cloud: "sistema_cloud"
+  tipo: text
+
+- id: 6829
+  name_assets: "Fornecedor"
+  chave_cloud: "datacenter_cloud"
+  tipo: text
+  obrigatorio: true
+
+- id: 3357
+  name_assets: "Last User"
+  chave_cloud: "usuario"
+  tipo: text
+  obrigatorio: true
