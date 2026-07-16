@@ -73,6 +73,39 @@ def map_azure_status_to_cmdb(powerstate):
     }
     return status_map.get(powerstate.lower() if powerstate else "", "Em uso")
 
+
+def is_aks_node(host_vars):
+    """
+    Detecta se o host eh um no de cluster AKS (Azure Kubernetes Service).
+    Sinais:
+      - resource_group comeca com 'MC_' (prefixo padrao AKS - Managed Cluster).
+      - Alguma tag comeca com 'aks-managed-' ou eh 'aks-managed-cluster-name'.
+      - Tag 'orchestrator' contem 'Kubernetes' (case-insensitive).
+    """
+    if not host_vars:
+        return False
+
+    rg = str(host_vars.get("resource_group") or "").strip()
+    if rg.startswith("MC_"):
+        return True
+
+    tags = host_vars.get("tags") or {}
+    if not isinstance(tags, dict):
+        return False
+
+    if "aks-managed-cluster-name" in tags:
+        return True
+    for key in tags:
+        if str(key).lower().startswith("aks-managed-"):
+            return True
+
+    orchestrator = str(tags.get("orchestrator") or "").lower()
+    if "kubernetes" in orchestrator:
+        return True
+
+    return False
+
+
 def get_tag(host_vars, *keys):
     """
     Retorna o valor da primeira tag encontrada (case-insensitive),
@@ -431,10 +464,16 @@ def update_asset(cloud_data, object_attribute_map):
 def batch_transform_hosts(hosts_vars_list):
     """
     Transforma uma lista de hosts Azure para o formato cloud_data.
-    Hosts sem a tag "ef_cmdb" sao ignorados (nao vao pro CMDB).
+    Hosts sao ignorados quando:
+      - eh no de cluster AKS (resource_group MC_*, tags aks-managed-*)
+      - nao tem a tag "ef_cmdb"
     """
     results = []
     for host_vars in hosts_vars_list:
+        # Nos de cluster AKS - ignorados ate o time CMDB definir tratamento
+        if is_aks_node(host_vars):
+            continue
+
         tags = host_vars.get("tags") or {}
         if not isinstance(tags, dict):
             continue
@@ -458,6 +497,7 @@ class FilterModule(object):
             'extract_os_from_azure': extract_os_from_azure,
             'map_azure_status_to_cmdb': map_azure_status_to_cmdb,
             'extract_subscription_from_id': extract_subscription_from_id,
+            'is_aks_node': is_aks_node,
             'search_attribute_azure': search_attribute,
         }
 
