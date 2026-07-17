@@ -96,9 +96,16 @@ def determine_ambiente_aws(variables: Dict) -> Optional[str]:
     return "Produção"
 
 
-def transform_aws_host(host_data: Dict) -> Dict:
+def transform_aws_host(host_data: Dict, modelo_servidor_map: Optional[Dict] = None) -> Dict:
     """
     Transforma os dados de um host AWS (do AAP) para o formato cloud_data.
+
+    Args:
+        host_data: dict com o host vindo do AAP (contem 'variables' string JSON).
+        modelo_servidor_map: opcional - mapa {instance_type: object_key}, ex.:
+                             {"t3.2xlarge": "GDA-3224029", ...}. Se fornecido,
+                             o instance_type eh convertido para o objectKey
+                             correspondente antes de popular modelo_servidor_cloud.
     """
     # Parsear variables (pode ser string JSON ou dict)
     variables_str = host_data.get("variables", "{}")
@@ -191,8 +198,10 @@ def transform_aws_host(host_data: Dict) -> Dict:
         # Hardware
         "cpu_count_cloud": str(vcpus) if vcpus else None,
         
-        # Modelo do Servidor (instance_type)
-        "modelo_servidor_cloud": instance_type if instance_type else None,
+        # Modelo do Servidor (instance_type -> objectKey via modelo_servidor_map)
+        "modelo_servidor_cloud": (
+            (modelo_servidor_map or {}).get(instance_type) or instance_type
+        ) if instance_type else None,
         
         # Rede
         "interface_rede_cloud": ips if ips else None,
@@ -232,8 +241,13 @@ def transform_aws_host(host_data: Dict) -> Dict:
     return cloud_data
 
 
-def batch_transform_aws_hosts(hosts: List[Dict]) -> List[Dict]:
-    """Transforma uma lista de hosts AWS (do AAP) para o formato cloud_data."""
+def batch_transform_aws_hosts(hosts: List[Dict], modelo_servidor_map: Optional[Dict] = None) -> List[Dict]:
+    """Transforma uma lista de hosts AWS (do AAP) para o formato cloud_data.
+
+    Args:
+        hosts: lista de hosts vindos do AAP.
+        modelo_servidor_map: opcional - mapa {instance_type: object_key}.
+    """
     results = []
     
     for host in hosts:
@@ -256,7 +270,7 @@ def batch_transform_aws_hosts(hosts: List[Dict]) -> List[Dict]:
         if not isinstance(tags, dict) or not str(tags.get("ef_cmdb", "")).strip():
             continue
 
-        cloud_data = transform_aws_host(host)
+        cloud_data = transform_aws_host(host, modelo_servidor_map=modelo_servidor_map)
         
         if cloud_data.get("name_cloud"):
             results.append(cloud_data)
@@ -295,14 +309,19 @@ def update_asset(cloud_data: Dict, object_attribute_map: List[Dict]) -> Dict:
 
         if attr_type == "objeto":
             valores = obj_attr.get("valores", [])
-            matched = next((v for v in valores if v.get("value") == value), None)
-            if matched:
-                attribute_entry["objectAttributeValues"] = [
-                    {"value": str(matched.get("referencedType"))}
-                ]
+            # Sem lista de "valores" no YAML -> envia o value direto (Jira aceita
+            # objectKey/objectId em campos Reference).
+            if not valores:
+                attribute_entry["objectAttributeValues"] = [{"value": str(value)}]
             else:
-                # Valor não encontrado - skip
-                continue
+                matched = next((v for v in valores if v.get("value") == value), None)
+                if matched:
+                    attribute_entry["objectAttributeValues"] = [
+                        {"value": str(matched.get("referencedType"))}
+                    ]
+                else:
+                    # Valor não encontrado - skip
+                    continue
 
         elif attr_type == "status":
             valores = obj_attr.get("valores", [])
