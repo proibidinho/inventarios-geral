@@ -1,0 +1,103 @@
+Tenho uma integração Ansible → Jira Assets (CMDB).
+
+Objetivo:
+Registrar servidores AWS no Assets.
+
+Problema:
+O atributo "Modelo do Servidor" (ID 15656) está falhando.
+
+Erro retornado pelo Assets:
+
+{
+  "errors": {
+    "rlabs-insight-attribute-15656": "t3.2xlarge não é uma chave ou um ID do objeto válido"
+  }
+}
+
+Investiguei o Assets e descobri que:
+
+Atributo:
+- ID: 15656
+- Nome: Modelo do Servidor
+- Tipo: Reference
+- Object Type Referenciado: 406
+
+Ao listar os objetos do Object Type 406 encontrei:
+
+t3.2xlarge
+ID: 3224029
+KEY: GDA-3224029
+
+Ou seja, o campo não aceita:
+
+"value": "t3.2xlarge"
+
+e aparentemente espera:
+
+"value": "3224029"
+
+ou
+
+"value": "GDA-3224029"
+
+Decidi utilizar Object Key (GDA) ao invés do ID.
+
+Criei uma variável Ansible chamada:
+
+modelo_servidor_map
+
+Exemplo:
+
+modelo_servidor_map:
+  t3.2xlarge: GDA-3224029
+  t3.large: GDA-3223983
+  m5.large: GDA-3223746
+  ...
+
+O filtro Python atual recebe hosts AWS e monta um objeto cloud_data.
+
+Hoje ele faz:
+
+instance_type = variables.get("instance_type", "")
+
+e depois:
+
+"modelo_servidor_cloud": instance_type if instance_type else None
+
+resultado:
+
+"value": "t3.2xlarge"
+
+Eu quero alterar o filtro para:
+
+1. Receber modelo_servidor_map como parâmetro.
+2. Converter o instance_type para a Object Key correspondente.
+3. Popular:
+
+"modelo_servidor_cloud": "GDA-3224029"
+
+4. No método update_asset():
+
+Quando o atributo for do tipo "objeto" e não possuir lista "valores" definida no YAML, ele deve enviar o valor diretamente:
+
+{
+  "value": "GDA-3224029"
+}
+
+em vez de tentar procurar referenciadoType.
+
+Meu YAML ficou assim:
+
+- id: 15656
+  name_assets: "Modelo do Servidor"
+  chave_cloud: "modelo_servidor_cloud"
+  tipo: objeto
+
+Os demais atributos continuam iguais.
+
+Quero que você:
+- edite o script Python completo;
+- devolva o arquivo inteiro pronto;
+- não explique linha por linha;
+- mantenha toda a lógica existente;
+- faça apenas as alterações mínimas necessárias para suportar modelo_servidor_map e envio de Object Key (GDA) para o atributo 15656.
