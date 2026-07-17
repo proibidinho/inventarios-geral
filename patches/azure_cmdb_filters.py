@@ -150,13 +150,17 @@ def determine_ambiente_azure(host_vars):
 
     return None
 
-def transform_azure_host(host_vars):
+def transform_azure_host(host_vars, modelo_servidor_map=None):
     """
     Transforma os dados de um host Azure (do AAP inventory) para cloud_data.
-    
+
     Args:
         host_vars: Dicionario com as variaveis do host do inventario AAP
-    
+        modelo_servidor_map: opcional - mapa {vm_size: object_key}, ex.:
+            {"Standard_B2s": "GDA-3223955", ...}. Se fornecido, o vm_size eh
+            convertido para o objectKey correspondente antes de popular
+            modelo_servidor_cloud.
+
     Returns:
         Dicionario no formato cloud_data para o playbook
     """
@@ -240,8 +244,10 @@ def transform_azure_host(host_vars):
         # Sistema Operacional
         "sistema_operacional_cloud": extract_os_from_azure(host_vars),
         
-        # Hardware - Azure nao fornece diretamente, usar vm_size como modelo
-        "modelo_servidor_cloud": vm_size,
+        # Modelo do Servidor (vm_size -> objectKey via modelo_servidor_map)
+        "modelo_servidor_cloud": (
+            (modelo_servidor_map or {}).get(vm_size) or vm_size
+        ) if vm_size else None,
         
         # Rede
         "interface_rede_cloud": ips,
@@ -347,20 +353,26 @@ def update_asset(cloud_data, object_attribute_map):
         # Processar conforme o tipo do atributo
         if attr_type == "objeto":
             valores = obj_attr.get("valores", [])
-            matched = next((v for v in valores if v.get("value") == value), None)
 
-            # Fallback: se o valor recebido nao esta mapeado, usa o "valor_fallback"
-            if not matched:
-                valor_fallback = obj_attr.get("valor_fallback")
-                if valor_fallback:
-                    matched = next((v for v in valores if v.get("value") == valor_fallback), None)
-
-            if matched:
-                attribute_entry["objectAttributeValues"] = [
-                    {"value": str(matched.get("referencedType"))}
-                ]
+            # Sem lista de "valores" no YAML -> envia o value direto (Jira aceita
+            # objectKey/objectId em campos Reference).
+            if not valores:
+                attribute_entry["objectAttributeValues"] = [{"value": str(value)}]
             else:
-                continue
+                matched = next((v for v in valores if v.get("value") == value), None)
+
+                # Fallback: se o valor recebido nao esta mapeado, usa o "valor_fallback"
+                if not matched:
+                    valor_fallback = obj_attr.get("valor_fallback")
+                    if valor_fallback:
+                        matched = next((v for v in valores if v.get("value") == valor_fallback), None)
+
+                if matched:
+                    attribute_entry["objectAttributeValues"] = [
+                        {"value": str(matched.get("referencedType"))}
+                    ]
+                else:
+                    continue
         
         elif attr_type == "status":
             valores = obj_attr.get("valores", [])
@@ -461,7 +473,7 @@ def update_asset(cloud_data, object_attribute_map):
     return data
 
 
-def batch_transform_hosts(hosts_vars_list):
+def batch_transform_hosts(hosts_vars_list, modelo_servidor_map=None):
     """
     Transforma uma lista de hosts Azure para o formato cloud_data.
     Hosts sao ignorados quando:
@@ -481,7 +493,7 @@ def batch_transform_hosts(hosts_vars_list):
         tags_lower = {str(k).lower(): v for k, v in tags.items()}
         if not str(tags_lower.get("ef_cmdb", "") or "").strip():
             continue
-        cloud_data = transform_azure_host(host_vars)
+        cloud_data = transform_azure_host(host_vars, modelo_servidor_map=modelo_servidor_map)
         results.append(cloud_data)
     return results
 

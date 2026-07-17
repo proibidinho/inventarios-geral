@@ -29,14 +29,15 @@ object_attribute_map:
   chave_cloud: "cpu_count_cloud"
   tipo: text
 
-# MODELO DO SERVIDOR (instance_type)
-# Passamos o valor direto como text - o Jira aceita o nome do modelo
-# como objectName (unique attribute do ref 406) e resolve automaticamente.
-# Sem lista/referencedType para nao poluir manutencao.
+# MODELO DO SERVIDOR (instance_type -> objectKey do CMDB)
+# tipo: objeto sem "valores" -> o filter passa o value direto (objectKey).
+# A conversao instance_type -> GDA-* eh feita no filter via "modelo_servidor_map"
+# (definido em vars/main.yml). Para novos instance_types, basta acrescentar
+# a entrada em modelo_servidor_map no vars, sem mexer aqui.
 - id: 15656
   name_assets: "Modelo do Servidor"
   chave_cloud: "modelo_servidor_cloud"
-  tipo: text
+  tipo: objeto
 
 # SISTEMA OPERACIONAL
 - id: 3358

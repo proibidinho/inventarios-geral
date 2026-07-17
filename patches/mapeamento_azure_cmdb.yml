@@ -44,14 +44,15 @@ object_attribute_map:
     searchValue: Windows
     referencedType: 170882
 
-# MODELO DO SERVIDOR (instance_type / virtual_machine_size)
-# Passamos o valor direto como text - o Jira aceita o nome do modelo
-# como objectName (unique attribute do ref 406) e resolve automaticamente.
-# Sem lista/referencedType para nao poluir manutencao.
-- id: 15656 #antigo 3351
+# MODELO DO SERVIDOR (vm_size Azure -> objectKey do CMDB)
+# tipo: objeto sem "valores" -> o filter passa o value direto (objectKey).
+# A conversao vm_size -> GDA-* eh feita no filter via "modelo_servidor_map"
+# (definido em vars/main.yml). Nao mexer aqui quando o time criar novos modelos:
+# basta acrescentar a entrada em modelo_servidor_map no vars.
+- id: 15656
   name_assets: "Modelo do Servidor"
   chave_cloud: "modelo_servidor_cloud"
-  tipo: text
+  tipo: objeto
 
 # REDE
 - id: 3528
