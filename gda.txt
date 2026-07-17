@@ -1,0 +1,305 @@
+Buscando opcoes do atributo ID: 15656...
+
+======================================================================
+Atributo ID: 15656
+Nome: Modelo de Servidor
+Tipo: Reference
+Referencia: Modelo de Servidor (ID: 406)
+======================================================================
+
+ID           Key                       Label
+----------------------------------------------------------------------
+
+Total: 0 opcoes
+
+[root@net002prdlnx795:/home/corp.clarobr/z601427/integracao-servidores-cmdb/scripts]# python acha_atributos.py --list-objects
+
+Buscando objetos do tipo ID: 406...
+  startAt=0: +281 objetos (acumulado: 281/0)
+
+ID           Key                       Label
+--------------------------------------------------------------------------------
+3223756      GDA-3223756               2288H V5
+3223758      GDA-3223758               7026_M80
+3223762      GDA-3223762               8233_E8B
+3223764      GDA-3223764               8284_22A
+3223767      GDA-3223767               8408_44E
+3223769      GDA-3223769               9000/800/rp4440
+3223773      GDA-3223773               9080_MHE
+3223775      GDA-3223775               9119_FHB
+3223777      GDA-3223777               9133_55A
+3223779      GDA-3223779               9179_MHB
+3223781      GDA-3223781               BL860c
+3223783      GDA-3223783               BL860c i2
+3223785      GDA-3223785               BL860c i4
+3223787      GDA-3223787               BL860c i6
+3223789      GDA-3223789               BL870c i2
+3223791      GDA-3223791               BL870c i4
+3223793      GDA-3223793               BL870c i6
+3223795      GDA-3223795               BL890c i2
+3223797      GDA-3223797               c2-standard-4
+3223799      GDA-3223799               c4.2xlarge
+3223801      GDA-3223801               c4.large
+3223803      GDA-3223803               c4.xlarge
+3223804      GDA-3223804               c5.2xlarge
+3223806      GDA-3223806               c5.4xlarge
+3223808      GDA-3223808               c5.large
+3223810      GDA-3223810               c5.xlarge
+3223812      GDA-3223812               c5a.2xlarge
+3223813      GDA-3223813               c5a.large
+3223815      GDA-3223815               c5a.xlarge
+3223817      GDA-3223817               c5n.large
+3223819      GDA-3223819               c6a.2xlarge
+3223821      GDA-3223821               c6a.4xlarge
+3223823      GDA-3223823               c6a.xlarge
+3223825      GDA-3223825               c6g.2xlarge
+3223827      GDA-3223827               c6i.2xlarge
+3223828      GDA-3223828               c6i.4xlarge
+3223830      GDA-3223830               c6i.xlarge
+3223832      GDA-3223832               c6id.8xlarge
+3223834      GDA-3223834               c7g.large
+3223839      GDA-3223839               CISCO ISE-3395
+3223843      GDA-3223843               CISCO MCS7845
+3223878      GDA-3223878               custom-16-65536-ext
+3223879      GDA-3223879               custom-2-12288
+3223881      GDA-3223881               custom-2-24576-ext
+3223883      GDA-3223883               custom-22-94208-ext
+3223886      GDA-3223886               custom-30-129024-ext
+3223888      GDA-3223888               custom-4-16384-ext
+3223890      GDA-3223890               custom-4-32768-ext
+3223892      GDA-3223892               custom-4-8192-ext
+3223907      GDA-3223907               Dell Inc.
+3223911      GDA-3223911               Dell Inc. PowerEdge MX750c
+3223914      GDA-3223914               Dell Inc. PowerEdge R610
+3223922      GDA-3223922               Dell Inc. VxRail E560F
+3223924      GDA-3223924               Dell Inc. VxRail P570F
+3223926      GDA-3223926               e2-custom-14-79872
+3223928      GDA-3223928               e2-custom-16-32768
+3223929      GDA-3223929               e2-custom-22-126976
+3223931      GDA-3223931               e2-custom-24-65536
+3223933      GDA-3223933               e2-medium
+3223935      GDA-3223935               e2-small
+3223938      GDA-3223938               e2-standard-16
+3223940      GDA-3223940               e2-standard-2
+3223941      GDA-3223941               e2-standard-4
+3223943      GDA-3223943               e2-standard-8
+3223947      GDA-3223947               Exadata X4-2
+3223949      GDA-3223949               Exadata X4-2 Upgrade
+3223952      GDA-3223952               Exadata X5-2
+3223954      GDA-3223954               Exadata X5-2 Upgrade
+3223956      GDA-3223956               Exadata X6-2
+3223958      GDA-3223958               Exadata X7-2
+3223960      GDA-3223960               Exalogic X3-2
+3223962      GDA-3223962               Exalogic X5-2
+3223964      GDA-3223964               f1-micro
+3223966      GDA-3223966               FIRE X4170 M2
+3223968      GDA-3223968               FIRE X4270 M2
+3223970      GDA-3223970               FIRE X4270 M3
+3223972      GDA-3223972               FIRE X4470 M2
+3223974      GDA-3223974               FUJITSU
+3223976      GDA-3223976               FUJITSU PRIMEQUEST 3800E2
+3223978      GDA-3223978               g1-small
+3223981      GDA-3223981               Generic
+3223989      GDA-3223989               HP
+3223992      GDA-3223992               HP BladeSystem c7000 Enclosure G2
+3223995      GDA-3223995               HP Generico
+3223998      GDA-3223998               HP ProLiant BL460c G7
+3224000      GDA-3224000               HP ProLiant BL460c Gen8
+3224003      GDA-3224003               HP ProLiant BL460c Gen9
+3224021      GDA-3224021               HP ProLiant DL380 Gen9
+3224024      GDA-3224024               HP PROLIANT DL580 G7
+3224041      GDA-3224041               HP_ProLiant BL460c G7
+3224045      GDA-3224045               HP_ProLiant BL620c G7
+3224027      GDA-3224027               HPE
+3224031      GDA-3224031               HPE ProLiant BL460c Gen10
+3224033      GDA-3224033               HPE Synergy 480 Gen10
+3224035      GDA-3224035               HPE Synergy 480 Gen10 Plus
+3224037      GDA-3224037               HPE Synergy 660 Gen10
+3224048      GDA-3224048               HVM domU
+3224050      GDA-3224050               i4g.xlarge
+3224053      GDA-3224053               i4i.large
+3224055      GDA-3224055               ia64 hp Integrity BL860c i2
+3224057      GDA-3224057               ia64 hp Integrity BL870c i2
+3224059      GDA-3224059               ia64 hp Integrity BL870c i4
+3224062      GDA-3224062               ia64 VM
+3224063      GDA-3224063               IBM
+3224069      GDA-3224069               KVM
+3224071      GDA-3224071               m4.10xlarge
+3223740      GDA-3223740               m4.4xlarge
+3223741      GDA-3223741               m4.large
+3223742      GDA-3223742               m5.2xlarge
+3223743      GDA-3223743               m5.4xlarge
+3223744      GDA-3223744               m5.8xlarge
+3223746      GDA-3223746               m5.large
+3223747      GDA-3223747               m5.xlarge
+3223748      GDA-3223748               m5a.xlarge
+3223749      GDA-3223749               m5ad.xlarge
+3223750      GDA-3223750               m5d.large
+3223751      GDA-3223751               m6a.2xlarge
+3223752      GDA-3223752               m6a.4xlarge
+3223753      GDA-3223753               m6a.large
+3223754      GDA-3223754               m6a.xlarge
+3223755      GDA-3223755               m6g.large
+3223757      GDA-3223757               m6i.24xlarge
+3223759      GDA-3223759               m6i.2xlarge
+3223761      GDA-3223761               m6i.4xlarge
+3223763      GDA-3223763               m6i.large
+3223765      GDA-3223765               m6i.xlarge
+3223766      GDA-3223766               m6id.large
+3223768      GDA-3223768               m7a.large
+3223770      GDA-3223770               m7g.large
+3223772      GDA-3223772               m7i-flex.2xlarge
+3223774      GDA-3223774               m7i-flex.large
+3223776      GDA-3223776               m7i-flex.xlarge
+3223778      GDA-3223778               m7i.8xlarge
+3223780      GDA-3223780               m7i.large
+3223782      GDA-3223782               m7i.xlarge
+3223788      GDA-3223788               MX750C
+3223790      GDA-3223790               n1-standard-1
+3223792      GDA-3223792               n1-standard-2
+3223794      GDA-3223794               n1-standard-8
+3223796      GDA-3223796               n2-custom-2-9984
+3223798      GDA-3223798               n2-custom-32-200704
+3223800      GDA-3223800               n2-standard-2
+3223802      GDA-3223802               N4000-36
+3223809      GDA-3223809               Oracle Corporation
+3223811      GDA-3223811               Oracle Corporation ORACLE SERVER E4-2c
+3223814      GDA-3223814               Oracle Corporation ORACLE SERVER X7-2L
+3223816      GDA-3223816               Oracle Corporation sun4v SPARC M5-32
+3223818      GDA-3223818               Oracle Corporation sun4v SPARC M6-32
+3223820      GDA-3223820               Oracle Corporation sun4v SPARC S7-2
+3223822      GDA-3223822               Oracle Corporation sun4v SPARC T3-2
+3223824      GDA-3223824               Oracle Corporation sun4v SPARC T4-4
+3223826      GDA-3223826               Oracle Sparc T8
+3223829      GDA-3223829               PowerEdge 1950
+3223831      GDA-3223831               PowerEdge 2950
+3223833      GDA-3223833               PowerEdge R410
+3223837      GDA-3223837               PowerEdge R710
+3223840      GDA-3223840               PowerEdge R740xd
+3223842      GDA-3223842               PowerEdge R805
+3223844      GDA-3223844               PRIMEQUEST 2800E
+3223846      GDA-3223846               ProLiant BL460c G7
+3223848      GDA-3223848               ProLiant BL460c Gen10
+3223850      GDA-3223850               ProLiant BL460c Gen8
+3223852      GDA-3223852               ProLiant BL460c Gen9
+3223854      GDA-3223854               ProLiant BL465c G7
+3223856      GDA-3223856               ProLiant BL465c Gen8
+3223858      GDA-3223858               ProLiant BL620c G7
+3223860      GDA-3223860               ProLiant BL660c Gen8
+3223862      GDA-3223862               ProLiant BL660c Gen9
+3223864      GDA-3223864               ProLiant BL680c G7
+3223866      GDA-3223866               ProLiant BL685c G6
+3223868      GDA-3223868               ProLiant BL685c G7
+3223870      GDA-3223870               ProLiant DL360 G5
+3223876      GDA-3223876               ProLiant DL380 G7
+3223877      GDA-3223877               ProLiant DL380 Gen10
+3223880      GDA-3223880               ProLiant DL380 Gen10 Plus
+3223884      GDA-3223884               ProLiant DL385 G6
+3223885      GDA-3223885               ProLiant DL980 G7
+3223887      GDA-3223887               QEMU
+3223889      GDA-3223889               r5.2xlarge
+3223891      GDA-3223891               r5.xlarge
+3223893      GDA-3223893               r5a.2xlarge
+3223895      GDA-3223895               r5a.large
+3223896      GDA-3223896               r5a.xlarge
+3223898      GDA-3223898               r5n.large
+3223900      GDA-3223900               r6a.large
+3223902      GDA-3223902               r6g.2xlarge
+3223904      GDA-3223904               r6g.4xlarge
+3223906      GDA-3223906               r6g.xlarge
+3223908      GDA-3223908               r6i.2xlarge
+3223910      GDA-3223910               r6i.4xlarge
+3223912      GDA-3223912               r6i.large
+3223913      GDA-3223913               r7a.xlarge
+3223915      GDA-3223915               rp3440
+3223917      GDA-3223917               rp4440
+3223919      GDA-3223919               rx2660
+3223921      GDA-3223921               rx3600
+3223923      GDA-3223923               rx4640
+3223925      GDA-3223925               rx6600
+3223930      GDA-3223930               SD64A
+3223932      GDA-3223932               SD64B
+3223934      GDA-3223934               Server 5
+3223936      GDA-3223936               Server 7
+3223937      GDA-3223937               Server 8
+3223939      GDA-3223939               shape
+3223942      GDA-3223942               SL3000
+3223946      GDA-3223946               SPARC-Enterprise
+3223950      GDA-3223950               Standard_B1s
+3223951      GDA-3223951               Standard_B2as_v2
+3223953      GDA-3223953               Standard_B2ms
+3223955      GDA-3223955               Standard_B2s
+3223957      GDA-3223957               Standard_B4as_v2
+3223959      GDA-3223959               Standard_B4ms
+3223961      GDA-3223961               Standard_D2s_v3
+3223963      GDA-3223963               Standard_D32as_v4
+3223967      GDA-3223967               Standard_D4_v2
+3223965      GDA-3223965               Standard_D4s_v3
+3223969      GDA-3223969               Standard_D8s_v3
+3223971      GDA-3223971               Standard_DS3_v2
+3223973      GDA-3223973               Standard_E2as_v4
+3223975      GDA-3223975               Standard_F16s_v2
+3223977      GDA-3223977               Standard_F2s_v2
+3223979      GDA-3223979               Standard_F4s
+3223980      GDA-3223980               Standard_F4s_v2
+3223982      GDA-3223982               Standard_F8s_v2
+3223984      GDA-3223984               Sun Fire X4800 M2
+3223986      GDA-3223986               SUN MICROSYSTEMS SUN BLADE X6270 SERVER MODULE
+3223988      GDA-3223988               Sun-Fire-T200
+3223990      GDA-3223990               Sun-Fire-V440
+3223994      GDA-3223994               Sun-Fire-V890
+3224001      GDA-3224001               Superdome2
+3224004      GDA-3224004               Superdome2 16s x86
+3224007      GDA-3224007               System x3650 M3 -[7945AC1]-
+3224009      GDA-3224009               t2.2xlarge
+3224012      GDA-3224012               t2.large
+3224015      GDA-3224015               t2.medium
+3224018      GDA-3224018               t2.micro
+3224020      GDA-3224020               t2.nano
+3224023      GDA-3224023               t2.small
+3224026      GDA-3224026               t2.xlarge
+3224029      GDA-3224029               t3.2xlarge
+3223983      GDA-3223983               t3.large
+3224002      GDA-3224002               t3.medium
+3224005      GDA-3224005               t3.micro
+3224008      GDA-3224008               t3.nano
+3224011      GDA-3224011               t3.small
+3224014      GDA-3224014               t3.xlarge
+3224017      GDA-3224017               t3a.2xlarge
+3224019      GDA-3224019               t3a.large
+3224022      GDA-3224022               t3a.medium
+3224025      GDA-3224025               t3a.micro
+3224028      GDA-3224028               t3a.small
+3224030      GDA-3224030               t3a.xlarge
+3224032      GDA-3224032               t4g.medium
+3224034      GDA-3224034               t4g.small
+3224036      GDA-3224036               T5240
+3224040      GDA-3224040               UCSC-C240-M4L
+3224042      GDA-3224042               UCSC-C240-M4SX
+3224044      GDA-3224044               Ultra-4
+3224046      GDA-3224046               Versão 19
+3224049      GDA-3224049               Versão 6
+3224052      GDA-3224052               Versão 8
+3224054      GDA-3224054               Versão 9
+3224058      GDA-3224058               Virtual Partition
+3224061      GDA-3224061               VM.Standard.E3.Flex
+3224064      GDA-3224064               VM.Standard.E4.Flex
+3224065      GDA-3224065               VM.Standard.E5.Flex
+3230997      GDA-3230997               VMWare
+3224070      GDA-3224070               vmx-07
+3224072      GDA-3224072               vmx-08
+3224073      GDA-3224073               vmx-09
+3224074      GDA-3224074               vmx-10
+3224075      GDA-3224075               vmx-11
+3224076      GDA-3224076               vmx-13
+3224077      GDA-3224077               vmx-14
+3224078      GDA-3224078               vmx-15
+3224079      GDA-3224079               vmx-17
+3224080      GDA-3224080               vmx-19
+3224081      GDA-3224081               VWare Virtual Platform
+3224082      GDA-3224082               X4-2L
+3224083      GDA-3224083               X8000
+3224084      GDA-3224084               Xen
+
+Total: 0 objetos
+
