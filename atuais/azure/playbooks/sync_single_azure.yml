@@ -23,7 +23,7 @@
 - name: Testar sincronizacao Azure com servidores selecionados
   hosts: localhost
   connection: local
-  gather_facts: false
+  gather_facts: true
 
   vars:
     test_servers: []
@@ -38,6 +38,13 @@
         - "{{ playbook_dir }}/../roles/integration_assets_azure/vars/main.yml"
         - "{{ playbook_dir }}/../roles/integration_assets_azure/vars/mapeamento_azure_cmdb.yml"
         - "{{ playbook_dir }}/../roles/integration_assets_azure/vars/modelo_servidor_map_azure.yml"
+    
+    - name: Verificar credenciais Jira
+      ansible.builtin.assert:
+        that:
+          - jira_user is defined and jira_user | length > 0
+          - jira_password is defined and jira_password | length > 0
+        fail_msg: "Defina JIRA_USER e JIRA_PASSWORD"
 
     - name: Verificar parametros
       ansible.builtin.assert:
@@ -45,9 +52,16 @@
           - test_servers | length > 0 or test_limit | int > 0
         fail_msg: "Defina test_servers (lista) ou test_limit (numero)"
 
-    - name: Exibir configuracao
+    - name: Exibir configuração
       ansible.builtin.debug:
-        msg: "TESTE AZURE -> JIRA | Servidores: {{ test_servers if test_servers | length > 0 else 'primeiros ' ~ test_limit }} | Dry Run: {{ dry_run }} | Modelos mapeados: {{ modelo_servidor_map | length }}"
+        msg:
+          - "════════════════════════════════════════════════════════════════"
+          - "          TESTE: SINCRONIZAÇÃO AWS → JIRA ASSETS"
+          - "════════════════════════════════════════════════════════════════"
+          - "Servidores: {{ test_servers if test_servers | length > 0 else 'primeiros ' ~ test_limit }}"
+          - "Dry Run: {{ dry_run }}"
+          - "Modelos mapeados: {{ modelo_servidor_map | length }}"
+          - "════════════════════════════════════════════════════════════════"
 
   tasks:
     # =========================================================================
@@ -60,6 +74,7 @@
         headers:
           Authorization: "Bearer {{ aap_token }}"
         validate_certs: "{{ aap_verify_ssl | default(false) }}"
+        return_content: yes
       register: aap_hosts
 
     - name: Mostrar total de hosts

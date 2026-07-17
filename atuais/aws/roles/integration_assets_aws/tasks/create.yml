@@ -1,0 +1,86 @@
+# =============================================================================
+# Task: Criar objeto no Jira Assets
+# =============================================================================
+---
+- name: Inicializar lista de IDs de interface de rede
+  ansible.builtin.set_fact:
+    interface_rede_ids: []
+
+- name: Verificar/Criar Interface de Rede (se necessário)
+  ansible.builtin.include_tasks: manage_network_interface.yml
+  loop: "{{ current_cloud_data.interface_rede_cloud | default([]) }}"
+  loop_control:
+    loop_var: ip_info
+  when:
+  - current_cloud_data.interface_rede_cloud is defined
+  - current_cloud_data.interface_rede_cloud | length > 0
+
+# ---------------------------------------------------------------------------
+# CPU: Buscar ou Criar (ANTES do payload)
+# ---------------------------------------------------------------------------
+- name: Verificar/Criar CPU (se necessário)
+  ansible.builtin.include_tasks: manage_cpu.yml
+  vars:
+    cpu_platform_name: "{{ current_cloud_data.cpu_platform_cloud }}"
+  when:
+  - current_cloud_data.cpu_platform_cloud is defined
+  - current_cloud_data.cpu_platform_cloud | length > 0
+
+- name: Gerar payload base para criação
+  ansible.builtin.set_fact:
+    data_create: "{{ current_cloud_data | update_asset(object_attribute_map) }}"
+
+# ADICIONAR MANUALMENTE o atributo Interface de Rede ao payload
+- name: Adicionar Interface de Rede ao payload
+  ansible.builtin.set_fact:
+    data_create: >-
+      {{ data_create | combine({
+           'attributes': data_create.attributes + [{
+             'objectTypeAttributeId': '3528',
+             'objectAttributeValues': interface_rede_ids | map('regex_replace', '^(.*)$', '{"value": "\1"}') | map('from_json') | list
+           }]
+         })
+      }}
+  when: interface_rede_ids | length > 0
+
+# ADICIONAR MANUALMENTE o atributo CPU ao payload (DEPOIS do payload base)
+- name: Adicionar CPU ao payload
+  ansible.builtin.set_fact:
+    data_create: >-
+      {{ data_create | combine({
+           'attributes': data_create.attributes + [{
+             'objectTypeAttributeId': '3527',
+             'objectAttributeValues': [{'value': cpu_object_id | string}]
+           }]
+         })
+      }}
+  when: cpu_object_id is defined and cpu_object_id
+
+- name: DEBUG - Payload final de criação
+  ansible.builtin.debug:
+    msg: "{{ data_create | to_json }}"
+
+- name: Criar objeto no Assets
+  ansible.builtin.uri:
+    url: "{{ jira_url }}/object/create"
+    method: POST
+    force_basic_auth: yes
+    headers:
+      Content-Type: "application/json"
+      Accept: "application/json"
+    user: "{{ jira_user }}"
+    password: "{{ jira_password }}"
+    body: "{{ data_create | to_json }}"
+    body_format: json
+    return_content: yes
+    status_code: [ 200, 201 ]
+  register: resultado_create
+  environment: "{{ proxy_env | default({}) }}"
+
+- name: Debug - Resultado da criação
+  ansible.builtin.debug:
+    msg: "Servidor '{{ current_cloud_data.name_cloud }}' criado com sucesso. ID: {{ resultado_create.json.id | default('N/A') }}"
+
+- name: Registrar criação no log
+  ansible.builtin.set_fact:
+    sync_log_create: "{{ sync_log_create | default([]) + [current_cloud_data.name_cloud] }}"

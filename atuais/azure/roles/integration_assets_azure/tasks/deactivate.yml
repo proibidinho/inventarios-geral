@@ -1,0 +1,37 @@
+# =============================================================================
+# Task: Desativar servidor no CMDB (VM nao existe mais na Azure)
+# =============================================================================
+---
+- name: Preparar payload para desativacao
+  ansible.builtin.set_fact:
+    data_deactivate:
+      objectTypeId: "{{ object_type_id_servidor }}"
+      attributes:
+      - objectTypeAttributeId: "2957"
+        objectAttributeValues:
+        - value: "19"
+
+- name: Desativar servidor no Assets
+  ansible.builtin.uri:
+    url: "{{ jira_url }}/object/{{ server_to_deactivate.id }}"
+    method: PUT
+    force_basic_auth: yes
+    headers:
+      Content-Type: "application/json"
+      Accept: "application/json"
+    user: "{{ jira_user }}"
+    password: "{{ jira_password }}"
+    body: "{{ data_deactivate | to_json }}"
+    body_format: json
+    return_content: yes
+    status_code: [ 200 ]
+  register: resultado_deactivate
+  environment: "{{ proxy_env | default({}) }}"
+
+- name: Debug - Resultado da desativacao
+  ansible.builtin.debug:
+    msg: "Servidor '{{ server_to_deactivate.label }}' desativado no CMDB. ID: {{ server_to_deactivate.id }}"
+
+- name: Registrar desativacao no log
+  ansible.builtin.set_fact:
+    sync_log_deactivate: "{{ sync_log_deactivate | default([]) + [server_to_deactivate.label] }}"
