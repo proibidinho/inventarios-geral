@@ -1,0 +1,297 @@
+# =============================================================================
+# MAPEAMENTO: Azure -> Jira Assets (CMDB)
+# =============================================================================
+---
+workspace: "76827f8b-4d96-46a6-abf2-f592d6b4b2d9"
+objectTypeId: 121
+objectSchemaId: 16
+
+object_attribute_map:
+
+# IDENTIFICACAO
+- id: 1104
+  name_assets: "Name"
+  chave_cloud: "name_cloud"
+  tipo: text
+  obrigatorio: true
+
+- id: 3343
+  name_assets: "FQDN"
+  chave_cloud: "fqdn_cloud"
+  tipo: text
+  obrigatorio: false
+
+# CONTA CLOUD (Resource Group da Azure)
+- id: 10548
+  name_assets: "Conta Cloud"
+  chave_cloud: "conta_cloud_cloud"
+  tipo: text
+
+# SISTEMA OPERACIONAL
+- id: 3358
+  name_assets: "Sistema Operacional"
+  chave_cloud: "sistema_operacional_cloud"
+  tipo: objeto
+  referencia_object_type_id: 150
+  valores:
+  - value: Linux
+    displayValue: Linux
+    searchValue: Linux
+    referencedType: 171174
+
+  - value: Windows
+    displayValue: Windows
+    searchValue: Windows
+    referencedType: 170882
+
+# MODELO DO SERVIDOR (vm_size Azure -> objectKey do CMDB)
+# tipo: objeto sem "valores" -> o filter passa o value direto (objectKey).
+# A conversao vm_size -> GDA-* eh feita no filter via "modelo_servidor_map"
+# (definido em vars/main.yml). Nao mexer aqui quando o time criar novos modelos:
+# basta acrescentar a entrada em modelo_servidor_map no vars.
+- id: 15656
+  name_assets: "Modelo do Servidor"
+  chave_cloud: "modelo_servidor_cloud"
+  tipo: objeto
+
+# REDE
+- id: 3528
+  name_assets: "Interface de Rede"
+  chave_cloud: "interface_rede_cloud"
+  tipo: objeto_lista
+  referencia_object_type_id: 230
+  criar_se_nao_existir: true
+  obrigatorio: false
+
+# STATUS
+- id: 2957
+  name_assets: "Status"
+  chave_cloud: "status_cloud"
+  tipo: status
+  valores:
+  - value: "Em uso"
+    displayValue: "Em uso"
+    searchValue: "Em uso"
+    referencedType: 18
+    azure_values:
+    - "running"
+
+  - value: "Reservado"
+    displayValue: "Reservado"
+    searchValue: "Reservado"
+    referencedType: 16
+    azure_values:
+    - "starting"
+
+  - value: "Desativado"
+    displayValue: "Desativado"
+    searchValue: "Desativado"
+    referencedType: 19
+    azure_values:
+    - "deallocated"
+    - "stopped"
+    - "deallocating"
+    - "stopping"
+
+# # TIPO DE SERVIDOR
+# - id: 1897
+#   name_assets: "Tipo de Servidor"
+#   chave_cloud: "tipo_servidor_cloud"
+#   tipo: select
+#   valor_fixo: "Virtual"
+
+# TIPO DE INFRAESTRUTURA - CLOUD PUBLICA (fixo)
+- id: 9948
+  name_assets: "Tipo de Infraestrutura"
+  chave_cloud: "tipo_infraestrutura_cloud"
+  tipo: objeto
+  referencia_object_type_id: 119
+  criar_se_nao_existir: false
+  valores:
+  - value: "CLOUD PUBLICA"
+    displayValue: "CLOUD PUBLICA"
+    searchValue: "CLOUD PUBLICA"
+    referencedType: 223965
+
+# DATACENTER - Azure (fixo)
+- id: 3296
+  name_assets: "Datacenter"
+  chave_cloud: "datacenter_cloud"
+  tipo: objeto
+  referencia_object_type_id: 152
+  criar_se_nao_existir: false
+  valores:
+  - value: "Azure"
+    displayValue: "Azure"
+    searchValue: "Azure"
+    referencedType: 2277528
+
+# STATUS DISCOVERY
+- id: 3053
+  name_assets: "Status Discovery"
+  chave_cloud: "status_discovery_cloud"
+  tipo: status
+  valor_fixo: "Running"
+  valores:
+  - value: "Running"
+    displayValue: "Running"
+    searchValue: "Running"
+    referencedType: 24
+
+# BOOLEANOS
+- id: 9647
+  name_assets: "SOX"
+  chave_cloud: "sox_cloud"
+  tipo: boolean
+  valor_fixo: false
+
+- id: 9648
+  name_assets: "IPE"
+  chave_cloud: "ipe_cloud"
+  tipo: boolean
+  valor_fixo: false
+
+# =============================================================================
+# CAMPOS A PARTIR DE TAGS AZURE (ef_*)
+# =============================================================================
+# O Python le as tags "ef_*" e popula chaves cloud_data correspondentes.
+# Aqui mapeamos cada chave para o atributo + valor no CMDB.
+#
+# Status das tags (validado em 2026-01 contra dump do CMDB - saida_cmdb.json):
+#   ef_ambiente               -> Ambiente (1922)           ATIVO
+#   ef_provedor: azure        -> Datacenter (3296)         ATIVO (ja existia acima)
+#   ef_recuperacao_de_desastre-> Disaster Recovery (10677) ATIVO
+#   (fixo) "Ansible"          -> Last User (3357)          ATIVO
+#   (cond. por SO)            -> Grupo Solucionador (7274) PENDENTE - falta ID das opcoes
+#   ef_owner                  -> Owner (3381)              PENDENTE - validar se "carla_bria" existe no ref 91
+#   ef_projeto                -> Sistema (9219)            PENDENTE - validar se "nbatecnico" existe no ref 113
+#   ef_produto                -> (Sistema dependente)      PENDENTE - mecanismo de "dependencia" precisa ser definido
+#   ef_regiao                 -> VCenter (8742)            PENDENTE - validar com Mory (nenhum "brazilsouth" no ref 646)
+#   ef_iac                    -> (campo ainda nao existe)  PENDENTE - CMDB precisa criar
+#   ef_backup, ef_centro_de_custo, ef_departamento, ef_plataforma, ef_torre -> nao precisam
+# =============================================================================
+
+# AMBIENTE (tag ef_ambiente; "prd" -> "Produção")
+- id: 1922
+  name_assets: "Ambiente"
+  chave_cloud: "ambiente_cloud"
+  tipo: objeto
+  referencia_object_type_id: 153
+  valores:
+  - value: "Produção"
+    referencedType: 166234
+  - value: "Pré-Produção"
+    referencedType: 169886
+  - value: "Homologação"
+    referencedType: 166233
+  - value: "Desenvolvimento"
+    referencedType: 166232
+  - value: "Certificação"
+    referencedType: 169398
+  - value: "Teste"
+    referencedType: 169397
+  - value: "Treinamento"
+    referencedType: 169416
+  - value: "Legado"
+    referencedType: 169924
+
+# LAST USER (sempre "Ansible" - texto livre)
+- id: 3357
+  name_assets: "Last User"
+  chave_cloud: "last_user_cloud"
+  tipo: text
+  valor_fixo: "Ansible"
+
+# DISASTER RECOVERY (tag ef_recuperacao_de_desastre; "na"/"" -> false)
+- id: 10677
+  name_assets: "Disaster Recovery"
+  chave_cloud: "disaster_recovery_cloud"
+  tipo: boolean
+  valor_fallback: false
+
+# GRUPO SOLUCIONADOR - INFRA (fixo por SO)
+# Windows -> CLBR-TI-INFRA-SUPORTE-WINDOWS
+# Linux   -> CLBR-TI-INFRA-CLOUD-PUBLIC
+# Campo do tipo Group no Jira - passamos o nome do grupo como text.
+- id: 7274
+  name_assets: "Grupo Solucionador - Infra"
+  chave_cloud: "grupo_solucionador_infra_cloud"
+  tipo: text
+
+# SISTEMA (vem da tag ef_cmdb, ex.: "GDA-2730753").
+# Reference ref:113 - Jira aceita objectKey direto como value.
+- id: 9219
+  name_assets: "Sistema"
+  chave_cloud: "sistema_cloud"
+  tipo: text
+
+# FORNECEDOR (mesmo valor do Datacenter - texto livre)
+- id: 15657
+  name_assets: "Fornecedor"
+  chave_cloud: "fornecedor_cloud"
+  tipo: text
+
+# -----------------------------------------------------------------------------
+# PENDENTES - descomentar conforme o CMDB for sendo populado / validado
+# -----------------------------------------------------------------------------
+
+# OWNER (tag ef_owner). O ref 91 tem 500+ opcoes (truncado no dump).
+# "carla_bria" nao apareceu nas opcoes visiveis - validar se existe ou precisa
+# ser cadastrado. Se existir, basta acrescentar entrada(s) value/referencedType.
+#
+# - id: 3381
+#   name_assets: "Owner"
+#   chave_cloud: "owner_cloud"
+#   tipo: objeto
+#   referencia_object_type_id: 91
+#   valores:
+#   - value: "carla_bria"
+#     referencedType: 0   # TODO
+
+# SISTEMA (tag ef_projeto) - MIGRADO para ef_cmdb no bloco ATIVO acima.
+# Mantido comentado apenas para historico.
+#
+# - id: 9219
+#   name_assets: "Sistema"
+#   chave_cloud: "sistema_cloud"
+#   tipo: objeto
+#   referencia_object_type_id: 113
+#   valores:
+#   - value: "nbatecnico"
+#     referencedType: 0   # TODO
+
+# VCENTER (tag ef_regiao). Atencao: as 36 opcoes do ref 646 sao vCenters fisicos
+# (Spitfire, Kawasaki, Cloud-Lapa, etc) e NAO regioes Azure como "brazilsouth".
+# Mory precisa decidir se cria opcoes "Azure - brazilsouth", "Azure - eastus", ...
+# ou se este campo nao se aplica a Azure.
+#
+# - id: 8742
+#   name_assets: "VCenter"
+#   chave_cloud: "vcenter_cloud"
+#   tipo: objeto
+#   referencia_object_type_id: 646
+#   valores:
+#   - value: "brazilsouth"
+#     referencedType: 0   # TODO: confirmar com Mory
+
+# IAC (tag ef_iac). Campo AINDA NAO EXISTE no CMDB (precisa ser criado pelo time
+# do CMDB com opcoes: Terraform, Terragrunt, Template, Cloudformation, Shell,
+# Migracao, Backup/Restore). Quando criar, adicionar bloco:
+#
+# - id: 0   # TODO: ID do atributo apos criacao
+#   name_assets: "IaC"
+#   chave_cloud: "iac_cloud"
+#   tipo: objeto
+#   valores:
+#   - value: "terraform"
+#     referencedType: 0   # TODO
+#   - value: "terragrunt"
+#     referencedType: 0   # TODO
+#   # ... demais opcoes
+
+# SISTEMA DEPENDENTE (tag ef_produto -> ex: "motor_tecnico").
+# Conceitualmente "produto" eh um Sistema (objectTypeId 113) que depende do
+# Sistema principal (ef_projeto). Isso normalmente eh relacionamento ENTRE
+# objetos Sistema, nao um campo do objeto Servidor. Validar com o time CMDB
+# se ha um atributo direto no Servidor para isso, OU se essa relacao deve ser
+# criada via API de relacionamentos do Jira Assets (fora desta integracao).

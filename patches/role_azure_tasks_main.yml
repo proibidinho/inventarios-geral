@@ -1,0 +1,200 @@
+# =============================================================================
+# Task Principal: Sincronizacao Azure (via AAP) -> CMDB
+# =============================================================================
+---
+- name: Incluir variaveis de mapeamento Azure
+  ansible.builtin.include_vars:
+    file: "{{ role_path }}/vars/mapeamento_azure_cmdb.yml"
+
+- name: Inicializar logs de sincronizacao
+  ansible.builtin.set_fact:
+    sync_log_create: []
+    sync_log_skip: []
+    sync_log_deactivate: []
+    sync_log_errors: []
+
+# ---------------------------------------------------------------------------
+# FASE 1: Coletar hosts do AAP
+# ---------------------------------------------------------------------------
+- name: "FASE 1 - Coletar hosts do inventario Azure no AAP"
+  ansible.builtin.debug:
+    msg: "========================================================================"
+
+- name: Buscar hosts do inventario Azure no AAP
+  ansible.builtin.uri:
+    url: "{{ aap_host }}/api/controller/v2/inventories/{{ aap_inventory_id }}/hosts/?page_size=500"
+    method: GET
+    headers:
+      Authorization: "Bearer {{ aap_token }}"
+      Content-Type: "application/json"
+    validate_certs: "{{ aap_verify_ssl | default(false) }}"
+    return_content: yes
+    status_code: [200]
+  register: aap_hosts_result
+
+- name: Debug - Total de hosts encontrados
+  ansible.builtin.debug:
+    msg: "Encontrados {{ aap_hosts_result.json.count }} hosts no inventario Azure"
+
+# ---------------------------------------------------------------------------
+# FASE 1.5: Buscar variaveis de cada host
+# ---------------------------------------------------------------------------
+- name: Inicializar lista de cloud_data
+  ansible.builtin.set_fact:
+    cloud_data_list: []
+
+- name: Buscar variaveis de cada host
+  ansible.builtin.uri:
+    url: "{{ aap_host }}/api/controller/v2/hosts/{{ item.id }}/variable_data/"
+    method: GET
+    headers:
+      Authorization: "Bearer {{ aap_token }}"
+    validate_certs: "{{ aap_verify_ssl | default(false) }}"
+  register: host_vars_results
+  loop: "{{ aap_hosts_result.json.results }}"
+  loop_control:
+    label: "{{ item.name }}"
+
+- name: Consolidar variaveis dos hosts
+  ansible.builtin.set_fact:
+    all_host_vars: "{{ host_vars_results.results | map(attribute='json') | list }}"
+
+- name: Transformar hosts Azure para formato cloud_data (batch - com skip AKS + ef_cmdb)
+  ansible.builtin.set_fact:
+    cloud_data_list: "{{ all_host_vars | batch_transform_azure_hosts(modelo_servidor_map | default({})) }}"
+
+- name: Debug - Hosts transformados
+  ansible.builtin.debug:
+    msg: "{{ cloud_data_list | length }} hosts transformados"
+
+# ---------------------------------------------------------------------------
+# FASE 2: Coletar dados do CMDB
+# ---------------------------------------------------------------------------
+- name: "FASE 2 - Coletar servidores Azure do CMDB"
+  ansible.builtin.debug:
+    msg: "========================================================================"
+
+- name: Buscar servidores Azure existentes no CMDB
+  ansible.builtin.uri:
+    url: "{{ jira_url }}/object/aql?startAt=0&maxResults=1000"
+    method: POST
+    headers:
+      Accept: "application/json"
+      Content-Type: "application/json"
+    body_format: json
+    force_basic_auth: yes
+    user: "{{ jira_user }}"
+    password: "{{ jira_password }}"
+    body:
+      qlQuery: 'objectTypeId = {{ object_type_id_servidor }} AND Datacenter = "Azure"'
+    status_code: [200]
+  register: cmdb_servers_result
+  environment: "{{ proxy_env | default({}) }}"
+
+- name: Parsear servidores do CMDB
+  ansible.builtin.set_fact:
+    cmdb_servers: "{{ cmdb_servers_result.json['values'] | default([]) }}"
+
+- name: Extrair nomes do CMDB
+  ansible.builtin.set_fact:
+    cmdb_server_names: "{{ cmdb_servers | map(attribute='label') | list }}"
+
+- name: Debug - Servidores encontrados no CMDB
+  ansible.builtin.debug:
+    msg: "Encontrados {{ cmdb_servers | length }} servidores Azure no CMDB"
+
+# ---------------------------------------------------------------------------
+# FASE 3: Comparar e determinar acoes
+# ---------------------------------------------------------------------------
+- name: "FASE 3 - Comparar Azure vs CMDB"
+  ansible.builtin.debug:
+    msg: "========================================================================"
+
+- name: Extrair nomes das instancias Azure
+  ansible.builtin.set_fact:
+    azure_instance_names: "{{ cloud_data_list | map(attribute='name_cloud') | list }}"
+
+- name: Determinar servidores a criar
+  ansible.builtin.set_fact:
+    servers_to_create: "{{ cloud_data_list | rejectattr('name_cloud', 'in', cmdb_server_names) | list }}"
+
+- name: Determinar servidores existentes (skip)
+  ansible.builtin.set_fact:
+    servers_to_skip: "{{ cloud_data_list | selectattr('name_cloud', 'in', cmdb_server_names) | list }}"
+
+- name: Determinar servidores a desativar
+  ansible.builtin.set_fact:
+    servers_to_deactivate: "{{ cmdb_servers | rejectattr('label', 'in', azure_instance_names) | list }}"
+
+- name: Resumo da comparacao
+  ansible.builtin.debug:
+    msg:
+      - "========================================================================"
+      - "                    RESUMO DA SINCRONIZACAO"
+      - "========================================================================"
+      - "Total instancias Azure: {{ cloud_data_list | length }}"
+      - "Total servidores CMDB: {{ cmdb_servers | length }}"
+      - "------------------------------------------------------------------------"
+      - "A CRIAR: {{ servers_to_create | length }}"
+      - "EXISTENTES (skip): {{ servers_to_skip | length }}"
+      - "A DESATIVAR: {{ servers_to_deactivate | length if enable_deactivation else '(desativado)' }}"
+      - "========================================================================"
+
+# ---------------------------------------------------------------------------
+# FASE 4: Executar sincronizacao
+# ---------------------------------------------------------------------------
+- name: "FASE 4 - Executar sincronizacao"
+  ansible.builtin.debug:
+    msg: "========================================================================"
+
+- name: Criar novos servidores no CMDB
+  ansible.builtin.include_tasks: create.yml
+  vars:
+    current_cloud_data: "{{ server_item }}"
+  loop: "{{ servers_to_create }}"
+  loop_control:
+    loop_var: server_item
+    label: "{{ server_item.name_cloud }}"
+  when:
+    - servers_to_create | length > 0
+    - sync_mode == 'full' or sync_mode == 'create'
+
+- name: Registrar servidores existentes (skip)
+  ansible.builtin.set_fact:
+    sync_log_skip: "{{ sync_log_skip + [server_item.name_cloud] }}"
+  loop: "{{ servers_to_skip }}"
+  loop_control:
+    loop_var: server_item
+    label: "{{ server_item.name_cloud }}"
+  when: servers_to_skip | length > 0
+
+- name: Desativar servidores removidos da Azure
+  ansible.builtin.include_tasks: deactivate.yml
+  vars:
+    server_to_deactivate: "{{ server_item }}"
+  loop: "{{ servers_to_deactivate }}"
+  loop_control:
+    loop_var: server_item
+    label: "{{ server_item.label }}"
+  when:
+    - servers_to_deactivate | length > 0
+    - sync_mode == 'full' or sync_mode == 'deactivate'
+    - enable_deactivation | default(false) | bool
+
+# ---------------------------------------------------------------------------
+# FASE 5: Relatorio final
+# ---------------------------------------------------------------------------
+- name: "FASE 5 - Relatorio final"
+  ansible.builtin.debug:
+    msg:
+      - "========================================================================"
+      - "                    SINCRONIZACAO CONCLUIDA"
+      - "========================================================================"
+      - "Servidores criados: {{ sync_log_create | length }}"
+      - "{{ sync_log_create | join(', ') if sync_log_create else '(nenhum)' }}"
+      - "------------------------------------------------------------------------"
+      - "Servidores existentes (skip): {{ sync_log_skip | length }}"
+      - "------------------------------------------------------------------------"
+      - "Servidores desativados: {{ sync_log_deactivate | length }}"
+      - "{{ sync_log_deactivate | join(', ') if sync_log_deactivate else '(nenhum)' }}"
+      - "========================================================================"

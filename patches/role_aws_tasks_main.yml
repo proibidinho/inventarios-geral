@@ -1,0 +1,179 @@
+# =============================================================================
+# Task Principal: Sincronização AWS (via AAP) → CMDB
+# =============================================================================
+---
+- name: Incluir variáveis de mapeamento AWS
+  ansible.builtin.include_vars:
+    file: "{{ role_path }}/vars/mapeamento_aws_cmdb.yml"
+
+- name: Inicializar logs de sincronização
+  ansible.builtin.set_fact:
+    sync_log_create: []
+    sync_log_skip: []
+    sync_log_deactivate: []
+    sync_log_errors: []
+
+# ---------------------------------------------------------------------------
+# FASE 1: Coletar hosts do AAP
+# ---------------------------------------------------------------------------
+- name: "FASE 1 - Coletar hosts do inventário AWS no AAP"
+  ansible.builtin.debug:
+    msg: "════════════════════════════════════════════════════════════════"
+
+- name: Buscar hosts do inventário AWS no AAP
+  ansible.builtin.uri:
+    url: "{{ aap_host }}/api/controller/v2/inventories/{{ aap_inventory_id }}/hosts/?page_size=500"
+    method: GET
+    headers:
+      Authorization: "Bearer {{ aap_token }}"
+      Content-Type: "application/json"
+    validate_certs: "{{ aap_verify_ssl | default(false) }}"
+    return_content: yes
+    status_code: [200]
+  register: aap_hosts_result
+
+- name: Debug - Total de hosts encontrados
+  ansible.builtin.debug:
+    msg: "Encontrados {{ aap_hosts_result.json.count }} hosts no inventário AWS"
+
+- name: Transformar hosts AWS para formato cloud_data
+  ansible.builtin.set_fact:
+    cloud_data_list: "{{ aap_hosts_result.json.results | batch_transform_aws_hosts(modelo_servidor_map | default({})) }}"
+
+- name: Debug - Hosts transformados
+  ansible.builtin.debug:
+    msg: "{{ cloud_data_list | length }} hosts transformados"
+
+# ---------------------------------------------------------------------------
+# FASE 2: Coletar dados do CMDB
+# ---------------------------------------------------------------------------
+- name: "FASE 2 - Coletar servidores AWS do CMDB"
+  ansible.builtin.debug:
+    msg: "════════════════════════════════════════════════════════════════"
+
+- name: Buscar servidores AWS existentes no CMDB
+  ansible.builtin.uri:
+    url: "{{ jira_url }}/object/aql?startAt=0&maxResults=1000"
+    method: POST
+    headers:
+      Accept: "application/json"
+      Content-Type: "application/json"
+    body_format: json
+    force_basic_auth: yes
+    user: "{{ jira_user }}"
+    password: "{{ jira_password }}"
+    body:
+      qlQuery: 'objectTypeId = {{ object_type_id_servidor }} AND Datacenter = "AWS"'
+    status_code: [200]
+  register: cmdb_servers_result
+  environment: "{{ proxy_env | default({}) }}"
+
+- name: Parsear servidores do CMDB
+  ansible.builtin.set_fact:
+    cmdb_servers: "{{ cmdb_servers_result.json['values'] | default([]) }}"
+
+- name: Extrair nomes do CMDB
+  ansible.builtin.set_fact:
+    cmdb_server_names: "{{ cmdb_servers | map(attribute='label') | list }}"
+
+- name: Debug - Servidores encontrados no CMDB
+  ansible.builtin.debug:
+    msg: "Encontrados {{ cmdb_servers | length }} servidores AWS no CMDB"
+
+# ---------------------------------------------------------------------------
+# FASE 3: Comparar e determinar ações
+# ---------------------------------------------------------------------------
+- name: "FASE 3 - Comparar AWS vs CMDB"
+  ansible.builtin.debug:
+    msg: "════════════════════════════════════════════════════════════════"
+
+- name: Extrair nomes das instâncias AWS
+  ansible.builtin.set_fact:
+    aws_instance_names: "{{ cloud_data_list | map(attribute='name_cloud') | list }}"
+
+- name: Determinar servidores a criar
+  ansible.builtin.set_fact:
+    servers_to_create: "{{ cloud_data_list | rejectattr('name_cloud', 'in', cmdb_server_names) | list }}"
+
+- name: Determinar servidores existentes (skip)
+  ansible.builtin.set_fact:
+    servers_to_skip: "{{ cloud_data_list | selectattr('name_cloud', 'in', cmdb_server_names) | list }}"
+
+- name: Determinar servidores a desativar
+  ansible.builtin.set_fact:
+    servers_to_deactivate: "{{ cmdb_servers | rejectattr('label', 'in', aws_instance_names) | list }}"
+
+- name: Resumo da comparação
+  ansible.builtin.debug:
+    msg:
+      - "════════════════════════════════════════════════════════════════"
+      - "                    RESUMO DA SINCRONIZAÇÃO"
+      - "════════════════════════════════════════════════════════════════"
+      - "Total instâncias AWS: {{ cloud_data_list | length }}"
+      - "Total servidores CMDB: {{ cmdb_servers | length }}"
+      - "────────────────────────────────────────────────────────────────"
+      - "A CRIAR: {{ servers_to_create | length }}"
+      - "EXISTENTES (skip): {{ servers_to_skip | length }} (preservando dados manuais)"
+      - "A DESATIVAR: {{ servers_to_deactivate | length if enable_deactivation else '(desativado)' }}"
+      - "════════════════════════════════════════════════════════════════"
+
+# ---------------------------------------------------------------------------
+# FASE 4: Executar sincronização
+# ---------------------------------------------------------------------------
+- name: "FASE 4 - Executar sincronização"
+  ansible.builtin.debug:
+    msg: "════════════════════════════════════════════════════════════════"
+
+- name: Criar novos servidores no CMDB
+  ansible.builtin.include_tasks: create.yml
+  vars:
+    current_cloud_data: "{{ server_item }}"
+  loop: "{{ servers_to_create }}"
+  loop_control:
+    loop_var: server_item
+    label: "{{ server_item.name_cloud }}"
+  when:
+    - servers_to_create | length > 0
+    - sync_mode == 'full' or sync_mode == 'create'
+
+- name: Registrar servidores existentes (skip)
+  ansible.builtin.set_fact:
+    sync_log_skip: "{{ sync_log_skip + [server_item.name_cloud] }}"
+  loop: "{{ servers_to_skip }}"
+  loop_control:
+    loop_var: server_item
+    label: "{{ server_item.name_cloud }}"
+  when: servers_to_skip | length > 0
+
+# --- DESATIVAR ---
+- name: Desativar servidores removidos da AWS
+  ansible.builtin.include_tasks: deactivate.yml
+  vars:
+    server_to_deactivate: "{{ server_item }}"
+  loop: "{{ servers_to_deactivate }}"
+  loop_control:
+    loop_var: server_item
+    label: "{{ server_item.label }}"
+  when:
+    - servers_to_deactivate | length > 0
+    - sync_mode == 'full' or sync_mode == 'deactivate'
+    - enable_deactivation | default(false) | bool
+
+# ---------------------------------------------------------------------------
+# FASE 5: Relatório final
+# ---------------------------------------------------------------------------
+- name: "FASE 5 - Relatório final"
+  ansible.builtin.debug:
+    msg:
+      - "════════════════════════════════════════════════════════════════"
+      - "                    SINCRONIZAÇÃO CONCLUÍDA"
+      - "════════════════════════════════════════════════════════════════"
+      - "Servidores criados: {{ sync_log_create | length }}"
+      - "{{ sync_log_create | join(', ') if sync_log_create else '(nenhum)' }}"
+      - "────────────────────────────────────────────────────────────────"
+      - "Servidores existentes (skip): {{ sync_log_skip | length }}"
+      - "{{ sync_log_skip | join(', ') if sync_log_skip else '(nenhum)' }}"
+      - "────────────────────────────────────────────────────────────────"
+      - "Servidores desativados: {{ sync_log_deactivate | length }}"
+      - "{{ sync_log_deactivate | join(', ') if sync_log_deactivate else '(nenhum)' }}"
+      - "════════════════════════════════════════════════════════════════"

@@ -1,0 +1,169 @@
+# =============================================================================
+# Playbook: Testar sincronização AWS com servidores selecionados
+# =============================================================================
+# Uso:
+#   ansible-playbook playbooks/sync_single_aws.yml \
+#     -e '{"test_servers": ["i-abc.sa-east-1.compute.internal"]}'
+#   ansible-playbook playbooks/sync_single_aws.yml -e "test_limit=5"
+#   ansible-playbook playbooks/sync_single_aws.yml -e "test_limit=5" -e "dry_run=true"
+# =============================================================================
+---
+- name: Testar sincronização AWS com servidores selecionados
+  hosts: localhost
+  connection: local
+  gather_facts: true
+
+  vars:
+    test_servers: []
+    test_limit: 0
+    dry_run: false
+
+  pre_tasks:
+    - name: Incluir variáveis do role
+      ansible.builtin.include_vars:
+        file: "{{ item }}"
+      loop:
+        - "{{ playbook_dir }}/../roles/integration_assets_aws/vars/main.yml"
+        - "{{ playbook_dir }}/../roles/integration_assets_aws/vars/mapeamento_aws_cmdb.yml"
+        - "{{ playbook_dir }}/../roles/integration_assets_aws/vars/modelo_servidor_map_aws.yml"
+
+    - name: Verificar credenciais Jira
+      ansible.builtin.assert:
+        that:
+          - jira_user is defined and jira_user | length > 0
+          - jira_password is defined and jira_password | length > 0
+        fail_msg: "Defina JIRA_USER e JIRA_PASSWORD"
+
+    - name: Verificar parâmetros
+      ansible.builtin.assert:
+        that:
+          - test_servers | length > 0 or test_limit | int > 0
+        fail_msg: "Defina test_servers (lista) ou test_limit (número)"
+
+    - name: Exibir configuração
+      ansible.builtin.debug:
+        msg:
+          - "════════════════════════════════════════════════════════════════"
+          - "          TESTE: SINCRONIZAÇÃO AWS → JIRA ASSETS"
+          - "════════════════════════════════════════════════════════════════"
+          - "Servidores: {{ test_servers if test_servers | length > 0 else 'primeiros ' ~ test_limit }}"
+          - "Dry Run: {{ dry_run }}"
+          - "Modelos mapeados: {{ modelo_servidor_map | length }}"
+          - "════════════════════════════════════════════════════════════════"
+
+  tasks:
+    - name: Buscar hosts do AAP
+      ansible.builtin.uri:
+        url: "{{ aap_host }}/api/controller/v2/inventories/{{ aap_inventory_id }}/hosts/?page_size=500"
+        method: GET
+        headers:
+          Authorization: "Bearer {{ aap_token }}"
+        validate_certs: "{{ aap_verify_ssl | default(false) }}"
+        return_content: yes
+      register: aap_hosts
+
+    - name: Transformar todos os hosts (batch - com skip EKS + ef_cmdb + Modelo do Servidor)
+      ansible.builtin.set_fact:
+        all_cloud_data: "{{ aap_hosts.json.results | batch_transform_aws_hosts(modelo_servidor_map) }}"
+
+    - name: "Log - hosts ignorados (EKS + sem ef_cmdb + desabilitados + invalidos)"
+      ansible.builtin.debug:
+        msg: "Hosts do AAP: {{ aap_hosts.json.results | length }} | Elegiveis para sync: {{ all_cloud_data | length }} | Ignorados: {{ aap_hosts.json.results | length - all_cloud_data | length }}"
+
+    - name: Selecionar por lista de nomes
+      ansible.builtin.set_fact:
+        selected_servers: "{{ all_cloud_data | selectattr('name_cloud', 'in', test_servers) | list }}"
+      when: test_servers | length > 0
+
+    - name: Selecionar por limite
+      ansible.builtin.set_fact:
+        selected_servers: "{{ all_cloud_data[:test_limit | int] }}"
+      when: test_limit | int > 0 and test_servers | length == 0
+
+    - name: Resumo dos servidores selecionados
+      ansible.builtin.debug:
+        msg:
+          - "════════════════════════════════════════════════════════════════"
+          - "                 {{ selected_servers | length }} SERVIDORES SELECIONADOS"
+          - "════════════════════════════════════════════════════════════════"
+          - "{% for s in selected_servers %}{{ s.name_cloud }} ({{ s.modelo_servidor_cloud | default('N/A') }}, {{ s.sistema_operacional_cloud }})\n{% endfor %}"
+
+    - name: Exibir cloud_data de cada servidor
+      ansible.builtin.debug:
+        msg: "{{ item | to_nice_yaml }}"
+      loop: "{{ selected_servers }}"
+      loop_control:
+        label: "{{ item.name_cloud }}"
+
+    - name: Parar se dry_run
+      ansible.builtin.meta: end_play
+      when: dry_run | bool
+
+    # --- EXECUÇÃO REAL ---
+    - name: Inicializar logs
+      ansible.builtin.set_fact:
+        sync_log_create: []
+        sync_log_skip: []
+        sync_log_errors: []
+
+    - name: Buscar servidores existentes no CMDB
+      ansible.builtin.uri:
+        url: "{{ jira_url }}/object/aql?startAt=0&maxResults=1000"
+        method: POST
+        headers:
+          Accept: "application/json"
+          Content-Type: "application/json"
+        force_basic_auth: yes
+        user: "{{ jira_user }}"
+        password: "{{ jira_password }}"
+        body:
+          qlQuery: 'objectTypeId = 121 AND Datacenter = "AWS"'
+        body_format: json
+      register: cmdb_result
+      environment: "{{ proxy_env | default({}) }}"
+
+    - name: Extrair nomes do CMDB
+      ansible.builtin.set_fact:
+        cmdb_server_names: "{{ cmdb_result.json['values'] | default([]) | map(attribute='label') | list }}"
+
+    - name: Separar servidores a criar e existentes (skip)
+      ansible.builtin.set_fact:
+        servers_to_create: "{{ selected_servers | rejectattr('name_cloud', 'in', cmdb_server_names) | list }}"
+        servers_to_skip: "{{ selected_servers | selectattr('name_cloud', 'in', cmdb_server_names) | list }}"
+
+    - name: Resumo das ações
+      ansible.builtin.debug:
+        msg:
+          - "════════════════════════════════════════════════════════════════"
+          - "A CRIAR: {{ servers_to_create | length }}"
+          - "{% for s in servers_to_create %}- {{ s.name_cloud }}\n{% endfor %}"
+          - "EXISTENTES (skip): {{ servers_to_skip | length }}"
+          - "{% for s in servers_to_skip %}- {{ s.name_cloud }} (preservando dados manuais)\n{% endfor %}"
+          - "════════════════════════════════════════════════════════════════"
+
+    - name: Criar servidores
+      ansible.builtin.include_tasks: "{{ playbook_dir }}/../roles/integration_assets_aws/tasks/create.yml"
+      vars:
+        current_cloud_data: "{{ item }}"
+      loop: "{{ servers_to_create }}"
+      loop_control:
+        label: "{{ item.name_cloud }}"
+      when: servers_to_create | length > 0
+
+    - name: Registrar servidores existentes (skip)
+      ansible.builtin.set_fact:
+        sync_log_skip: "{{ sync_log_skip + [item.name_cloud] }}"
+      loop: "{{ servers_to_skip }}"
+      loop_control:
+        label: "{{ item.name_cloud }}"
+      when: servers_to_skip | length > 0
+
+    - name: Resultado final
+      ansible.builtin.debug:
+        msg:
+          - "════════════════════════════════════════════════════════════════"
+          - "                    TESTE CONCLUÍDO"
+          - "════════════════════════════════════════════════════════════════"
+          - "Criados: {{ sync_log_create | length }}"
+          - "Existentes (skip): {{ sync_log_skip | length }}"
+          - "════════════════════════════════════════════════════════════════"

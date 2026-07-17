@@ -1,0 +1,54 @@
+# =============================================================================
+# Playbook: Sincronização AWS (via AAP) → Jira Assets (CMDB)
+# =============================================================================
+# Uso:
+#   ansible-playbook playbooks/sync_aws_cmdb.yml \
+#     -e "sync_mode=full"
+# =============================================================================
+---
+- name: Sincronização AWS (via AAP) → Jira Assets CMDB
+  hosts: localhost
+  connection: local
+  gather_facts: true
+
+  pre_tasks:
+    - name: Incluir variáveis do role
+      ansible.builtin.include_vars:
+        file: "{{ item }}"
+      loop:
+        - "{{ playbook_dir }}/../roles/integration_assets_aws/vars/main.yml"
+        - "{{ playbook_dir }}/../roles/integration_assets_aws/vars/modelo_servidor_map_aws.yml"
+
+    - name: Definir modo de sincronização
+      ansible.builtin.set_fact:
+        _sync_mode: "{{ sync_mode | default('full') }}"
+        _enable_deactivation: "{{ enable_deactivation | default(false) }}"
+
+    - name: Exibir configuração
+      ansible.builtin.debug:
+        msg:
+          - "════════════════════════════════════════════════════════════════"
+          - "          SINCRONIZAÇÃO AWS (AAP) → JIRA ASSETS (CMDB)"
+          - "════════════════════════════════════════════════════════════════"
+          - "AAP Host: {{ aap_host }}"
+          - "Inventário ID: {{ aap_inventory_id }}"
+          - "Modo: {{ _sync_mode }}"
+          - "Modelos mapeados: {{ modelo_servidor_map | length }}"
+          - "════════════════════════════════════════════════════════════════"
+
+  roles:
+    - role: integration_assets_aws
+      vars:
+        sync_mode: "{{ _sync_mode }}"
+        enable_deactivation: "{{ _enable_deactivation }}"
+        modelo_servidor_map: "{{ modelo_servidor_map }}"
+
+  post_tasks:
+    - name: Resumo final
+      ansible.builtin.debug:
+        msg:
+          - "════════════════════════════════════════════════════════════════"
+          - "                    SINCRONIZAÇÃO FINALIZADA"
+          - "════════════════════════════════════════════════════════════════"
+          - "Timestamp: {{ ansible_date_time.iso8601 }}"
+          - "════════════════════════════════════════════════════════════════"
