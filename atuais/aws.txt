@@ -1,0 +1,2237 @@
+]633;E;{     echo "########## ESTRUTURA DO PROJETO ##########"\x3b     find .\x3b     echo\x3b      echo "########## CONTEUDO DOS ARQUIVOS ##########"\x3b     find . -type f ! -path "./.git/*" | while read f\x3b do         echo\x3b         echo "=================================================="\x3b         echo "ARQUIVO: $f"\x3b         echo "=================================================="\x3b         cat "$f"\x3b     done\x3b } > projeto_completo.txt;1bdd45ba-49b9-42d8-938a-b17fc6d68709]633;C########## ESTRUTURA DO PROJETO ##########
+.
+./.git
+./.git/COMMIT_EDITMSG
+./.git/config
+./.git/description
+./.git/FETCH_HEAD
+./.git/HEAD
+./.git/hooks
+./.git/hooks/applypatch-msg.sample
+./.git/hooks/commit-msg.sample
+./.git/hooks/fsmonitor-watchman.sample
+./.git/hooks/post-update.sample
+./.git/hooks/pre-applypatch.sample
+./.git/hooks/pre-commit.sample
+./.git/hooks/pre-merge-commit.sample
+./.git/hooks/pre-push.sample
+./.git/hooks/pre-rebase.sample
+./.git/hooks/pre-receive.sample
+./.git/hooks/prepare-commit-msg.sample
+./.git/hooks/push-to-checkout.sample
+./.git/hooks/sendemail-validate.sample
+./.git/hooks/update.sample
+./.git/index
+./.git/info
+./.git/info/exclude
+./.git/logs
+./.git/logs/HEAD
+./.git/logs/refs
+./.git/logs/refs/heads
+./.git/logs/refs/heads/main
+./.git/logs/refs/remotes
+./.git/logs/refs/remotes/origin
+./.git/logs/refs/remotes/origin/HEAD
+./.git/logs/refs/remotes/origin/main
+./.git/objects
+./.git/objects/02
+./.git/objects/02/792b513356ed702ced6b63f1ea02555fb55845
+./.git/objects/04
+./.git/objects/04/3616d53533167445b77ae36fbef23807136b06
+./.git/objects/05
+./.git/objects/05/2ddceb6ffa7b1a61312ab604d0f24563e79410
+./.git/objects/06
+./.git/objects/06/7a0ceea12ebce165300df79f7419bae6298d55
+./.git/objects/08
+./.git/objects/08/42e98e9e04f4a3b6100578dce905bf5e862002
+./.git/objects/08/8f8695f27180d00b2519be5dc66a00451d4503
+./.git/objects/09
+./.git/objects/09/78d25752bf4314748f9aa2c804709d1cedb00e
+./.git/objects/0a
+./.git/objects/0a/2c163f9cd609aa981f0a72c9efa3f9eb47fbb4
+./.git/objects/0d
+./.git/objects/0d/624696d864c31295fe13cbc6243aba3a8b088f
+./.git/objects/0f
+./.git/objects/0f/446d8fe40cc07e8cd3580fe902491403ff55af
+./.git/objects/10
+./.git/objects/10/4a199bfa65ced8621e301034657d4bbad29a82
+./.git/objects/12
+./.git/objects/12/328aa3d50fc3b01b7e3f3a0f68cd10b631632f
+./.git/objects/12/d466ebe4b12fa87e17e04c8a1cdbd9c656d4d7
+./.git/objects/13
+./.git/objects/13/098297eddcf52a38b79cd6b4eed40cb88f59f3
+./.git/objects/13/725c013313a1d52ae5d914053e18601e3d48c7
+./.git/objects/15
+./.git/objects/15/0a2a21c746e90cc13526b227a2b73781768e6e
+./.git/objects/15/246fa46a651fd95d382b72bf20b7541fdfbe93
+./.git/objects/16
+./.git/objects/16/8b487c1100baef31126d5bf4bd4c579016e98c
+./.git/objects/16/b4ee91f484db35092a7609cc55c87e8f20b7e3
+./.git/objects/18
+./.git/objects/18/2928785df712895030d0e2c54223464be76ec6
+./.git/objects/1a
+./.git/objects/1a/a847a342ba102f18c29aa9c67c0371e2cc761e
+./.git/objects/1b
+./.git/objects/1b/8eedb4b551e1559682f3a1786120828e264699
+./.git/objects/1b/9d42134eb3e93985c3b19bcb50f323022dfaf2
+./.git/objects/1d
+./.git/objects/1d/13fa2d111598e69cf8d1f6b43c378302b66292
+./.git/objects/1d/89f3a6b626acef3f651431da18cff6b7bf6270
+./.git/objects/1e
+./.git/objects/1e/018c89df54d13fabbeb6256c5cf543235b98a0
+./.git/objects/1e/17d6c9e3a35ce5c0a6f79f15430e3860787524
+./.git/objects/1e/3ed2e6e5bd85368779fcc82b29165e3a4b7bc6
+./.git/objects/1f
+./.git/objects/1f/9979e6c425de6951523b3d36018a212350e369
+./.git/objects/1f/d7032c1f9b8b52fb115c412a82ee5668b54740
+./.git/objects/20
+./.git/objects/20/ac9d5c2916bf7670aa0fa0cb88f53f3a03fa2c
+./.git/objects/21
+./.git/objects/21/2e3379488e6c5b95940a3784ebd22f5bbff385
+./.git/objects/21/599ae7e5631c6bed2996c1ab5d1b7d41f2f781
+./.git/objects/23
+./.git/objects/23/2f8db9301080ef81d616817f200c85bf5baf9b
+./.git/objects/24
+./.git/objects/24/1ebb59f3caba298eeffe45841cb9fb84e246f9
+./.git/objects/25
+./.git/objects/25/561dad4a00b019e54dbfde9b71ffd72745544e
+./.git/objects/27
+./.git/objects/27/64cf922a734a32b7584c79032d6dab1787c66b
+./.git/objects/27/9cc1b1528ef202f9c678b36ed0b05f883c9ef8
+./.git/objects/27/d89cd33d7fec8d2c1d4cbd34f8bc1c7a78d7ec
+./.git/objects/27/e2f0175bdebfd076c0a2715114c422a8c969e8
+./.git/objects/28
+./.git/objects/28/34d704fe78b1cf19c17fcf1238ee6782a88f08
+./.git/objects/28/5fe6d485f27a6291eeabb1441a9fc8f64e7613
+./.git/objects/29
+./.git/objects/29/59289105d7ce182d13b0257b9076d7e3faafca
+./.git/objects/29/b74599589aeb53cd27cd0ea8e01169bbef02cc
+./.git/objects/2a
+./.git/objects/2a/fdb968a4231f881ff06b8e83955adc51603b47
+./.git/objects/2b
+./.git/objects/2b/cc95333dc7b03a8d6a5a77f9a0123e147f56b9
+./.git/objects/2c
+./.git/objects/2c/288c96114d5f753089d30c7362a50a6a8ad422
+./.git/objects/2c/50160c0d3f51a57a92cd519be2414f1b6fabf8
+./.git/objects/2c/ff105d1eb5c6449196bfa9cd19ee9fcefd9b9e
+./.git/objects/2d
+./.git/objects/2d/8942012e44fb4b6db1e359b916f5d712d1714d
+./.git/objects/2e
+./.git/objects/2e/6a4eeba62187e28929bc21a3a1f014604ef75b
+./.git/objects/2f
+./.git/objects/2f/5de7beeccadd7c441d02fd499c86f631cdc836
+./.git/objects/30
+./.git/objects/30/e2eb2e8f82cd7bae9810b78ef11650511d3a45
+./.git/objects/31
+./.git/objects/31/04a395a816f12d0bff6e862d622cc26478b2ab
+./.git/objects/31/5229691866008d7d3c3781983e6f91a5ddb838
+./.git/objects/31/67f0b442e4b95f78fede1ec0fbb85d62a8645b
+./.git/objects/32
+./.git/objects/32/1ad2abc6402e758f700e717b2c821b1dec16c5
+./.git/objects/33
+./.git/objects/33/4837a8fe6042ad0b9936cc4b8db6481694d64e
+./.git/objects/33/8ceab8ed480f16dd4d9d12390913f41cd659b0
+./.git/objects/35
+./.git/objects/35/a6aaacc38f04569eeb8d66dc1054cbd292018a
+./.git/objects/37
+./.git/objects/37/24c96008196b68048339590e1126434e99e961
+./.git/objects/38
+./.git/objects/38/8ddccf1db349baf0284ff4bce93407d1cadc6c
+./.git/objects/38/b973e22dd84a26b2c19de82093a62f7b1e27a5
+./.git/objects/39
+./.git/objects/39/0a45f755b5e07b67e5df204e9d2eaed1754473
+./.git/objects/3a
+./.git/objects/3a/03f253b4157f10e7e8e2638ca9c1afbbb42570
+./.git/objects/3b
+./.git/objects/3b/2984c2c29d2bf05e294e007b47f9588bf4a8d4
+./.git/objects/3b/d229fd812ca25e47f8e654ac1aa530f62cef86
+./.git/objects/3c
+./.git/objects/3c/5dbff0fd9ebd488c63210b9f949b96a30945c6
+./.git/objects/3c/bad8496a4f0cf2654364a08df24d8ecfa2fed3
+./.git/objects/3c/f8f3cbdbb5c758f94c5b7308081883a438f247
+./.git/objects/3f
+./.git/objects/3f/107eff3b5e40321cbe8ced0dcbe12ead780728
+./.git/objects/40
+./.git/objects/40/f9b1c9c24ea357bcbd4687fea86f41540722cd
+./.git/objects/41
+./.git/objects/41/d367a5e9b4b5d1ea1cb03d1d22e0eb1497e7e4
+./.git/objects/43
+./.git/objects/43/0a97f2da1ef1d3d654bd640dc9c7494e816973
+./.git/objects/43/e381c131f95dfe779bf94f3b95c6b7071de4d2
+./.git/objects/44
+./.git/objects/44/5e02e2a156de35a2dfc729b7e63d9fbd0af8fd
+./.git/objects/44/6f8b386f2bcb1a73d63f0ff5162046473a38ae
+./.git/objects/45
+./.git/objects/45/126a71b99e7e3968efb3dfb6a69ea46c994117
+./.git/objects/45/ac361c6b2772fdd63a58cb745febe76e56550c
+./.git/objects/47
+./.git/objects/47/493a4a665956a30a48ad81f556c52cac9feed0
+./.git/objects/4a
+./.git/objects/4a/2cfda8c493a926b471715a8371727b79334c0a
+./.git/objects/4c
+./.git/objects/4c/e429c22d5bdd127669dff60afe6240a933d749
+./.git/objects/4d
+./.git/objects/4d/25fbf80f25090aa4761abaa2c06ddf5dfe6ed9
+./.git/objects/4d/e73cd857cbd50db3d058bddd07521d68238d5b
+./.git/objects/4e
+./.git/objects/4e/a2936a44a33366c45bb05660a007e57d29a5b3
+./.git/objects/4f
+./.git/objects/4f/0136a9c0e9781a0972a48b62f3ace0da80a232
+./.git/objects/51
+./.git/objects/51/1bb5c75683bda72fd633a2c7338ea59febee67
+./.git/objects/51/68ea1b5af578c3f11bf8c1ca3f8067d8afa4af
+./.git/objects/52
+./.git/objects/52/49ed8fa2894435eba6d7fc18b8c94fc2854c46
+./.git/objects/52/bb1433f0d3cceec74a1a1dea1689edc44ac368
+./.git/objects/53
+./.git/objects/53/36bf10b0965ce87f2f58862c138671d6abe85a
+./.git/objects/56
+./.git/objects/56/3da115e563e34d1ee1c7481ac2c33122adafd8
+./.git/objects/56/7b2f5533b2c8a492ac2511bbdfaa19792e04d2
+./.git/objects/56/eec862e41438e114a015a301ac99b38604c948
+./.git/objects/57
+./.git/objects/57/db24abea4f73e3b43e7ae1070f5ca12438d41b
+./.git/objects/59
+./.git/objects/59/372337776e301eae1a77377a8ea7891cc05ef3
+./.git/objects/59/7be943c413d49135a5764478f9904e5fdcf505
+./.git/objects/5a
+./.git/objects/5a/b4543d92f498ebb3e384f4b75f2d2e91897fad
+./.git/objects/5c
+./.git/objects/5c/1e41d6fa4c2e5fc5232611ba5b33e03a13b28f
+./.git/objects/5c/392fd7c41df7572f5d8f7fee09b42c58e6dc81
+./.git/objects/60
+./.git/objects/60/55d986442ed001da8db1cf23f474b52b814f64
+./.git/objects/61
+./.git/objects/61/84c5087559b1d9afe57cb1f89208ee0806af5a
+./.git/objects/63
+./.git/objects/63/5a0f9e169f89e2d4063ffb24ab99fcb7703ff9
+./.git/objects/63/91f55101594ed0dde9c0e9f8bf73c4ef07b4e8
+./.git/objects/63/a5c91b62172233e7679c79cac7a32f4f95d03a
+./.git/objects/64
+./.git/objects/64/3e7f00dab7f4d9d58b3f485c02a57a299349b4
+./.git/objects/64/d433e4e67344e7e309d3fbd555e4c9f0077d6d
+./.git/objects/64/e961d89ae32c6b1373c219260844fc86d764c6
+./.git/objects/66
+./.git/objects/66/2bbab94a2dfeaea591162d313b3cc5e3b99f39
+./.git/objects/67
+./.git/objects/67/380203294bb1887fed61fb0e5ce8dbaf82d620
+./.git/objects/67/8cc9f09515d22a78690f38d5e36d0fd4f5288b
+./.git/objects/69
+./.git/objects/69/b43340a36ba6476351c5fc0eb4ccdb7cc8a615
+./.git/objects/6a
+./.git/objects/6a/bbb0eb26bc9a71c9c0da3ab5de73f44f4e184c
+./.git/objects/6a/c92fe5859b624ecea76aafeea28bd97a93e5ef
+./.git/objects/6c
+./.git/objects/6c/a147f265d5f8e636f649af8c0aa214609b97de
+./.git/objects/6c/be2c73211774a2557ab71655cbb1267370bf67
+./.git/objects/6c/c09a77d25aeb681845538eeb5710dd87bab14c
+./.git/objects/6d
+./.git/objects/6d/9c99a595d713b12f2d158910c59554676728cd
+./.git/objects/6d/f2fc2831804b10cc9ba0f2fd71b46455163817
+./.git/objects/6e
+./.git/objects/6e/56e0de078877b7f6f623140979c51aa957251b
+./.git/objects/6f
+./.git/objects/6f/1782aa306b7d7e292eda6e71f98bb97f0c395c
+./.git/objects/6f/7d6de8d94b31ea24f3ea11bb362cfbd3ef7fa2
+./.git/objects/6f/f73a376f7ab894c487fd39511b89851dcdd0f8
+./.git/objects/70
+./.git/objects/70/47f4153d869e87d6372ded68058cb5f4614ff1
+./.git/objects/70/b49a6c1e49ccb5a79adf2e91f9ece9823057ec
+./.git/objects/71
+./.git/objects/71/19d9f362ada60f78194991b1da8fb954cd902a
+./.git/objects/75
+./.git/objects/75/99ccb028ca6e45f0a733401d11fbebddf23de8
+./.git/objects/76
+./.git/objects/76/2d613eace37bd6dacfe06b3ae7b8c40cb72d1f
+./.git/objects/77
+./.git/objects/77/2a532451968008fa3c0038084d7296463924d5
+./.git/objects/7a
+./.git/objects/7a/2b5890dca9279978534a884b4b5ec51bcf898d
+./.git/objects/7d
+./.git/objects/7d/9a413ad940b8e4feb5bb73a966635f9a329d7e
+./.git/objects/7d/c90d86060c89746e5aff3215febb6a00cff288
+./.git/objects/7f
+./.git/objects/7f/2bf2fb4bebaf826a9b66d80ed6abefe2b91034
+./.git/objects/7f/a673d2b877fde555adc7c14d15ef6c39195256
+./.git/objects/7f/abe4c8bed176210e734b6784d6296b47503590
+./.git/objects/7f/baf3f38441740323fd98122118c8ff37787b60
+./.git/objects/80
+./.git/objects/80/6fc014825ede890f342964354286cf2e7e7761
+./.git/objects/82
+./.git/objects/82/0917a2d7c2512f75010e03096e2fe598656a99
+./.git/objects/84
+./.git/objects/84/d4dd86a4e5727d76aa3d7d434ce8947faa6479
+./.git/objects/85
+./.git/objects/85/19f5b0c956139cf3d9f043131145d81c3f7720
+./.git/objects/85/856e525d444c42e58bbb6c1e1850bb9f4cb9b0
+./.git/objects/86
+./.git/objects/86/e9cf592300006786bb03e501ee7d0e3372bd04
+./.git/objects/88
+./.git/objects/88/1b6248e748be72da598e1e466f76e49c6b4539
+./.git/objects/8a
+./.git/objects/8a/a58cd74b4c544e36c3ed6a02df49d3f8ef2667
+./.git/objects/8b
+./.git/objects/8b/14a85b45e0cacd229b1d28eeffddef371dbf21
+./.git/objects/8b/aef6c37d370950e51bc2364c699be6f5398232
+./.git/objects/8c
+./.git/objects/8c/3668823123d57645ba10c60e03ac06f604ae6c
+./.git/objects/8d
+./.git/objects/8d/5186a04006ed280a411ae64308422277319cc7
+./.git/objects/8e
+./.git/objects/8e/6e2224bc7587ec49e527e7047e549dfd709cc8
+./.git/objects/8f
+./.git/objects/8f/a42cafcdff4521e40dac012560a82ded4ace39
+./.git/objects/91
+./.git/objects/91/1145baf86dd0c41a14ef43c8bfa3c00868b235
+./.git/objects/92
+./.git/objects/92/5ba1c5a1c34a88b15815890df8a5f2109492cb
+./.git/objects/92/f2958bc00ef501976013628b061a570bf3557a
+./.git/objects/93
+./.git/objects/93/0deb30a787a469624e0ad675cdf933ed1bb668
+./.git/objects/93/5abc2e03ff113545f730dcffa16fb5fe7360d8
+./.git/objects/93/ee7aa81cdb8ae7dc4f59a450c7df4f6aa1f5c4
+./.git/objects/94
+./.git/objects/94/4a554e6cdc62bbe0981782fac74e2cbef05358
+./.git/objects/94/e1e5f95fca72be26eb6f456dabbdb2ccc5ca31
+./.git/objects/94/e4b5c1f7da4d507a822ee9f9eb4170f5a27ad5
+./.git/objects/95
+./.git/objects/95/041b694c0f8aa6657916d38e47aa176b17c079
+./.git/objects/95/7980eea5f1ea74d028cd6020e6e2bce34ae129
+./.git/objects/95/efcabafdb85b7a7fe26cc2944fe1b3ab394232
+./.git/objects/96
+./.git/objects/96/ddbf5dbfca20928394c1048d559b9cda8dd6c2
+./.git/objects/97
+./.git/objects/97/7e3504b99289d4d72587e85338d38e2fd31f3f
+./.git/objects/98
+./.git/objects/98/d39bb6aab8b1c5024a18a7eb0ee0a03cfa22c2
+./.git/objects/9a
+./.git/objects/9a/a71fbe8dd033c99defdac1b23b0f48df432be0
+./.git/objects/9b
+./.git/objects/9b/a2d7ff2a144a294152302dc8b436239a11e154
+./.git/objects/9c
+./.git/objects/9c/2c0487618fb4bc602d7bd07ec28df083369a35
+./.git/objects/9c/5fc69f0b51e13be1ca814e9a72d126f56a051f
+./.git/objects/9d
+./.git/objects/9d/b314353c0305c9c6db6ff9275404235b3f02e3
+./.git/objects/9d/d99bc5e45e6bb311b2552ee000ba8e292781ed
+./.git/objects/a1
+./.git/objects/a1/701529883de756294c42e1ea0586f1dcfbcaf3
+./.git/objects/a2
+./.git/objects/a2/1f7b54847f06d19ccc575a13e86aed0478cd52
+./.git/objects/a2/f6ba0ea95abfd7979f7c77ee03acffc4133b0d
+./.git/objects/a3
+./.git/objects/a3/ff38a92964ec4cd5c6fb3b6bef491d5cd3b86f
+./.git/objects/a4
+./.git/objects/a4/45e4b8449f5e7cf6e7171de563ef24541e32a6
+./.git/objects/a4/ad5941b7e171235c87a29776c48108d906b1c5
+./.git/objects/a6
+./.git/objects/a6/562903c29ba4627761d44d0a12c095bd1945a1
+./.git/objects/a6/5b58197e913517dc4a36dc85d28510fe236558
+./.git/objects/a6/b5dc14f499df55cefc3238fb111ddea2fb7ba6
+./.git/objects/a9
+./.git/objects/a9/6ab74c9f6deebc7f47d39b8728d136a7f5bd32
+./.git/objects/a9/bbb61b4251d0a49fbf035cac7f71e63dee5401
+./.git/objects/aa
+./.git/objects/aa/1e5d1a9956646ee1b18dedfb8cc7c5287afd69
+./.git/objects/aa/52ac903aa1f75db8fc5e59485ed52b9de8b704
+./.git/objects/aa/5d3b125954a12763ca69451fdfe15da6a69ddc
+./.git/objects/aa/b43206b9bcb9e738261bbceb4063985565edb5
+./.git/objects/aa/dc33697ec28c9689bf34dafa5527b59cf56482
+./.git/objects/ae
+./.git/objects/ae/adca877f39997925f4db5f5d67e20f8a5b6c69
+./.git/objects/af
+./.git/objects/af/fddda6bb3d19e2985ced545f0889db0912fa2e
+./.git/objects/b0
+./.git/objects/b0/4107398fd59431efa9f00a3a55442f7fdf4a8f
+./.git/objects/b1
+./.git/objects/b1/7e9461964e2e3cca65c9ddd9cbd1fb6938d0e8
+./.git/objects/b3
+./.git/objects/b3/7cc5ceb6847751e6ffa9437ae49d6c34c045ba
+./.git/objects/b4
+./.git/objects/b4/6036dd12487ce0b7ce58196553b4393ae87d94
+./.git/objects/b4/9c5aaf20b46d16560d8eade4be57f5451210a5
+./.git/objects/b5
+./.git/objects/b5/846f2e4f4e90f35c2867aa799faabd36762ed0
+./.git/objects/b5/88112266db43ed45278ce589cd61bf9f9bda03
+./.git/objects/b6
+./.git/objects/b6/a73669d4be76fea254d79e3072c36ee459010e
+./.git/objects/b8
+./.git/objects/b8/4e42fbc2657a44d71873329c7de7a62c43cf3b
+./.git/objects/bb
+./.git/objects/bb/65c044f063a7fee38e0fe26ab4d1f56261e054
+./.git/objects/bc
+./.git/objects/bc/7678517c9bb5302d12b6dcdc9234c5c073f42c
+./.git/objects/bd
+./.git/objects/bd/145a73eeff500266d5880b20777392660d7506
+./.git/objects/bd/57ccfc744862c3c182c3bd363114049dd046e8
+./.git/objects/bd/6958d66b39e2a08a802688ca2b8045d66d01bf
+./.git/objects/bd/877599a322d84327c2cf2ae2a2c0f4623a0a4a
+./.git/objects/bd/9bf8c240091685313f630277b327b27d44c328
+./.git/objects/be
+./.git/objects/be/8da4ab42f6da59bf84e43106dd95706d366388
+./.git/objects/bf
+./.git/objects/bf/ca4b137745e51e21366147e1c8c2f4e8560440
+./.git/objects/c0
+./.git/objects/c0/fa904a89861dcdd41111ad43d253d40585411f
+./.git/objects/c1
+./.git/objects/c1/d24690c511ec59be147205f590d0657a5b8dff
+./.git/objects/c2
+./.git/objects/c2/09ad660a75a617a6031cbf916215d982c22ea9
+./.git/objects/c3
+./.git/objects/c3/04d80e6366bdd03a190112aa1e2c71d61bf304
+./.git/objects/c3/88d838979b6241924a1087b28c45ee70c19143
+./.git/objects/c5
+./.git/objects/c5/3f5b2e50d058cd58cd0075fdd2aad3dd99658a
+./.git/objects/c5/476529fea619706f9b806d109454bbd4f79fbe
+./.git/objects/c6
+./.git/objects/c6/1ca854b9db81303a9f8835fbf296e3f72a0c65
+./.git/objects/c6/4844bc6b5c4f0c63f4530d78bd95ac2b5f5e3c
+./.git/objects/c6/5ef9bcb832d61a90e70ba3b75660d1b2221ccb
+./.git/objects/c7
+./.git/objects/c7/c59988c450e0d675b816b792fa3b6a3ef12752
+./.git/objects/c8
+./.git/objects/c8/286a9e8c0ecfa5b971bafd2c123d59897b9476
+./.git/objects/c8/2cb96c003f9554a7eb81544f4257b4b6b56a49
+./.git/objects/c9
+./.git/objects/c9/1d894d800c7bb85358a5e2b849073a073a3696
+./.git/objects/c9/ac2ea84c5c45d2c7ede2ae25a46e09247764f9
+./.git/objects/c9/e040d3573b7e40861776a0fc769fffc3bbb951
+./.git/objects/ca
+./.git/objects/ca/59ec0331453bc2858ae6f256eb60d1611b8034
+./.git/objects/cc
+./.git/objects/cc/307f883e014f1ac4525396af8406da9b2c9b98
+./.git/objects/cd
+./.git/objects/cd/1c8432dfd60faac60a50ea9703351c47f19bd2
+./.git/objects/cd/293d0ef0f82fd0d9307e1b75de513ea852f9b0
+./.git/objects/cd/8b4ffd7ef931da05f7483d3b549a6d2434d31d
+./.git/objects/cd/a51dfdff8bd5c72b8368f59691ad9eda5d1c02
+./.git/objects/cd/f96452ac3cdbc5262626ee00e11210a3edc5a3
+./.git/objects/cf
+./.git/objects/cf/771e18874e66664fb340b45a569147d0f406a7
+./.git/objects/d0
+./.git/objects/d0/02a317d6ee4acbbf169737ea29f6434319be34
+./.git/objects/d1
+./.git/objects/d1/4602206e7e2cec07bc29860b167ba53a551e3f
+./.git/objects/d3
+./.git/objects/d3/15c06f732c7ccc62636d186fa5453447975ff5
+./.git/objects/d3/9446567fd882d9bfcf09c79fa75615926fe8a2
+./.git/objects/d4
+./.git/objects/d4/047f3588549bd2b0111475cd68137f30798bc8
+./.git/objects/d4/74567b5b9d4d173903725a7cb02bef99157686
+./.git/objects/d7
+./.git/objects/d7/c04c9bbac6455b1ebaa9886ed6e541fb8353ab
+./.git/objects/d7/e4362f5cc34339b2bc34d9249658f88346b0ea
+./.git/objects/d8
+./.git/objects/d8/0641e54c0b776444145919374baa8fd4d1580e
+./.git/objects/d8/bc0db08727f4731281721db8c638c7bce7d523
+./.git/objects/d9
+./.git/objects/d9/65b1a4f6858943d4c199628dbc0db45fab3568
+./.git/objects/d9/aedc02abb5c7f4235694c0ae6d38122fa99b46
+./.git/objects/d9/c5f70ee5309e04cf528906f4bdadcc4d073d87
+./.git/objects/da
+./.git/objects/da/064798c438ad94c978e301c662eb50a5166513
+./.git/objects/dd
+./.git/objects/dd/333203539bfdda6fa367c0b0765251b7446330
+./.git/objects/dd/41eddb63ca17615bad0735a7e7de95e1f0b4b6
+./.git/objects/de
+./.git/objects/de/c9854d2dc90e12c36cb240f328af8800bfea4c
+./.git/objects/df
+./.git/objects/df/6fa713cc7592a7636fc9c6902dac8815b743c1
+./.git/objects/df/d26a6ba892e6e2fca9920a35c704bd4cfee610
+./.git/objects/e1
+./.git/objects/e1/fbfa26adef55e529d89c69ef84a22e113ec041
+./.git/objects/e3
+./.git/objects/e3/51850a3e21b8a983697ef40cd9e8d0839815da
+./.git/objects/e3/6f35300698eb33ea950b31e450c64f3fa8145d
+./.git/objects/e4
+./.git/objects/e4/ab1a557ec27a1258a21b990739feeec8bd935a
+./.git/objects/e6
+./.git/objects/e6/0a3bd186a93809c2790bb7c8e961b8809f801f
+./.git/objects/e7
+./.git/objects/e7/5604dba828018bb0f8b661211c2f1ca29f7e12
+./.git/objects/ea
+./.git/objects/ea/d744f615399bbc505fb2c4798fd7e502e1521b
+./.git/objects/ea/ef2c22d3a6554822d542c52b5330cff474a14c
+./.git/objects/eb
+./.git/objects/eb/2305532aea4e621180993d3b8ea2b7c8de4dab
+./.git/objects/eb/f021a000ec25f72cc41ee3e26100562652a304
+./.git/objects/ef
+./.git/objects/ef/79b85a3c834eea547ea2fb6dcbfb766796d7d1
+./.git/objects/ef/c54fe2157b9ab0a00c92cb15bea4ba6eee4d71
+./.git/objects/f0
+./.git/objects/f0/082b009fdd8bcb8067badbf8cb0ff00eedc036
+./.git/objects/f1
+./.git/objects/f1/2d582b2d5e6fc03558b184124df17496dda679
+./.git/objects/f4
+./.git/objects/f4/a902174bdc72991ea45de2931578fe900a2643
+./.git/objects/f6
+./.git/objects/f6/137bb3dc6ac76943b9ab9d1deb087a54627e12
+./.git/objects/f6/cebb2ba588b692559bf89648c2847f292ef046
+./.git/objects/f7
+./.git/objects/f7/0a9afcdc584552bc7aa24e30dbfc3240f8fd25
+./.git/objects/fa
+./.git/objects/fa/acc1869be824b3779c311537afa20cbdbfa147
+./.git/objects/fc
+./.git/objects/fc/527fcdd85be7322e3e844081a04d16f2ddbf48
+./.git/objects/fd
+./.git/objects/fd/9f5a9107ecfde1929ca1273e4636dc8126a969
+./.git/objects/info
+./.git/objects/pack
+./.git/objects/pack/pack-42f5596dbbeb0f007d99d5637159653e1cdf6b48.idx
+./.git/objects/pack/pack-42f5596dbbeb0f007d99d5637159653e1cdf6b48.pack
+./.git/objects/pack/pack-42f5596dbbeb0f007d99d5637159653e1cdf6b48.rev
+./.git/ORIG_HEAD
+./.git/packed-refs
+./.git/refs
+./.git/refs/heads
+./.git/refs/heads/main
+./.git/refs/remotes
+./.git/refs/remotes/origin
+./.git/refs/remotes/origin/HEAD
+./.git/refs/remotes/origin/main
+./.git/refs/tags
+./ansible.cfg
+./playbooks
+./playbooks/sync_aws_cmdb.yml
+./playbooks/sync_single_aws.yml
+./projeto_completo.txt
+./roles
+./roles/integration_assets_aws
+./roles/integration_assets_aws/filter_plugins
+./roles/integration_assets_aws/filter_plugins/aws_cmdb_filters.py
+./roles/integration_assets_aws/tasks
+./roles/integration_assets_aws/tasks/create.yml
+./roles/integration_assets_aws/tasks/deactivate.yml
+./roles/integration_assets_aws/tasks/main.yml
+./roles/integration_assets_aws/tasks/manage_network_interface.yml
+./roles/integration_assets_aws/vars
+./roles/integration_assets_aws/vars/main.yml
+./roles/integration_assets_aws/vars/mapeamento_aws_cmdb.yml
+./roles/integration_assets_aws/vars/modelo_servidor_map_aws.yml
+./scripts
+./scripts/discover_attribute_ids.py
+./scripts/test_sync.sh
+
+########## CONTEUDO DOS ARQUIVOS ##########
+
+==================================================
+ARQUIVO: ./ansible.cfg
+==================================================
+#Arquivo default de configuração do Ansible para o AAP, adicione aqui suas configurações personalizadas
+
+[defaults]
+filter_plugins = ./roles/integration_assets_aws/filter_plugins:./roles/integration_assets/filter_plugins
+timeout=120
+show_custom_stats=true
+host_key_checking=false
+callbacks_enabled=timer, profile_tasks, profile_roles
+
+[ssh_connection]
+retries=30
+ssh_args=-o ControlMaster=auto -o ControlPersist=60s
+pipelining=True
+==================================================
+ARQUIVO: ./playbooks/sync_aws_cmdb.yml
+==================================================
+# =============================================================================
+# Playbook: Sincronização AWS (via AAP) → Jira Assets (CMDB)
+# =============================================================================
+# Uso:
+#   ansible-playbook playbooks/sync_aws_cmdb.yml \
+#     -e "sync_mode=full"
+# =============================================================================
+---
+- name: Sincronização AWS (via AAP) → Jira Assets CMDB
+  hosts: localhost
+  connection: local
+  gather_facts: true
+
+  pre_tasks:
+    - name: Incluir variáveis do role
+      ansible.builtin.include_vars:
+        file: "{{ item }}"
+      loop:
+        - "{{ playbook_dir }}/../roles/integration_assets_aws/vars/main.yml"
+        - "{{ playbook_dir }}/../roles/integration_assets_aws/vars/modelo_servidor_map_aws.yml"
+
+    - name: Definir modo de sincronização
+      ansible.builtin.set_fact:
+        _sync_mode: "{{ sync_mode | default('full') }}"
+        _enable_deactivation: "{{ enable_deactivation | default(false) }}"
+
+    - name: Exibir configuração
+      ansible.builtin.debug:
+        msg:
+          - "════════════════════════════════════════════════════════════════"
+          - "          SINCRONIZAÇÃO AWS (AAP) → JIRA ASSETS (CMDB)"
+          - "════════════════════════════════════════════════════════════════"
+          - "AAP Host: {{ aap_host }}"
+          - "Inventário ID: {{ aap_inventory_id }}"
+          - "Modo: {{ _sync_mode }}"
+          - "Modelos mapeados: {{ modelo_servidor_map | length }}"
+          - "════════════════════════════════════════════════════════════════"
+
+  roles:
+    - role: integration_assets_aws
+      vars:
+        sync_mode: "{{ _sync_mode }}"
+        enable_deactivation: "{{ _enable_deactivation }}"
+        modelo_servidor_map: "{{ modelo_servidor_map }}"
+
+  post_tasks:
+    - name: Resumo final
+      ansible.builtin.debug:
+        msg:
+          - "════════════════════════════════════════════════════════════════"
+          - "                    SINCRONIZAÇÃO FINALIZADA"
+          - "════════════════════════════════════════════════════════════════"
+          - "Timestamp: {{ ansible_date_time.iso8601 }}"
+          - "════════════════════════════════════════════════════════════════"
+
+==================================================
+ARQUIVO: ./playbooks/sync_single_aws.yml
+==================================================
+# =============================================================================
+# Playbook: Testar sincronização AWS com servidores selecionados
+# =============================================================================
+# Uso:
+#   ansible-playbook playbooks/sync_single_aws.yml \
+#     -e '{"test_servers": ["i-abc.sa-east-1.compute.internal"]}'
+#   ansible-playbook playbooks/sync_single_aws.yml -e "test_limit=5"
+#   ansible-playbook playbooks/sync_single_aws.yml -e "test_limit=5" -e "dry_run=true"
+# =============================================================================
+---
+- name: Testar sincronização AWS com servidores selecionados
+  hosts: localhost
+  connection: local
+  gather_facts: true
+
+  vars:
+    test_servers: []
+    test_limit: 0
+    dry_run: false
+
+  pre_tasks:
+    - name: Incluir variáveis do role
+      ansible.builtin.include_vars:
+        file: "{{ item }}"
+      loop:
+        - "{{ playbook_dir }}/../roles/integration_assets_aws/vars/main.yml"
+        - "{{ playbook_dir }}/../roles/integration_assets_aws/vars/mapeamento_aws_cmdb.yml"
+        - "{{ playbook_dir }}/../roles/integration_assets_aws/vars/modelo_servidor_map_aws.yml"
+
+    - name: Verificar credenciais Jira
+      ansible.builtin.assert:
+        that:
+          - jira_user is defined and jira_user | length > 0
+          - jira_password is defined and jira_password | length > 0
+        fail_msg: "Defina JIRA_USER e JIRA_PASSWORD"
+
+    - name: Verificar parâmetros
+      ansible.builtin.assert:
+        that:
+          - test_servers | length > 0 or test_limit | int > 0
+        fail_msg: "Defina test_servers (lista) ou test_limit (número)"
+
+    - name: Exibir configuração
+      ansible.builtin.debug:
+        msg:
+          - "════════════════════════════════════════════════════════════════"
+          - "          TESTE: SINCRONIZAÇÃO AWS → JIRA ASSETS"
+          - "════════════════════════════════════════════════════════════════"
+          - "Servidores: {{ test_servers if test_servers | length > 0 else 'primeiros ' ~ test_limit }}"
+          - "Dry Run: {{ dry_run }}"
+          - "Modelos mapeados: {{ modelo_servidor_map | length }}"
+          - "════════════════════════════════════════════════════════════════"
+
+  tasks:
+    - name: Buscar hosts do AAP
+      ansible.builtin.uri:
+        url: "{{ aap_host }}/api/controller/v2/inventories/{{ aap_inventory_id }}/hosts/?page_size=500"
+        method: GET
+        headers:
+          Authorization: "Bearer {{ aap_token }}"
+        validate_certs: "{{ aap_verify_ssl | default(false) }}"
+        return_content: yes
+      register: aap_hosts
+
+    - name: Transformar todos os hosts (batch - com skip EKS + ef_cmdb + Modelo do Servidor)
+      ansible.builtin.set_fact:
+        all_cloud_data: "{{ aap_hosts.json.results | batch_transform_aws_hosts(modelo_servidor_map) }}"
+
+    - name: "Log - hosts ignorados (EKS + sem ef_cmdb + desabilitados + invalidos)"
+      ansible.builtin.debug:
+        msg: "Hosts do AAP: {{ aap_hosts.json.results | length }} | Elegiveis para sync: {{ all_cloud_data | length }} | Ignorados: {{ aap_hosts.json.results | length - all_cloud_data | length }}"
+
+    - name: Selecionar por lista de nomes
+      ansible.builtin.set_fact:
+        selected_servers: "{{ all_cloud_data | selectattr('name_cloud', 'in', test_servers) | list }}"
+      when: test_servers | length > 0
+
+    - name: Selecionar por limite
+      ansible.builtin.set_fact:
+        selected_servers: "{{ all_cloud_data[:test_limit | int] }}"
+      when: test_limit | int > 0 and test_servers | length == 0
+
+    - name: Resumo dos servidores selecionados
+      ansible.builtin.debug:
+        msg:
+          - "════════════════════════════════════════════════════════════════"
+          - "                 {{ selected_servers | length }} SERVIDORES SELECIONADOS"
+          - "════════════════════════════════════════════════════════════════"
+          - "{% for s in selected_servers %}{{ s.name_cloud }} ({{ s.modelo_servidor_cloud | default('N/A') }}, {{ s.sistema_operacional_cloud }})\n{% endfor %}"
+
+    - name: Exibir cloud_data de cada servidor
+      ansible.builtin.debug:
+        msg: "{{ item | to_nice_yaml }}"
+      loop: "{{ selected_servers }}"
+      loop_control:
+        label: "{{ item.name_cloud }}"
+
+    - name: Parar se dry_run
+      ansible.builtin.meta: end_play
+      when: dry_run | bool
+
+    # --- EXECUÇÃO REAL ---
+    - name: Inicializar logs
+      ansible.builtin.set_fact:
+        sync_log_create: []
+        sync_log_skip: []
+        sync_log_errors: []
+
+    - name: Buscar servidores existentes no CMDB
+      ansible.builtin.uri:
+        url: "{{ jira_url }}/object/aql?startAt=0&maxResults=1000"
+        method: POST
+        headers:
+          Accept: "application/json"
+          Content-Type: "application/json"
+        force_basic_auth: yes
+        user: "{{ jira_user }}"
+        password: "{{ jira_password }}"
+        body:
+          qlQuery: 'objectTypeId = 121 AND Datacenter = "AWS"'
+        body_format: json
+      register: cmdb_result
+      environment: "{{ proxy_env | default({}) }}"
+
+    - name: Extrair nomes do CMDB
+      ansible.builtin.set_fact:
+        cmdb_server_names: "{{ cmdb_result.json['values'] | default([]) | map(attribute='label') | list }}"
+
+    - name: Separar servidores a criar e existentes (skip)
+      ansible.builtin.set_fact:
+        servers_to_create: "{{ selected_servers | rejectattr('name_cloud', 'in', cmdb_server_names) | list }}"
+        servers_to_skip: "{{ selected_servers | selectattr('name_cloud', 'in', cmdb_server_names) | list }}"
+
+    - name: Resumo das ações
+      ansible.builtin.debug:
+        msg:
+          - "════════════════════════════════════════════════════════════════"
+          - "A CRIAR: {{ servers_to_create | length }}"
+          - "{% for s in servers_to_create %}- {{ s.name_cloud }}\n{% endfor %}"
+          - "EXISTENTES (skip): {{ servers_to_skip | length }}"
+          - "{% for s in servers_to_skip %}- {{ s.name_cloud }} (preservando dados manuais)\n{% endfor %}"
+          - "════════════════════════════════════════════════════════════════"
+
+    - name: Criar servidores
+      ansible.builtin.include_tasks: "{{ playbook_dir }}/../roles/integration_assets_aws/tasks/create.yml"
+      vars:
+        current_cloud_data: "{{ item }}"
+      loop: "{{ servers_to_create }}"
+      loop_control:
+        label: "{{ item.name_cloud }}"
+      when: servers_to_create | length > 0
+
+    - name: Registrar servidores existentes (skip)
+      ansible.builtin.set_fact:
+        sync_log_skip: "{{ sync_log_skip + [item.name_cloud] }}"
+      loop: "{{ servers_to_skip }}"
+      loop_control:
+        label: "{{ item.name_cloud }}"
+      when: servers_to_skip | length > 0
+
+    - name: Resultado final
+      ansible.builtin.debug:
+        msg:
+          - "════════════════════════════════════════════════════════════════"
+          - "                    TESTE CONCLUÍDO"
+          - "════════════════════════════════════════════════════════════════"
+          - "Criados: {{ sync_log_create | length }}"
+          - "Existentes (skip): {{ sync_log_skip | length }}"
+          - "════════════════════════════════════════════════════════════════"
+
+==================================================
+ARQUIVO: ./projeto_completo.txt
+==================================================
+
+==================================================
+ARQUIVO: ./roles/integration_assets_aws/filter_plugins/aws_cmdb_filters.py
+==================================================
+# =============================================================================
+# Filter Plugin: Transformação AWS → Jira Assets
+# =============================================================================
+
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
+import json
+from typing import Dict, List, Optional
+
+
+def search_attribute(value: str, object_attribute_map: List[Dict]) -> List[Dict]:
+    """Busca um atributo no mapeamento pela chave_cloud."""
+    return list(filter(lambda x: x.get("chave_cloud") == value, object_attribute_map))
+
+
+def map_aws_status_to_cmdb(aws_state: str) -> str:
+    """Mapeia o status da AWS para o status do CMDB."""
+    status_map = {
+        "running": "Em uso",
+        "pending": "Reservado",
+        "stopping": "Desativado",
+        "stopped": "Desativado",
+        "shutting-down": "Desativado",
+        "terminated": "Desativado",
+    }
+    return status_map.get(aws_state.lower() if aws_state else "", "Em uso")
+
+
+def extract_os_from_platform(platform: str) -> str:
+    """Extrai o sistema operacional a partir do campo platform da AWS."""
+    if not platform:
+        return "Linux"
+    
+    platform_lower = platform.lower()
+    if "windows" in platform_lower:
+        return "Windows"
+    
+    return "Linux"
+
+
+def is_eks_node(variables: Dict) -> bool:
+    """
+    Detecta se o host eh um no de cluster EKS.
+    Sinal principal: iam_instance_profile.arn contem ':instance-profile/eks-'.
+    Sinais complementares: tags aws:eks:*, eks:cluster-name, kubernetes.io/cluster/*.
+    """
+    if not variables:
+        return False
+
+    iam_profile = variables.get("iam_instance_profile") or {}
+    if isinstance(iam_profile, dict):
+        arn = iam_profile.get("arn", "") or ""
+        if ":instance-profile/eks-" in arn:
+            return True
+
+    tags = variables.get("tags") or {}
+    if not isinstance(tags, dict):
+        return False
+
+    if "aws:eks:cluster-name" in tags or "eks:cluster-name" in tags:
+        return True
+    for key in tags:
+        if str(key).startswith("kubernetes.io/cluster/"):
+            return True
+
+    return False
+
+
+def determine_ambiente_aws(variables: Dict) -> Optional[str]:
+    """
+    Determina o Ambiente com base nas tags ou environment.
+    """
+    tags = variables.get("tags", {})
+    ambiente_tag = (
+        tags.get("ef_ambiente") or 
+        tags.get("environment") or 
+        tags.get("Environment") or
+        variables.get("environment") or
+        ""
+    )
+    
+    if not ambiente_tag or ambiente_tag == "undefined":
+        return "Produção"
+    
+    ambiente_lower = ambiente_tag.lower()
+    
+    # Não produção - retorna None para não preencher
+    if any(x in ambiente_lower for x in ["nonprod", "non-prod", "dev", "hml", "staging", "homolog", "qa", "test", "sandbox"]):
+        return None
+    
+    # Produção
+    if any(x in ambiente_lower for x in ["prod", "prd", "production"]):
+        return "Produção"
+    
+    return "Produção"
+
+
+def transform_aws_host(host_data: Dict, modelo_servidor_map: Optional[Dict] = None) -> Dict:
+    """
+    Transforma os dados de um host AWS (do AAP) para o formato cloud_data.
+
+    Args:
+        host_data: dict com o host vindo do AAP (contem 'variables' string JSON).
+        modelo_servidor_map: opcional - mapa {instance_type: object_key}, ex.:
+                             {"t3.2xlarge": "GDA-3224029", ...}. Se fornecido,
+                             o instance_type eh convertido para o objectKey
+                             correspondente antes de popular modelo_servidor_cloud.
+    """
+    # Parsear variables (pode ser string JSON ou dict)
+    variables_str = host_data.get("variables", "{}")
+    try:
+        variables = json.loads(variables_str) if isinstance(variables_str, str) else variables_str
+    except json.JSONDecodeError:
+        variables = {}
+    
+    if not variables:
+        return {}
+    
+    tags = variables.get("tags", {})
+    
+    # Instance ID (usado para garantir unicidade)
+    instance_id = variables.get("instance_id", "")
+    
+    # FQDN = private_dns_name (se existir)
+    fqdn = variables.get("private_dns_name", "").strip()
+    
+    # NAME - padronizado: usar sempre instance_id + regiao/dominio.
+    # Isso garante unicidade e formato consistente (evita casos onde
+    # private_dns_name esta ausente ou vm_name vazio).
+    region = variables.get("region", "")
+    if instance_id and region:
+        name = f"{instance_id}.{region}.compute.internal"
+    else:
+        name = instance_id or fqdn or variables.get("vm_name", "").strip() or tags.get("Name", "").strip() or host_data.get("name", "").strip()
+    
+    # Account ID (Conta Cloud)
+    account_id = variables.get("account_id") or variables.get("owner_id", "")
+    
+    # IPs - filtrar valores vazios e "N/A"
+    private_ip = variables.get("private_ip") or variables.get("private_ip_address", "")
+    public_ip = variables.get("public_ip") or variables.get("public_ip_address", "")
+    
+    ips = []
+    if private_ip and private_ip not in ("", "N/A", "n/a"):
+        ips.append({"tipo": "privado", "ip": private_ip})
+    if public_ip and public_ip not in ("", "N/A", "n/a"):
+        ips.append({"tipo": "publico", "ip": public_ip})
+    
+    # CPU - calcular vCPUs
+    cpu_options = variables.get("cpu_options", {})
+    core_count = cpu_options.get("core_count", 0)
+    threads_per_core = cpu_options.get("threads_per_core", 1)
+    vcpus = core_count * threads_per_core if core_count else None
+    
+    # Instance Type (Modelo do Servidor)
+    instance_type = variables.get("instance_type", "")
+    
+    # Status
+    state = variables.get("state", "running")
+    
+    # Sistema Operacional
+    platform = variables.get("platform") or variables.get("platform_details") or ""
+    so_normalizado = extract_os_from_platform(platform)
+
+    # Grupo Solucionador - Infra (fixo por SO)
+    grupo_solucionador = "CLBR-TI-INFRA-SUPORTE-WINDOWS" if so_normalizado == "Windows" else "CLBR-TI-INFRA-CLOUD-PUBLIC"
+
+    # Ambiente
+    ambiente = determine_ambiente_aws(variables)
+
+    # Sistema (CMDB) - vem da tag ef_cmdb (ex.: "GDA-2730753").
+    # Jira Assets aceita objectKey diretamente no value de campo Reference.
+    sistema_cmdb = tags.get("ef_cmdb", "").strip()
+
+    # Região (para debug)
+    region = variables.get("region", "")
+    availability_zone = variables.get("availability_zone", "")
+    
+    # Montar cloud_data
+    cloud_data = {
+        # Conta Cloud (Account ID da AWS)
+        "conta_cloud_cloud": account_id if account_id else None,
+        
+        # Ambiente
+        "ambiente_cloud": ambiente,
+
+        # Sistema (Reference no CMDB - passa objectKey vindo da tag ef_cmdb)
+        "sistema_cloud": sistema_cmdb if sistema_cmdb else None,
+        
+        # Identificação
+        "name_cloud": name,
+        "fqdn_cloud": fqdn if fqdn else None,
+        
+        # Sistema Operacional
+        "sistema_operacional_cloud": so_normalizado,
+        
+        # Hardware
+        "cpu_count_cloud": str(vcpus) if vcpus else None,
+        
+        # Modelo do Servidor (instance_type -> objectKey via modelo_servidor_map)
+        "modelo_servidor_cloud": (
+            (modelo_servidor_map or {}).get(instance_type) or instance_type
+        ) if instance_type else None,
+        
+        # Rede
+        "interface_rede_cloud": ips if ips else None,
+        
+        # Status
+        "status_cloud": map_aws_status_to_cmdb(state),
+        
+        # Tipo de Servidor (select)
+        "tipo_servidor_cloud": "Cloud Pública",
+        
+        # Tipo de Infraestrutura (referência)
+        "tipo_infraestrutura_cloud": "CLOUD PUBLICA",
+        
+        # Datacenter
+        "datacenter_cloud": "AWS",
+
+        # Fornecedor (mesmo valor do Datacenter)
+        "fornecedor_cloud": "AWS",
+
+        # Grupo Solucionador - Infra (fixo por SO)
+        "grupo_solucionador_infra_cloud": grupo_solucionador,
+
+        # Last User (sempre Ansible)
+        "last_user_cloud": "Ansible",
+        
+        # Metadados AWS (prefixo _ = não enviados ao CMDB)
+        "_aws_instance_id": instance_id,
+        "_aws_instance_type": instance_type,
+        "_aws_region": region,
+        "_aws_availability_zone": availability_zone,
+        "_aws_tags_name": tags.get("Name", ""),
+    }
+    
+    # Remover valores None
+    cloud_data = {k: v for k, v in cloud_data.items() if v is not None}
+    
+    return cloud_data
+
+
+def batch_transform_aws_hosts(hosts: List[Dict], modelo_servidor_map: Optional[Dict] = None) -> List[Dict]:
+    """Transforma uma lista de hosts AWS (do AAP) para o formato cloud_data.
+
+    Args:
+        hosts: lista de hosts vindos do AAP.
+        modelo_servidor_map: opcional - mapa {instance_type: object_key}.
+    """
+    results = []
+    
+    for host in hosts:
+        if not host.get("enabled", True):
+            continue
+
+        # Parse rapido de variables para checar se eh no EKS (skip antecipado)
+        variables_str = host.get("variables", "{}")
+        try:
+            variables = json.loads(variables_str) if isinstance(variables_str, str) else variables_str
+        except json.JSONDecodeError:
+            variables = {}
+
+        # Nos de cluster EKS - ignorados ate o time CMDB definir tratamento
+        if is_eks_node(variables):
+            continue
+
+        # Sem tag ef_cmdb -> nao vai pro CMDB
+        tags = variables.get("tags") or {}
+        if not isinstance(tags, dict) or not str(tags.get("ef_cmdb", "")).strip():
+            continue
+
+        cloud_data = transform_aws_host(host, modelo_servidor_map=modelo_servidor_map)
+        
+        if cloud_data.get("name_cloud"):
+            results.append(cloud_data)
+    
+    return results
+
+
+def update_asset(cloud_data: Dict, object_attribute_map: List[Dict]) -> Dict:
+    """Transforma cloud_data no formato de payload para criar/atualizar no Jira Assets."""
+    data = {
+        "attributes": [],
+        "objectTypeId": 121
+    }
+
+    for field, value in cloud_data.items():
+        if value is None or value == "":
+            continue
+
+        # Campos de metadados (começam com _) não são enviados ao CMDB
+        if field.startswith("_"):
+            continue
+
+        obj_attr_list = search_attribute(field, object_attribute_map)
+
+        if not obj_attr_list:
+            continue
+
+        obj_attr = obj_attr_list[0]
+        attr_type = obj_attr.get("tipo", "text")
+        attr_id = str(obj_attr.get("id"))
+
+        attribute_entry = {
+            "objectTypeAttributeId": attr_id,
+            "objectAttributeValues": []
+        }
+
+        if attr_type == "objeto":
+            valores = obj_attr.get("valores", [])
+            # Sem lista de "valores" no YAML -> envia o value direto (Jira aceita
+            # objectKey/objectId em campos Reference).
+            if not valores:
+                attribute_entry["objectAttributeValues"] = [{"value": str(value)}]
+            else:
+                matched = next((v for v in valores if v.get("value") == value), None)
+                if matched:
+                    attribute_entry["objectAttributeValues"] = [
+                        {"value": str(matched.get("referencedType"))}
+                    ]
+                else:
+                    # Valor não encontrado - skip
+                    continue
+
+        elif attr_type == "status":
+            valores = obj_attr.get("valores", [])
+            matched = next((v for v in valores if v.get("value") == value), None)
+            if matched:
+                attribute_entry["objectAttributeValues"] = [
+                    {"value": str(matched.get("referencedType"))}
+                ]
+            else:
+                continue
+
+        elif attr_type == "objeto_lista":
+            # Interface de Rede é tratada separadamente
+            continue
+
+        elif attr_type == "boolean":
+            attribute_entry["objectAttributeValues"] = [{"value": str(value).lower()}]
+
+        elif attr_type == "integer":
+            attribute_entry["objectAttributeValues"] = [{"value": str(value)}]
+
+        elif attr_type == "select":
+            # Select com validação - se tiver lista de valores, só inclui se existir
+            valores = obj_attr.get("valores", [])
+            if valores:
+                # Tem lista de valores - verificar se existe
+                matched = next((v for v in valores if v.get("value") == value), None)
+                if matched:
+                    attribute_entry["objectAttributeValues"] = [{"value": str(value)}]
+                else:
+                    # Valor não existe na lista - skip
+                    continue
+            else:
+                # Sem lista de valores definida - skip para evitar erro
+                continue
+
+        else:
+            # text e outros
+            attribute_entry["objectAttributeValues"] = [{"value": str(value)}]
+
+        if attribute_entry["objectAttributeValues"]:
+            data["attributes"].append(attribute_entry)
+
+    return data
+
+
+class FilterModule(object):
+    """Ansible filter plugin para transformação AWS → Jira Assets."""
+
+    def filters(self):
+        return {
+            'update_asset': update_asset,
+            'transform_aws_host': transform_aws_host,
+            'batch_transform_aws_hosts': batch_transform_aws_hosts,
+            'map_aws_status_to_cmdb': map_aws_status_to_cmdb,
+            'extract_os_from_platform': extract_os_from_platform,
+            'determine_ambiente_aws': determine_ambiente_aws,
+            'is_eks_node': is_eks_node,
+            'search_attribute': search_attribute,
+        }
+
+
+==================================================
+ARQUIVO: ./roles/integration_assets_aws/tasks/create.yml
+==================================================
+# =============================================================================
+# Task: Criar objeto no Jira Assets
+# =============================================================================
+---
+- name: Inicializar lista de IDs de interface de rede
+  ansible.builtin.set_fact:
+    interface_rede_ids: []
+
+- name: Verificar/Criar Interface de Rede (se necessário)
+  ansible.builtin.include_tasks: manage_network_interface.yml
+  loop: "{{ current_cloud_data.interface_rede_cloud | default([]) }}"
+  loop_control:
+    loop_var: ip_info
+  when:
+  - current_cloud_data.interface_rede_cloud is defined
+  - current_cloud_data.interface_rede_cloud | length > 0
+
+# ---------------------------------------------------------------------------
+# CPU: Buscar ou Criar (ANTES do payload)
+# ---------------------------------------------------------------------------
+- name: Verificar/Criar CPU (se necessário)
+  ansible.builtin.include_tasks: manage_cpu.yml
+  vars:
+    cpu_platform_name: "{{ current_cloud_data.cpu_platform_cloud }}"
+  when:
+  - current_cloud_data.cpu_platform_cloud is defined
+  - current_cloud_data.cpu_platform_cloud | length > 0
+
+- name: Gerar payload base para criação
+  ansible.builtin.set_fact:
+    data_create: "{{ current_cloud_data | update_asset(object_attribute_map) }}"
+
+# ADICIONAR MANUALMENTE o atributo Interface de Rede ao payload
+- name: Adicionar Interface de Rede ao payload
+  ansible.builtin.set_fact:
+    data_create: >-
+      {{ data_create | combine({
+           'attributes': data_create.attributes + [{
+             'objectTypeAttributeId': '3528',
+             'objectAttributeValues': interface_rede_ids | map('regex_replace', '^(.*)$', '{"value": "\1"}') | map('from_json') | list
+           }]
+         })
+      }}
+  when: interface_rede_ids | length > 0
+
+# ADICIONAR MANUALMENTE o atributo CPU ao payload (DEPOIS do payload base)
+- name: Adicionar CPU ao payload
+  ansible.builtin.set_fact:
+    data_create: >-
+      {{ data_create | combine({
+           'attributes': data_create.attributes + [{
+             'objectTypeAttributeId': '3527',
+             'objectAttributeValues': [{'value': cpu_object_id | string}]
+           }]
+         })
+      }}
+  when: cpu_object_id is defined and cpu_object_id
+
+- name: DEBUG - Payload final de criação
+  ansible.builtin.debug:
+    msg: "{{ data_create | to_json }}"
+
+- name: Criar objeto no Assets
+  ansible.builtin.uri:
+    url: "{{ jira_url }}/object/create"
+    method: POST
+    force_basic_auth: yes
+    headers:
+      Content-Type: "application/json"
+      Accept: "application/json"
+    user: "{{ jira_user }}"
+    password: "{{ jira_password }}"
+    body: "{{ data_create | to_json }}"
+    body_format: json
+    return_content: yes
+    status_code: [ 200, 201 ]
+  register: resultado_create
+  environment: "{{ proxy_env | default({}) }}"
+
+- name: Debug - Resultado da criação
+  ansible.builtin.debug:
+    msg: "Servidor '{{ current_cloud_data.name_cloud }}' criado com sucesso. ID: {{ resultado_create.json.id | default('N/A') }}"
+
+- name: Registrar criação no log
+  ansible.builtin.set_fact:
+    sync_log_create: "{{ sync_log_create | default([]) + [current_cloud_data.name_cloud] }}"
+
+==================================================
+ARQUIVO: ./roles/integration_assets_aws/tasks/deactivate.yml
+==================================================
+# =============================================================================
+# Task: Desativar servidor no CMDB (VM não existe mais na AWS)
+# =============================================================================
+---
+- name: Preparar payload para desativação
+  ansible.builtin.set_fact:
+    data_deactivate:
+      objectTypeId: "{{ object_type_id_servidor }}"
+      attributes:
+      - objectTypeAttributeId: "2957" # Status
+        objectAttributeValues:
+        - value: "19" # Desativado
+
+- name: Desativar servidor no Assets
+  ansible.builtin.uri:
+    url: "{{ jira_url }}/object/{{ server_to_deactivate.id }}"
+    method: PUT
+    force_basic_auth: yes
+    headers:
+      Content-Type: "application/json"
+      Accept: "application/json"
+    user: "{{ jira_user }}"
+    password: "{{ jira_password }}"
+    body: "{{ data_deactivate | to_json }}"
+    body_format: json
+    return_content: yes
+    status_code: [ 200 ]
+  register: resultado_deactivate
+  environment: "{{ proxy_env | default({}) }}"
+
+- name: Debug - Resultado da desativação
+  ansible.builtin.debug:
+    msg: "Servidor '{{ server_to_deactivate.label }}' desativado no CMDB. ID: {{ server_to_deactivate.id }}"
+
+- name: Registrar desativação no log
+  ansible.builtin.set_fact:
+    sync_log_deactivate: "{{ sync_log_deactivate | default([]) + [server_to_deactivate.label] }}"
+
+==================================================
+ARQUIVO: ./roles/integration_assets_aws/tasks/main.yml
+==================================================
+# =============================================================================
+# Task Principal: Sincronização AWS (via AAP) → CMDB
+# =============================================================================
+---
+- name: Incluir variáveis de mapeamento AWS
+  ansible.builtin.include_vars:
+    file: "{{ role_path }}/vars/mapeamento_aws_cmdb.yml"
+
+- name: Inicializar logs de sincronização
+  ansible.builtin.set_fact:
+    sync_log_create: []
+    sync_log_skip: []
+    sync_log_deactivate: []
+    sync_log_errors: []
+
+# ---------------------------------------------------------------------------
+# FASE 1: Coletar hosts do AAP
+# ---------------------------------------------------------------------------
+- name: "FASE 1 - Coletar hosts do inventário AWS no AAP"
+  ansible.builtin.debug:
+    msg: "════════════════════════════════════════════════════════════════"
+
+- name: Buscar hosts do inventário AWS no AAP
+  ansible.builtin.uri:
+    url: "{{ aap_host }}/api/controller/v2/inventories/{{ aap_inventory_id }}/hosts/?page_size=500"
+    method: GET
+    headers:
+      Authorization: "Bearer {{ aap_token }}"
+      Content-Type: "application/json"
+    validate_certs: "{{ aap_verify_ssl | default(false) }}"
+    return_content: yes
+    status_code: [200]
+  register: aap_hosts_result
+
+- name: Debug - Total de hosts encontrados
+  ansible.builtin.debug:
+    msg: "Encontrados {{ aap_hosts_result.json.count }} hosts no inventário AWS"
+
+- name: Transformar hosts AWS para formato cloud_data
+  ansible.builtin.set_fact:
+    cloud_data_list: "{{ aap_hosts_result.json.results | batch_transform_aws_hosts(modelo_servidor_map | default({})) }}"
+
+- name: Debug - Hosts transformados
+  ansible.builtin.debug:
+    msg: "{{ cloud_data_list | length }} hosts transformados"
+
+# ---------------------------------------------------------------------------
+# FASE 2: Coletar dados do CMDB
+# ---------------------------------------------------------------------------
+- name: "FASE 2 - Coletar servidores AWS do CMDB"
+  ansible.builtin.debug:
+    msg: "════════════════════════════════════════════════════════════════"
+
+- name: Buscar servidores AWS existentes no CMDB
+  ansible.builtin.uri:
+    url: "{{ jira_url }}/object/aql?startAt=0&maxResults=1000"
+    method: POST
+    headers:
+      Accept: "application/json"
+      Content-Type: "application/json"
+    body_format: json
+    force_basic_auth: yes
+    user: "{{ jira_user }}"
+    password: "{{ jira_password }}"
+    body:
+      qlQuery: 'objectTypeId = {{ object_type_id_servidor }} AND Datacenter = "AWS"'
+    status_code: [200]
+  register: cmdb_servers_result
+  environment: "{{ proxy_env | default({}) }}"
+
+- name: Parsear servidores do CMDB
+  ansible.builtin.set_fact:
+    cmdb_servers: "{{ cmdb_servers_result.json['values'] | default([]) }}"
+
+- name: Extrair nomes do CMDB
+  ansible.builtin.set_fact:
+    cmdb_server_names: "{{ cmdb_servers | map(attribute='label') | list }}"
+
+- name: Debug - Servidores encontrados no CMDB
+  ansible.builtin.debug:
+    msg: "Encontrados {{ cmdb_servers | length }} servidores AWS no CMDB"
+
+# ---------------------------------------------------------------------------
+# FASE 3: Comparar e determinar ações
+# ---------------------------------------------------------------------------
+- name: "FASE 3 - Comparar AWS vs CMDB"
+  ansible.builtin.debug:
+    msg: "════════════════════════════════════════════════════════════════"
+
+- name: Extrair nomes das instâncias AWS
+  ansible.builtin.set_fact:
+    aws_instance_names: "{{ cloud_data_list | map(attribute='name_cloud') | list }}"
+
+- name: Determinar servidores a criar
+  ansible.builtin.set_fact:
+    servers_to_create: "{{ cloud_data_list | rejectattr('name_cloud', 'in', cmdb_server_names) | list }}"
+
+- name: Determinar servidores existentes (skip)
+  ansible.builtin.set_fact:
+    servers_to_skip: "{{ cloud_data_list | selectattr('name_cloud', 'in', cmdb_server_names) | list }}"
+
+- name: Determinar servidores a desativar
+  ansible.builtin.set_fact:
+    servers_to_deactivate: "{{ cmdb_servers | rejectattr('label', 'in', aws_instance_names) | list }}"
+
+- name: Resumo da comparação
+  ansible.builtin.debug:
+    msg:
+      - "════════════════════════════════════════════════════════════════"
+      - "                    RESUMO DA SINCRONIZAÇÃO"
+      - "════════════════════════════════════════════════════════════════"
+      - "Total instâncias AWS: {{ cloud_data_list | length }}"
+      - "Total servidores CMDB: {{ cmdb_servers | length }}"
+      - "────────────────────────────────────────────────────────────────"
+      - "A CRIAR: {{ servers_to_create | length }}"
+      - "EXISTENTES (skip): {{ servers_to_skip | length }} (preservando dados manuais)"
+      - "A DESATIVAR: {{ servers_to_deactivate | length if enable_deactivation else '(desativado)' }}"
+      - "════════════════════════════════════════════════════════════════"
+
+# ---------------------------------------------------------------------------
+# FASE 4: Executar sincronização
+# ---------------------------------------------------------------------------
+- name: "FASE 4 - Executar sincronização"
+  ansible.builtin.debug:
+    msg: "════════════════════════════════════════════════════════════════"
+
+- name: Criar novos servidores no CMDB
+  ansible.builtin.include_tasks: create.yml
+  vars:
+    current_cloud_data: "{{ server_item }}"
+  loop: "{{ servers_to_create }}"
+  loop_control:
+    loop_var: server_item
+    label: "{{ server_item.name_cloud }}"
+  when:
+    - servers_to_create | length > 0
+    - sync_mode == 'full' or sync_mode == 'create'
+
+- name: Registrar servidores existentes (skip)
+  ansible.builtin.set_fact:
+    sync_log_skip: "{{ sync_log_skip + [server_item.name_cloud] }}"
+  loop: "{{ servers_to_skip }}"
+  loop_control:
+    loop_var: server_item
+    label: "{{ server_item.name_cloud }}"
+  when: servers_to_skip | length > 0
+
+# --- DESATIVAR ---
+- name: Desativar servidores removidos da AWS
+  ansible.builtin.include_tasks: deactivate.yml
+  vars:
+    server_to_deactivate: "{{ server_item }}"
+  loop: "{{ servers_to_deactivate }}"
+  loop_control:
+    loop_var: server_item
+    label: "{{ server_item.label }}"
+  when:
+    - servers_to_deactivate | length > 0
+    - sync_mode == 'full' or sync_mode == 'deactivate'
+    - enable_deactivation | default(false) | bool
+
+# ---------------------------------------------------------------------------
+# FASE 5: Relatório final
+# ---------------------------------------------------------------------------
+- name: "FASE 5 - Relatório final"
+  ansible.builtin.debug:
+    msg:
+      - "════════════════════════════════════════════════════════════════"
+      - "                    SINCRONIZAÇÃO CONCLUÍDA"
+      - "════════════════════════════════════════════════════════════════"
+      - "Servidores criados: {{ sync_log_create | length }}"
+      - "{{ sync_log_create | join(', ') if sync_log_create else '(nenhum)' }}"
+      - "────────────────────────────────────────────────────────────────"
+      - "Servidores existentes (skip): {{ sync_log_skip | length }}"
+      - "{{ sync_log_skip | join(', ') if sync_log_skip else '(nenhum)' }}"
+      - "────────────────────────────────────────────────────────────────"
+      - "Servidores desativados: {{ sync_log_deactivate | length }}"
+      - "{{ sync_log_deactivate | join(', ') if sync_log_deactivate else '(nenhum)' }}"
+      - "════════════════════════════════════════════════════════════════"
+
+==================================================
+ARQUIVO: ./roles/integration_assets_aws/tasks/manage_network_interface.yml
+==================================================
+# =============================================================================
+# Task: Gerenciar Interface de Rede (criar se não existir)
+# =============================================================================
+---
+- name: Buscar Interface de Rede existente
+  ansible.builtin.uri:
+    url: "{{ jira_url }}/object/aql?startAt=0&maxResults=1"
+    method: POST
+    headers:
+      Accept: "application/json"
+      Content-Type: "application/json"
+    body_format: json
+    force_basic_auth: yes
+    user: "{{ jira_user }}"
+    password: "{{ jira_password }}"
+    body:
+      qlQuery: 'objectTypeId = 230 AND Name = "{{ ip_info.ip }}"'
+    status_code: [ 200 ]
+  register: nic_search_result
+  environment: "{{ proxy_env | default({}) }}"
+
+- name: Verificar se Interface de Rede existe
+  ansible.builtin.set_fact:
+    nic_exists: "{{ nic_search_result.json.total | int > 0 }}"
+
+- name: Extrair ID da Interface de Rede (se existir)
+  ansible.builtin.set_fact:
+    nic_id: "{{ nic_search_result.json['values'][0]['id'] }}"
+  when: nic_search_result.json.total | int > 0
+
+- name: Definir nic_id vazio se não existir
+  ansible.builtin.set_fact:
+    nic_id: ""
+  when: nic_search_result.json.total | int == 0
+
+- name: Criar Interface de Rede se não existir
+  ansible.builtin.uri:
+    url: "{{ jira_url }}/object/create"
+    method: POST
+    force_basic_auth: yes
+    headers:
+      Content-Type: "application/json"
+      Accept: "application/json"
+    user: "{{ jira_user }}"
+    password: "{{ jira_password }}"
+    body:
+      objectTypeId: 230
+      attributes:
+      - objectTypeAttributeId: "{{ nic_name_attribute_id | default('1890') }}"
+        objectAttributeValues:
+        - value: "{{ ip_info.ip }}"
+    body_format: json
+    return_content: yes
+    status_code: [ 200, 201 ]
+  register: nic_create_result
+  environment: "{{ proxy_env | default({}) }}"
+  when: not nic_exists
+
+- name: Atualizar ID da Interface de Rede
+  ansible.builtin.set_fact:
+    nic_id: "{{ nic_create_result.json.id }}"
+  when: not nic_exists and nic_create_result is defined
+
+- name: Acumular ID da Interface de Rede
+  ansible.builtin.set_fact:
+    interface_rede_ids: "{{ interface_rede_ids | default([]) + [nic_id] }}"
+
+- name: Debug - Interface de Rede
+  ansible.builtin.debug:
+    msg: "Interface de Rede '{{ ip_info.ip }}': {{ 'Existente' if nic_exists else 'Criada' }} (ID: {{ nic_id }})"
+
+==================================================
+ARQUIVO: ./roles/integration_assets_aws/vars/main.yml
+==================================================
+# # =============================================================================
+# # Variáveis principais da role integration_assets_aws
+# # =============================================================================
+# ---
+# object_type_id_servidor: 121
+# object_type_id_interface_rede: 230
+# object_type_id_datacenter: 152
+
+# nic_name_attribute_id: "1890"
+
+# sync_mode: "full"
+# enable_deactivation: false
+
+# proxy_env:
+#   http_proxy: "http://10.29.177.37:8080" #Lapa
+#   https_proxy: "http://10.29.177.37:8080" #Lapa
+#   no_proxy: ""
+
+# # AAP - Inventory Azure
+# aap_host: "https://aap.claro.com.br"
+# aap_inventory_id: "92"
+# aap_verify_ssl: false
+# aap_token: !vault |
+#   $ANSIBLE_VAULT;1.1;AES256
+#   31616266343830623035393835633434393766613663333636343734376563366233636562303466
+#   6334623763623662313637393433653263656331303165340a623166306566373631366530303763
+#   34363562616234366465313430623730643633653632343632383335626361313362363331303866
+#   3966366637333730610a363037373736343965383533313837653566653731653332333932393631
+#   66633366643539623963613662316539346666363965376462323032303764623930
+
+
+# =============================================================================
+# VARIAVEIS PRINCIPAIS - CONFIGURACAO AWS
+# =============================================================================
+---
+# Jira Assets
+workspace: "76827f8b-4d96-46a6-abf2-f592d6b4b2d9"
+jira_url: "https://api.atlassian.com/jsm/insight/workspace/{{ workspace }}/v1"
+jira_user: "{{ lookup('env', 'JIRA_USER') }}"
+jira_password: "{{ lookup('env', 'JIRA_PASSWORD') }}"
+
+# Object Type IDs
+object_type_id_servidor: 121
+object_type_id_interface_rede: 230
+object_type_id_datacenter: 152
+
+# Attribute IDs para criacao de objetos
+nic_name_attribute_id: "1890"
+dc_name_attribute_id: "1339"
+
+# AAP - Inventory Azure
+aap_host: "https://aap.claro.com.br"
+aap_inventory_id: "92"
+aap_verify_ssl: false
+aap_token: !vault |
+  $ANSIBLE_VAULT;1.1;AES256
+  31616266343830623035393835633434393766613663333636343734376563366233636562303466
+  6334623763623662313637393433653263656331303165340a623166306566373631366530303763
+  34363562616234366465313430623730643633653632343632383335626361313362363331303866
+  3966366637333730610a363037373736343965383533313837653566653731653332333932393631
+  66633366643539623963613662316539346666363965376462323032303764623930
+
+# Modo de sincronizacao: full, create, update, deactivate
+sync_mode: "full"
+enable_deactivation: false
+
+# Proxy Lapa
+proxy_env:
+  http_proxy: "http://10.29.177.37:8080" #Lapa
+  https_proxy: "http://10.29.177.37:8080" #Lapa
+  no_proxy: ""
+==================================================
+ARQUIVO: ./roles/integration_assets_aws/vars/mapeamento_aws_cmdb.yml
+==================================================
+# =============================================================================
+# MAPEAMENTO: AWS → Jira Assets (CMDB)
+# =============================================================================
+# Baseado no objeto real ID: 2413665
+# =============================================================================
+
+workspace: "76827f8b-4d96-46a6-abf2-f592d6b4b2d9"
+objectTypeId: 121
+objectSchemaId: 16
+
+object_attribute_map:
+
+# CONTA CLOUD (Account ID da AWS)
+- id: 10548
+  name_assets: "Conta Cloud"
+  chave_cloud: "conta_cloud_cloud"
+  tipo: text
+
+# NAME (hostname)
+- id: 1104
+  name_assets: "Name"
+  chave_cloud: "name_cloud"
+  tipo: text
+  obrigatorio: true
+
+# CPU COUNT
+- id: 3359
+  name_assets: "CPU Count"
+  chave_cloud: "cpu_count_cloud"
+  tipo: text
+
+# MODELO DO SERVIDOR (instance_type -> objectKey do CMDB)
+# tipo: objeto sem "valores" -> o filter passa o value direto (objectKey).
+# A conversao instance_type -> GDA-* eh feita no filter via "modelo_servidor_map"
+# (definido em vars/main.yml). Para novos instance_types, basta acrescentar
+# a entrada em modelo_servidor_map no vars, sem mexer aqui.
+- id: 15656
+  name_assets: "Modelo do Servidor"
+  chave_cloud: "modelo_servidor_cloud"
+  tipo: objeto
+
+# SISTEMA OPERACIONAL
+- id: 3358
+  name_assets: "Sistema Operacional"
+  chave_cloud: "sistema_operacional_cloud"
+  tipo: objeto
+  valores:
+  - value: Linux
+    referencedType: 171174
+  - value: Windows
+    referencedType: 170882
+
+# INTERFACE DE REDE (tratada separadamente)
+- id: 3528
+  name_assets: "Interface de Rede"
+  chave_cloud: "interface_rede_cloud"
+  tipo: objeto_lista
+  referencia_object_type_id: 230
+  criar_se_nao_existir: true
+
+# STATUS
+- id: 2957
+  name_assets: "Status"
+  chave_cloud: "status_cloud"
+  tipo: status
+  valores:
+  - value: "Em uso"
+    referencedType: 18
+  - value: "Desativado"
+    referencedType: 19
+
+# TIPO DE INFRAESTRUTURA
+# - id: 9948
+#   name_assets: "Tipo de Infraestrutura"
+#   chave_cloud: "tipo_infraestrutura_cloud"
+#   tipo: objeto
+#   valores:
+#   - value: "CLOUD PUBLICA"
+#     referencedType: 223965
+
+# TIPO DE INFRAESTRUTURA - CLOUD PUBLICA (fixo)
+- id: 9948
+  name_assets: "Tipo de Infraestrutura"
+  chave_cloud: "tipo_infraestrutura_cloud"
+  tipo: objeto
+  referencia_object_type_id: 119
+  criar_se_nao_existir: false
+  valores:
+  - value: "CLOUD PUBLICA"
+    displayValue: "CLOUD PUBLICA"
+    searchValue: "CLOUD PUBLICA"
+    referencedType: 223965
+
+# DATACENTER (AWS)
+- id: 3296
+  name_assets: "Datacenter"
+  chave_cloud: "datacenter_cloud"
+  tipo: objeto
+  valores:
+  - value: "AWS"
+    referencedType: 872214
+
+# # TIPO DE SERVIDOR (select)
+# - id: 1897
+#   name_assets: "Tipo de Servidor"
+#   chave_cloud: "tipo_servidor_cloud"
+#   tipo: select
+#   valores:
+#   #- value: "Cloud Publica"
+#   - value: "CLOUD PUBLICA"
+
+# AMBIENTE
+- id: 1922
+  name_assets: "Ambiente"
+  chave_cloud: "ambiente_cloud"
+  tipo: objeto
+  valores:
+  - value: "Produção"
+    referencedType: 166234
+  - value: "Desenvolvimento"
+    referencedType: 166232
+
+# FQDN (private_dns_name)
+- id: 3343
+  name_assets: "FQDN"
+  chave_cloud: "fqdn_cloud"
+  tipo: text
+
+# SISTEMA (Reference ref:113 - vem da tag ef_cmdb do EC2, ex.: "GDA-2730753")
+# Jira Assets aceita objectKey direto no value, entao usamos "tipo: text".
+# Se a tag nao existir, o campo fica vazio (comportamento correto).
+- id: 9219
+  name_assets: "Sistema"
+  chave_cloud: "sistema_cloud"
+  tipo: text
+
+# FORNECEDOR (mesmo valor do Datacenter - texto livre)
+- id: 6829
+  name_assets: "Fornecedor"
+  chave_cloud: "fornecedor_cloud"
+  tipo: text
+
+# LAST USER (sempre "Ansible")
+- id: 3357
+  name_assets: "Last User"
+  chave_cloud: "last_user_cloud"
+  tipo: text
+
+# GRUPO SOLUCIONADOR - INFRA (fixo por SO)
+# Windows -> CLBR-TI-INFRA-SUPORTE-WINDOWS
+# Linux   -> CLBR-TI-INFRA-CLOUD-PUBLIC
+# Campo do tipo Group no Jira - passamos o nome do grupo como text.
+- id: 7274
+  name_assets: "Grupo Solucionador - Infra"
+  chave_cloud: "grupo_solucionador_infra_cloud"
+  tipo: text
+==================================================
+ARQUIVO: ./roles/integration_assets_aws/vars/modelo_servidor_map_aws.yml
+==================================================
+# =============================================================================
+# vars/modelo_servidor_map_aws.yml
+# =============================================================================
+# Mapa instance_type (AWS) -> objectKey (GDA-*) do Object Type 406 no CMDB.
+# Extraido do dump do CMDB (script acha_atributos.py --list-objects).
+#
+# Como usar no playbook AWS:
+#
+#   - name: Transformar hosts AWS
+#     ansible.builtin.set_fact:
+#       all_cloud_data: "{{ aap_hosts.json.results | batch_transform_aws_hosts(modelo_servidor_map) }}"
+#
+# Quando o time CMDB criar um novo instance_type, basta acrescentar a entrada
+# aqui. NAO precisa mexer no filter Python nem no mapeamento_aws_cmdb.yml.
+# =============================================================================
+---
+modelo_servidor_map:
+  # === c-family (compute) ===
+  c4.large:      GDA-3223801
+  c4.xlarge:     GDA-3223803
+  c4.2xlarge:    GDA-3223799
+  c5.large:      GDA-3223808
+  c5.xlarge:     GDA-3223810
+  c5.2xlarge:    GDA-3223804
+  c5.4xlarge:    GDA-3223806
+  c5a.large:     GDA-3223813
+  c5a.xlarge:    GDA-3223815
+  c5a.2xlarge:   GDA-3223812
+  c5n.large:     GDA-3223817
+  c6a.xlarge:    GDA-3223823
+  c6a.2xlarge:   GDA-3223819
+  c6a.4xlarge:   GDA-3223821
+  c6g.2xlarge:   GDA-3223825
+  c6i.xlarge:    GDA-3223830
+  c6i.2xlarge:   GDA-3223827
+  c6i.4xlarge:   GDA-3223828
+  c6id.8xlarge:  GDA-3223832
+  c7g.large:     GDA-3223834
+
+  # === m-family (general) ===
+  m4.large:      GDA-3223741
+  m4.4xlarge:    GDA-3223740
+  m4.10xlarge:   GDA-3224071
+  m5.large:      GDA-3223746
+  m5.xlarge:     GDA-3223747
+  m5.2xlarge:    GDA-3223742
+  m5.4xlarge:    GDA-3223743
+  m5.8xlarge:    GDA-3223744
+  m5a.xlarge:    GDA-3223748
+  m5ad.xlarge:   GDA-3223749
+  m5d.large:     GDA-3223750
+  m6a.large:     GDA-3223753
+  m6a.xlarge:    GDA-3223754
+  m6a.2xlarge:   GDA-3223751
+  m6a.4xlarge:   GDA-3223752
+  m6g.large:     GDA-3223755
+  m6i.large:     GDA-3223763
+  m6i.xlarge:    GDA-3223765
+  m6i.2xlarge:   GDA-3223759
+  m6i.4xlarge:   GDA-3223761
+  m6i.24xlarge:  GDA-3223757
+  m6id.large:    GDA-3223766
+  m7a.large:     GDA-3223768
+  m7g.large:     GDA-3223770
+  m7i.large:     GDA-3223780
+  m7i.xlarge:    GDA-3223782
+  m7i.8xlarge:   GDA-3223778
+  m7i-flex.large:   GDA-3223774
+  m7i-flex.xlarge:  GDA-3223776
+  m7i-flex.2xlarge: GDA-3223772
+
+  # === r-family (memory) ===
+  r5.xlarge:     GDA-3223891
+  r5.2xlarge:    GDA-3223889
+  r5a.large:     GDA-3223895
+  r5a.xlarge:    GDA-3223896
+  r5a.2xlarge:   GDA-3223893
+  r5n.large:     GDA-3223898
+  r6a.large:     GDA-3223900
+  r6g.xlarge:    GDA-3223906
+  r6g.2xlarge:   GDA-3223902
+  r6g.4xlarge:   GDA-3223904
+  r6i.large:     GDA-3223912
+  r6i.2xlarge:   GDA-3223908
+  r6i.4xlarge:   GDA-3223910
+  r7a.xlarge:    GDA-3223913
+
+  # === t-family (burstable) ===
+  t2.nano:       GDA-3224020
+  t2.micro:      GDA-3224018
+  t2.small:      GDA-3224023
+  t2.medium:     GDA-3224015
+  t2.large:      GDA-3224012
+  t2.xlarge:     GDA-3224026
+  t2.2xlarge:    GDA-3224009
+  t3.nano:       GDA-3224008
+  t3.micro:      GDA-3224005
+  t3.small:      GDA-3224011
+  t3.medium:     GDA-3224002
+  t3.large:      GDA-3223983
+  t3.xlarge:     GDA-3224014
+  t3.2xlarge:    GDA-3224029
+  t3a.micro:     GDA-3224025
+  t3a.small:     GDA-3224028
+  t3a.medium:    GDA-3224022
+  t3a.large:     GDA-3224019
+  t3a.xlarge:    GDA-3224030
+  t3a.2xlarge:   GDA-3224017
+  t4g.small:     GDA-3224034
+  t4g.medium:    GDA-3224032
+
+  # === i-family (storage) ===
+  i4g.xlarge:    GDA-3224050
+  i4i.large:     GDA-3224053
+
+  # === generico ===
+  Generic:       GDA-3223981
+
+==================================================
+ARQUIVO: ./scripts/discover_attribute_ids.py
+==================================================
+#!/usr/bin/env python3
+# =============================================================================
+# Script: Descobrir IDs de atributos no Jira Assets
+# =============================================================================
+# Uso:
+#   python discover_attribute_ids.py --object-type 230
+#   python discover_attribute_ids.py --object-type 152 --attribute-name "Name"
+# =============================================================================
+
+import os
+import sys
+import json
+import argparse
+import requests
+from requests.auth import HTTPBasicAuth
+
+
+def get_credentials():
+    """Obtém credenciais do ambiente."""
+    user = os.environ.get('JIRA_USER')
+    password = os.environ.get('JIRA_PASSWORD')
+    
+    if not user or not password:
+        print("ERRO: Defina JIRA_USER e JIRA_PASSWORD")
+        sys.exit(1)
+    
+    return user, password
+
+
+def get_object_type_attributes(workspace_id: str, object_type_id: int, auth: HTTPBasicAuth, proxies: dict = None):
+    """Busca todos os atributos de um Object Type."""
+    url = f"https://api.atlassian.com/jsm/insight/workspace/{workspace_id}/v1/objecttype/{object_type_id}/attributes"
+    
+    response = requests.get(url, auth=auth, proxies=proxies)
+    response.raise_for_status()
+    
+    return response.json()
+
+
+def main():
+    parser = argparse.ArgumentParser(description='Descobrir IDs de atributos no Jira Assets')
+    parser.add_argument('--workspace', default='76827f8b-4d96-46a6-abf2-f592d6b4b2d9',
+                        help='Workspace ID do Jira Assets')
+    parser.add_argument('--object-type', type=int, required=True,
+                        help='ID do Object Type (ex: 121=Servidor, 230=Interface de Rede)')
+    parser.add_argument('--attribute-name', default=None,
+                        help='Filtrar por nome do atributo')
+    parser.add_argument('--proxy', default=None,
+                        help='Proxy HTTP (ex: http://10.54.24.184:3128)')
+    parser.add_argument('--output', choices=['table', 'json'], default='table',
+                        help='Formato de saída')
+    
+    args = parser.parse_args()
+    
+    user, password = get_credentials()
+    auth = HTTPBasicAuth(user, password)
+    
+    proxies = None
+    if args.proxy:
+        proxies = {'http': args.proxy, 'https': args.proxy}
+    
+    print(f"\n{'='*70}")
+    print(f"Object Type ID: {args.object_type}")
+    print(f"{'='*70}\n")
+    
+    try:
+        attributes = get_object_type_attributes(args.workspace, args.object_type, auth, proxies)
+    except requests.exceptions.HTTPError as e:
+        print(f"ERRO: {e}")
+        sys.exit(1)
+    
+    if args.attribute_name:
+        attributes = [a for a in attributes if args.attribute_name.lower() in a.get('name', '').lower()]
+    
+    if args.output == 'json':
+        print(json.dumps(attributes, indent=2, ensure_ascii=False))
+    else:
+        # Formato tabela
+        print(f"{'ID':<10} {'Nome':<30} {'Tipo':<15} {'Obrigatório':<12}")
+        print("-" * 70)
+        
+        for attr in attributes:
+            attr_id = attr.get('id', 'N/A')
+            name = attr.get('name', 'N/A')[:28]
+            
+            # Determinar tipo
+            default_type = attr.get('defaultType', {})
+            tipo = default_type.get('name', 'Reference') if default_type else 'Reference'
+            
+            # Verificar se é obrigatório
+            min_card = attr.get('minimumCardinality', 0)
+            obrigatorio = 'Sim' if min_card > 0 else 'Não'
+            
+            print(f"{attr_id:<10} {name:<30} {tipo:<15} {obrigatorio:<12}")
+    
+    print(f"\nTotal: {len(attributes)} atributos\n")
+
+
+if __name__ == '__main__':
+    main()
+
+==================================================
+ARQUIVO: ./scripts/test_sync.sh
+==================================================
+#!/bin/bash
+# =============================================================================
+# Script: Teste Rápido de Sincronização GCP → CMDB
+# =============================================================================
+# Este script facilita o teste do playbook com uma VM específica do GCP.
+#
+# Uso:
+#   ./test_sync.sh vm-bastion-linux southamerica-east1-c claro-infracloud
+#
+# Ou modo interativo:
+#   ./test_sync.sh
+# =============================================================================
+
+set -e
+
+# Cores para output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+# Diretório do script
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ANSIBLE_DIR="$(dirname "$SCRIPT_DIR")"
+
+echo -e "${BLUE}"
+echo "════════════════════════════════════════════════════════════════"
+echo "         TESTE DE SINCRONIZAÇÃO GCP → JIRA ASSETS"
+echo "════════════════════════════════════════════════════════════════"
+echo -e "${NC}"
+
+# Verificar variáveis de ambiente
+check_env() {
+    local missing=0
+    
+    if [ -z "$JIRA_USER" ]; then
+        echo -e "${RED}✗ JIRA_USER não definido${NC}"
+        missing=1
+    else
+        echo -e "${GREEN}✓ JIRA_USER: $JIRA_USER${NC}"
+    fi
+    
+    if [ -z "$JIRA_PASSWORD" ]; then
+        echo -e "${RED}✗ JIRA_PASSWORD não definido${NC}"
+        missing=1
+    else
+        echo -e "${GREEN}✓ JIRA_PASSWORD: ****${NC}"
+    fi
+    
+    if [ $missing -eq 1 ]; then
+        echo ""
+        echo -e "${YELLOW}Configure as variáveis:${NC}"
+        echo "  export JIRA_USER='JIRA_INT_HOT@claro.com.br'"
+        echo "  export JIRA_PASSWORD='OeE5j85nFsjnrmDC4BDt77E1'"
+        exit 1
+    fi
+}
+
+# Verificar service account
+check_gcp_auth() {
+    echo ""
+    echo -e "${BLUE}Verificando autenticação GCP...${NC}"
+    
+    SA_FILE="$ANSIBLE_DIR/files/service_account.json"
+    if [ -f "$SA_FILE" ]; then
+        echo -e "${GREEN}✓ Service account encontrado${NC}"
+        gcloud auth activate-service-account --key-file="$SA_FILE" 2>/dev/null || true
+    else
+        echo -e "${YELLOW}⚠ Service account não encontrado em: $SA_FILE${NC}"
+        echo "  Usando autenticação atual do gcloud"
+    fi
+    
+    # Verificar autenticação
+    if gcloud auth list --filter=status:ACTIVE --format="value(account)" 2>/dev/null | head -1; then
+        echo -e "${GREEN}✓ Autenticado no GCP${NC}"
+    else
+        echo -e "${RED}✗ Não autenticado no GCP${NC}"
+        exit 1
+    fi
+}
+
+# Menu interativo
+interactive_mode() {
+    echo ""
+    echo -e "${BLUE}Modo interativo - informe os dados da VM:${NC}"
+    echo ""
+    
+    read -p "Nome da instância: " INSTANCE_NAME
+    read -p "Zona (ex: southamerica-east1-c): " ZONE
+    read -p "Projeto GCP: " PROJECT
+    
+    if [ -z "$INSTANCE_NAME" ] || [ -z "$ZONE" ] || [ -z "$PROJECT" ]; then
+        echo -e "${RED}Todos os campos são obrigatórios!${NC}"
+        exit 1
+    fi
+}
+
+# Função principal de teste
+run_test() {
+    local instance=$1
+    local zone=$2
+    local project=$3
+    local mode=${4:-"dry-run"}
+    
+    echo ""
+    echo -e "${BLUE}════════════════════════════════════════════════════════════════${NC}"
+    echo -e "${BLUE}Testando: $instance ($zone) - Projeto: $project${NC}"
+    echo -e "${BLUE}════════════════════════════════════════════════════════════════${NC}"
+    
+    # Passo 1: Verificar se a VM existe no GCP
+    echo ""
+    echo -e "${YELLOW}Passo 1: Verificando VM no GCP...${NC}"
+    if gcloud compute instances describe "$instance" --zone="$zone" --project="$project" --format="value(name)" 2>/dev/null; then
+        echo -e "${GREEN}✓ VM encontrada no GCP${NC}"
+    else
+        echo -e "${RED}✗ VM não encontrada no GCP${NC}"
+        exit 1
+    fi
+    
+    # Passo 2: Buscar detalhes da VM
+    echo ""
+    echo -e "${YELLOW}Passo 2: Coletando detalhes da VM...${NC}"
+    
+    INSTANCE_JSON=$(gcloud compute instances describe "$instance" \
+        --zone="$zone" \
+        --project="$project" \
+        --format=json)
+    
+    # Extrair machine type
+    MACHINE_TYPE=$(echo "$INSTANCE_JSON" | python3 -c "import sys,json; print(json.load(sys.stdin)['machineType'].split('/')[-1])")
+    echo "  Machine Type: $MACHINE_TYPE"
+    
+    # Buscar detalhes do machine type
+    MACHINE_TYPE_JSON=$(gcloud compute machine-types describe "$MACHINE_TYPE" \
+        --zone="$zone" \
+        --project="$project" \
+        --format=json 2>/dev/null || echo "{}")
+    
+    # Passo 3: Testar transformação
+    echo ""
+    echo -e "${YELLOW}Passo 3: Testando transformação GCP → cloud_data...${NC}"
+    
+    cd "$ANSIBLE_DIR"
+    
+    # Criar arquivo temporário com dados
+    TEMP_VARS=$(mktemp)
+    cat > "$TEMP_VARS" << EOF
+sample_instance: $INSTANCE_JSON
+sample_machine_type: $MACHINE_TYPE_JSON
+EOF
+    
+    ansible-playbook playbooks/test_transform.yml -e "@$TEMP_VARS" 2>&1 | tail -50
+    
+    rm -f "$TEMP_VARS"
+    
+    # Passo 4: Verificar se existe no CMDB
+    echo ""
+    echo -e "${YELLOW}Passo 4: Verificando se existe no CMDB...${NC}"
+    
+    CMDB_CHECK=$(curl -s -u "$JIRA_USER:$JIRA_PASSWORD" \
+        -H "Content-Type: application/json" \
+        -X POST \
+        "https://api.atlassian.com/jsm/insight/workspace/76827f8b-4d96-46a6-abf2-f592d6b4b2d9/v1/object/aql?maxResults=1" \
+        -d "{\"qlQuery\": \"objectTypeId = 121 AND Name = \\\"$instance\\\"\"}" 2>/dev/null || echo '{"total":0}')
+    
+    TOTAL=$(echo "$CMDB_CHECK" | python3 -c "import sys,json; print(json.load(sys.stdin).get('total', 0))" 2>/dev/null || echo "0")
+    
+    if [ "$TOTAL" -gt 0 ]; then
+        echo -e "${YELLOW}⚠ Servidor já existe no CMDB${NC}"
+        ACTION="atualizar"
+    else
+        echo -e "${GREEN}✓ Servidor NÃO existe no CMDB - será criado${NC}"
+        ACTION="criar"
+    fi
+    
+    # Passo 5: Executar sincronização (se não for dry-run)
+    echo ""
+    if [ "$mode" == "execute" ]; then
+        echo -e "${YELLOW}Passo 5: Executando sincronização...${NC}"
+        
+        ansible-playbook playbooks/sync_single_instance.yml \
+            -e "instance_name=$instance" \
+            -e "zone=$zone" \
+            -e "project=$project" \
+            -v
+        
+        echo ""
+        echo -e "${GREEN}════════════════════════════════════════════════════════════════${NC}"
+        echo -e "${GREEN}✓ Sincronização concluída!${NC}"
+        echo -e "${GREEN}════════════════════════════════════════════════════════════════${NC}"
+    else
+        echo -e "${YELLOW}Passo 5: [DRY-RUN] Sincronização não executada${NC}"
+        echo ""
+        echo -e "${BLUE}Para executar a sincronização real, rode:${NC}"
+        echo ""
+        echo "  $0 $instance $zone $project --execute"
+        echo ""
+        echo "  ou via ansible-playbook:"
+        echo ""
+        echo "  ansible-playbook playbooks/sync_single_instance.yml \\"
+        echo "    -e \"instance_name=$instance\" \\"
+        echo "    -e \"zone=$zone\" \\"
+        echo "    -e \"project=$project\""
+    fi
+}
+
+# Main
+main() {
+    check_env
+    check_gcp_auth
+    
+    # Parâmetros
+    INSTANCE_NAME=${1:-""}
+    ZONE=${2:-""}
+    PROJECT=${3:-""}
+    MODE=${4:-"dry-run"}
+    
+    # Se --execute foi passado como 4º parâmetro
+    if [ "$MODE" == "--execute" ]; then
+        MODE="execute"
+    fi
+    
+    # Se não passou parâmetros, modo interativo
+    if [ -z "$INSTANCE_NAME" ]; then
+        interactive_mode
+    fi
+    
+    run_test "$INSTANCE_NAME" "$ZONE" "$PROJECT" "$MODE"
+}
+
+main "$@"
